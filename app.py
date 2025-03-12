@@ -1,8 +1,41 @@
 #example of a flask applet
 from flask import Flask, render_template
+from dotenv import load_dotenv
 import os
+import sqlalchemy
+
+#Load the environment variables from the .env file
+load_dotenv()
+
 #Flask constructor takes the name of the current module as the argument
 app = Flask(__name__)
+
+#Initialize the database connection
+def init_db():
+    db_config = {
+        'pool_size': 5,
+        'max_overflow': 2,
+        'pool_timeout': 30,
+        'pool_recycle': 1800,
+    }
+    return init_unix_connection_engine(db_config)
+
+def init_unix_connection_engine(db_config):
+    pool = sqlalchemy.create_engine(
+        sqlalchemy.engine.url.URL(
+            drivername="postgresql+pg8000",
+            username=os.environ.get("CLOUD_SQL_USERNAME"),
+            password=os.environ.get("CLOUD_SQL_PASSWORD"),
+            database=os.environ.get("CLOUD_SQL_DATABASE"),
+            query={"unix_socket": "/cloudsql/{}".format(os.environ.get("CLOUD_SQL_CONNECTION_NAME"))},
+        ),
+        **db_config
+    )
+    pool.dialect.description_encoding = None
+    return pool
+
+db = init_db()
+
 
 #route() decorator tells the app which URL should call the below function
 @app.route("/")
