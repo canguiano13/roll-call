@@ -65,3 +65,8 @@ Started working on a `build-and-deploy.sh` script file that should eventually al
 ## app.py - 03/11/2025 - Container running in GCR connected to Cloud SQL instance. 
 Inserted functions to initialize a database and connect to our CLOUDSQL instance. 
 - variables are read from a `.env` file where they are defined. 
+
+
+# Bobby:
+# Once the sql instance is running, to connect the app to the instance during deployment, simply deploy to gcloud using the following command + flags:
+gcloud run deploy   --source .   --add-cloudsql-instances=halogen-sol-452703-b5:us-west2:guestbook-test   --set-env-vars=DB_USER=dev,DB_PASS=bobbyDevPass,DB_NAME=guestbook-schema,INSTANCE_CONNECTION_NAME=halogen-sol-452703-b5:us-west2:guestbook-test
