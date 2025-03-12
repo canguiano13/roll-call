@@ -24,6 +24,8 @@ def init_unix_connection_engine(db_config):
     pool = sqlalchemy.create_engine(
         sqlalchemy.engine.url.URL(
             drivername="postgresql+pg8000",
+            host="localhost", 
+            port=5432,
             username=os.environ.get("CLOUD_SQL_USERNAME"),
             password=os.environ.get("CLOUD_SQL_PASSWORD"),
             database=os.environ.get("CLOUD_SQL_DATABASE"),
