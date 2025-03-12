@@ -58,3 +58,10 @@ Google Cloud Run will start building the container/service. If you did everythin
 Go to the service link provided at the bottom and see if it's serving traffic! After you're done, be sure to clean up the artifact from the registry to avoid incurring extra charges. Go to https://console.cloud.google.com/run?project=halogen-sol-452703-b5 > click the checkbox next to the service > "Delete" > "Yes."
 
 I think a good next goal is to get a container running in GCR that can interact with our Cloud SQL instance.
+
+### Deploying to GCR cont...
+Started working on a  `build-and-deploy.sh` script file that should eventually allow us to expedite the steps above ^ once we decide database enginge. 
+
+## app.py - 03/11/2025 - Container running in GCR connected to Cloud SQL instance. 
+Inserted functions to initialize a database and connect to our CLOUDSQL instance. 
+- variables are read from a `.env` file where they are defined. 

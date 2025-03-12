@@ -56,4 +56,3 @@ def html_test():
 if __name__ == "__main__":
     #runs the app listening on all hosts on port 8080
     app.run(debug=True, host="0.0.0.0", port=8080)
-
