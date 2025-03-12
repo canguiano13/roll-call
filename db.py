@@ -6,10 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-db_user = os.environ.get('DB_USER')
-db_password = os.environ.get('DB_PASS')
-db_name = os.environ.get('DB_NAME')
-db_connection_name = os.environ.get('INSTANCE_CONNECTION_NAME')
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASS')
+db_name = os.getenv('DB_NAME')
+db_connection_name = os.getenv('INSTANCE_CONNECTION_NAME')
 
 def open_connection():
     conn = None

@@ -1,6 +1,6 @@
-export PROJECT_ID = halogen-sol-452703-b5
-export REGION = us-west1
-export CONNECTION_NAME = halogen-sol-452703-b5:us-west1:guestbook-db-post
+export PROJECT_ID=halogen-sol-452703-b5
+export REGION=us-west1
+export CONNECTION_NAME=halogen-sol-452703-b5:us-west2:guestbook-test
 
 gcloud builds submit \
     --tag gcr.io/$PROJECT_ID/guestbook-app
