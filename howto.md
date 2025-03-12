@@ -60,7 +60,7 @@ Go to the service link provided at the bottom and see if it's serving traffic! A
 I think a good next goal is to get a container running in GCR that can interact with our Cloud SQL instance.
 
 ### Deploying to GCR cont...
-Started working on a  `build-and-deploy.sh` script file that should eventually allow us to expedite the steps above ^ once we decide database enginge. 
+Started working on a `build-and-deploy.sh` script file that should eventually allow us to expedite the steps above ^ once we decide database engine. 
 
 ## app.py - 03/11/2025 - Container running in GCR connected to Cloud SQL instance. 
 Inserted functions to initialize a database and connect to our CLOUDSQL instance. 
