@@ -8,6 +8,13 @@
   </head>
 
   <body>
+    <button type="button" id="homepage">HomePage</button>
+
+    <script type="text/javascript">
+      document.getElementById("homepage").onclick = function() {
+        window.location.href = "{{ url_for('index') }}";
+      };
+    </script>
     <h1>Registration Form</h1>
     <p>Please fill out this form with the required information</p>
     <form action='https://register-demo.freecodecamp.org'>
@@ -18,8 +25,6 @@
         <label>Create a New Password: <input type="password" name="password" pattern="[a-z0-5]{8,}" required /></label>
       </fieldset>
       <fieldset>
-        <label><input type="radio" name="account-type" class="inline" /> Personal Account</label>
-        <label><input type="radio" name="account-type" class="inline" /> Business Account</label>
         <label>
           <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="https://www.freecodecamp.org/news/terms-of-service/">terms and conditions</a>
         </label>

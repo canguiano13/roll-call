@@ -4,6 +4,7 @@
   <title>Page Title</title>
   <!-- link the stylesheet here -->
   <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
+  <script src="{{ url_for('static', filename='js/slideshow.js') }}"></script>
 </head>
 
 <body>
@@ -19,6 +20,24 @@
       window.location.href = "{{ url_for('create_event') }}";
     };
   </script>
+
+<div id="slideshow-container">
+  <img class="mySlides" src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1" style="width:100%">
+  <img class="mySlides" src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2" style="width:100%">
+  <img class="mySlides" src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3" style="width:100%">
+  <img class="mySlides" src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4" style="width:100%">
+
+  <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+  <button class="next" onclick="plusSlides(1)">&#10095;</button>
+</div>
+
+<div class="dots">
+  <span class="dot" onclick="currentSlide(1)"></span>
+  <span class="dot" onclick="currentSlide(2)"></span>
+  <span class="dot" onclick="currentSlide(3)"></span>
+  <span class="dot" onclick="currentSlide(4)"></span>
+</div>
+
   
 
 </body>
