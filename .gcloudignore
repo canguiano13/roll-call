@@ -1,0 +1,13 @@
+#ignore git and pycache files
+__pycache__/
+*.pyc
+.git/
+.gitignore
+
+#ignore virtual environment stuff
+.venv
+.venv/
+
+#ensure that the container has the env file for db credentials
+!.env
+!sqldevcredentials.json

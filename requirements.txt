@@ -1,8 +1,9 @@
 Flask==3.0.3
 flask_sqlalchemy
+SQLAlchemy==2.0.39
+cloud-sql-python-connector[pymysql]
 gunicorn==23.0.0
 Werkzeug==3.0.3
-python-dotenv==1.0.1
-SQLAlchemy==2.0.39
 pg8000==1.31.2
+python-dotenv==1.0.1
 PyMySQL==1.1.1

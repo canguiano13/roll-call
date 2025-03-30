@@ -18,6 +18,9 @@ RUN pip install -r requirements.txt
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
+# store filepath to service account database credentials in the environment
+ENV GOOGLE_APPLICATION_CREDENTIALS="./sqldevcredentials.json"
+
 # Keeps Python from buffering stdout and stderr to avoid situations where
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
@@ -31,4 +34,4 @@ EXPOSE 8080
 # Run the application 
 #--host specifies the IP address(es) to listen on. 0.0.0.0 will do a sort of "listen on all"
 #--port will specify the port to listen on for incoming connections
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port", "8080"]
+CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0", "--port", "8080"]
