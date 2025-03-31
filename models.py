@@ -8,10 +8,10 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id         = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    password_hash   = db.Column(db.Text, nullable=False)
     first_name      = db.Column(db.Text, nullable=False)
     last_name       = db.Column(db.Text, nullable=False)
     email           = db.Column(db.String(255), unique=True, nullable=False)
+    password_hash   = db.Column(db.Text, nullable=False)
     profile_pic     = db.Column(db.Text) #URL to profile photo?
 
     #defines a one-to-many relationship between users and guestbooks but does not affect the database schema. 

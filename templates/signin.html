@@ -20,14 +20,14 @@
     <h1>Sign Into Your Account:</h1>
     <p>Don't have an account? <a href="{{url_for('routes.signup')}}">Sign up here!</a></p>
     <!--TODO fix action to point to function that handles login-->
-    <form action=''>
+    <form action='/handleSignIn' method="post" enctype="multipart/form-data">
       <fieldset>
         <!--
         <label>Enter Your First Name: <input type="text" name="first-name" required /></label>
         <label>Enter Your Last Name: <input type="text" name="last-name" required /></label>
         -->
-        <label>Enter Your Email: <input type="email" name="email" required /></label>
-        <label>Enter Your Password: <input type="password" name="password" required /></label>
+        <label for="user-email">Enter Your Email: <input name="user-email" type="email" required /></label>
+        <label for="user-pass">Enter Your Password: <input name="user-pass" type="password" required /></label>
       </fieldset>
       <!--
       <fieldset>
