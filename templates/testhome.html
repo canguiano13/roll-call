@@ -14,10 +14,10 @@
 
   <script type="text/javascript">
     document.getElementById("signin").onclick = function() {
-      window.location.href = "{{ url_for('signin') }}";
+      window.location.href = "{{ url_for('routes.signin') }}";
     };
     document.getElementById("createEvent").onclick = function() {
-      window.location.href = "{{ url_for('create_event') }}";
+      window.location.href = "{{ url_for('routes.create_event') }}";
     };
   </script>
 

@@ -4,7 +4,7 @@ from models import User, Guestbook, Message
 from db import db
 
 #set this as a blueprint
-routes = Blueprint("routes", __name__)
+routes = Blueprint("routes", __name__, template_folder="templates")
 
 #define routes
 @routes.route('/')
@@ -18,6 +18,10 @@ def signin():
 @routes.route('/createEvent')
 def create_event():
     return render_template('createEvent.html')
+
+@routes.route('/testhome')
+def testhome():
+    return render_template("testhome.html")
 
 @routes.route('/allusers', methods=["GET"])
 def getallusers():
