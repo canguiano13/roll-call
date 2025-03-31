@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Registration Form</title>
+    <title>Sign In</title>
     <link rel="stylesheet" href="styles.css" />
     <!-- link the stylesheet here-->
     <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
@@ -10,15 +10,15 @@
   <body>
     <!--redirect to home page-->
     <button type="button" id="homepage">Home</button>
-    <script type="text/javascript">
+    <script>
       document.getElementById("homepage").onclick = function() {
-        window.location.href = "{{ url_for('routes.index') }}";
+        window.location.href = "/";
       };
     </script>
 
     <!--existing user form-->
     <h1>Sign Into Your Account:</h1>
-    <p>Don't have an account? <a href="{{url_for('routes.signup')}}">Sign up here!</a></p>
+    <p>Don't have an account? <a href="/signUp">Sign up here!</a></p>
     <!--TODO fix action to point to function that handles login-->
     <form action='/handleSignIn' method="post" enctype="multipart/form-data">
       <fieldset>

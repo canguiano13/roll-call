@@ -14,7 +14,7 @@ def index():
     return render_template('testhome.html')
 
 #handles new user signups
-@routes.route('/signup')
+@routes.route('/signUp')
 def signup():
     return render_template("signup.html")
 @routes.route('/handleSignUp', methods=["POST"])
@@ -32,10 +32,14 @@ def create_user():
             email:      {form_details['user-email']}\n
             password:   {form_details['user-pass']}\n
             '''
+        #call db.py function here? e.g.
+        #create_user_in_table(firstname=XX, lastname=XX, email=XX, pass=hash(XX))
+        
+        #then route to success page?
     return Response(event_details, mimetype='text/plain')
 
 #Handles user logins
-@routes.route('/signin')
+@routes.route('/signIn')
 def signin():
     return render_template('signin.html')
 @routes.route('/handleSignIn', methods=["POST"])
@@ -45,7 +49,7 @@ def login_user():
         #retrieve parameters here
         form_details = request.form.to_dict()
         login_details =f'''
-            USER IS LOGGING IN WITH DETAILS..\n
+            USER IS LOGGING IN WITH DETAILS...\n
             user-email:          {form_details['user-email'] if form_details["user-email"] else None}\n
             user-pass (attempted) {form_details['user-pass'] if  form_details["user-pass"] else None}\n
             '''
@@ -57,16 +61,16 @@ def login_user():
 def create_event():
     return render_template('createEvent.html')
 #For handling request form data we can get the form inputs value by using POST attribute.
-@routes.route('/handleevent', methods=["POST"]) 
+@routes.route('/handleCreateEvent', methods=["POST"]) 
 def handle_new_event():
     #retrieve parameters here
     form_details = request.form.to_dict()
     event_details=f'''
-        CREATING EVENT...                                       \n
-        event-title:        {form_details['event-title']}       \n
-        event-description:  {form_details['event-description']} \n
-        event-date:         {form_details['event-date']}        \n
-        event-time:         {form_details['event-time']}        \n
+        NEW EVENT REQUEST... \n
+        event-title:        {form_details['event-title']}\n
+        event-description:  {form_details['event-description']}\n
+        event-date:         {form_details['event-date']} \n
+        event-time:         {form_details['event-time']} \n
         '''
     return Response(event_details, mimetype='text/plain')
 

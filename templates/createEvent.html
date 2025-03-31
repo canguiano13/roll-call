@@ -14,7 +14,7 @@
   <button type="button" id="homepage">Home</button>
   <script>
     document.getElementById("homepage").onclick = function() {
-      window.location.href = "{{ url_for('routes.index') }}";
+      window.location.href = "/";
     };
   </script>
 
@@ -23,7 +23,7 @@
     <div class="master-div-style">
       <p id="description">Start by telling us more about your event!</p>
       <!--action defines where to send form data. can send to an animation/share page-->
-      <form id="survey-form" action="/handleevent" method="post" enctype="multipart/form-data">
+      <form id="survey-form" action="/handleCreateEvent" method="post" enctype="multipart/form-data">
         
         <!-- Event Title -->
         <div class="form-rows">
