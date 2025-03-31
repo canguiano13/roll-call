@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Registration Form</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="styles.css" />
     <!-- link the stylesheet here-->
     <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
   </head>
 
   <body>
-    <!--redirect to home page-->
+    <!-- redirect to homepage-->
     <button type="button" id="homepage">Home</button>
     <script type="text/javascript">
       document.getElementById("homepage").onclick = function() {
@@ -16,30 +16,29 @@
       };
     </script>
 
-    <!--existing user form-->
-    <h1>Sign Into Your Account:</h1>
-    <p>Don't have an account? <a href="{{url_for('routes.signup')}}">Sign up here!</a></p>
-    <!--TODO fix action to point to function that handles login-->
+    <!--main form-->
+    <h1>Create your Account</h1>
+    <p>Sign up to save your past events!</p>
+    <!--TODO fix action attribute to point to function that handles sign up-->
     <form action=''>
       <fieldset>
-        <!--
         <label>Enter Your First Name: <input type="text" name="first-name" required /></label>
         <label>Enter Your Last Name: <input type="text" name="last-name" required /></label>
-        -->
         <label>Enter Your Email: <input type="email" name="email" required /></label>
-        <label>Enter Your Password: <input type="password" name="password" required /></label>
+        <label>Create a New Password: <input type="password" name="password" required /></label>
       </fieldset>
-      <!--
+      
       <fieldset>
         <label>
-          <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="https://www.freecodecamp.org/news/terms-of-service/">terms and conditions</a>
+          <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="/static/termsandconditions.txt">terms and conditions</a>
         </label>
       </fieldset>
+
       <fieldset>
         <label>Upload a profile picture: <input type="file" name="file" /></label>
       </fieldset>
-      -->
       <input type="submit" value="Submit" />
     </form>
+
   </body>
 </html>
