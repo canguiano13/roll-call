@@ -76,6 +76,64 @@ a {
   color: #dfdfe2;
 }
 
+/*Share event page styles */
+#share-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #1b1b32
+}
+#share-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 500px;
+  height: 250px;
+  border-radius: 10px;
+  padding: 20px;
+  background: #3b3b4f;  
+}
+.share-event-details{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.share-event-details *{
+  margin: 10px 0;
+}
+.share-event-details h1{
+  font-size: 28px;
+}
+.share-event-details h3{
+  font-size: 16px;
+}
+#share-event-link-url{
+  display: flex;
+  justify-content: center;
+  margin-top: 0px;
+}
+#share-event-link-url input{
+  padding-top: 0;
+  padding-left: 5px;
+  margin-top: 0;
+  width: 250px;
+  font-size: 14px;
+  border: 1px solid black;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+#share-event-link-url button{
+  padding: 10px 15px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+
 /* Slideshow Styles */
 * { box-sizing: border-box; }
 

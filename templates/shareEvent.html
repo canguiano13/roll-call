@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Share your Event!</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+    <!-- link the stylesheet here-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+    <!--container for entire "share" item-->
+    <div id="share-container">
+        <div id="share-card">
+            <!--top part of the card has the event details-->
+            <div class="share-event-details">
+                <h1>Event Title</h1>
+                <h3>Here is the event date</h3>
+                <h3>Here is the event location</h3>
+            </div>
+            <!--smaller container for link and copy button-->
+            <div class="share-event-link">
+                <p>Share Your Event!</p>
+                <div id="share-event-link-url">
+                    <!--TODO: Populate the event link dynamically-->
+                    <input type="text" class="event-link" value="https://example.com/event-link" readonly />
+                    <!--TODO: Create function to copy the link and append eventID-->
+                    <button onclick="copyLink()">Copy Link</button>
+                </div>
+            </div> 
+        </div>  
+    </div>
+   
+</body>
+</html>

@@ -74,6 +74,11 @@ def handle_new_event():
         '''
     return Response(event_details, mimetype='text/plain')
 
+#TODO find a way to put the event id into here so that the correct link is generated for each event
+@routes.route('/share/event-id')
+def share_event():
+    return render_template('shareEvent.html')
+
 #some simple database queries   
 @routes.route('/allusers', methods=["GET"])
 def getallusers():
