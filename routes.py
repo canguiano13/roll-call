@@ -21,14 +21,16 @@ def create_user():
     if request.method == "POST":
         #retrieve parameters here
         form_details = request.form.to_dict()
+        print(form_details)
+
         #TODO hash password here
         #form_details['user-pass'] = hashpassword(form_details['user-pass'])
         event_details=f'''
             NEW USER REQUEST. CREATING USER...\n
-            first-name: {form_details['first-name']}\n
-            last-name:  {form_details['last-name']}\n
-            email:      {form_details['user-email']}\n
-            password:   {form_details['user-pass']}\n
+            first_name: {form_details['first_name']}\n
+            last_name:  {form_details['last_name']}\n
+            email:      {form_details['email']}\n
+            password:   {form_details['password_hash']}\n
             '''
         #call db function here? e.g.
         #create_user_in_table(firstname=XX, lastname=XX, email=XX, pass=hash(XX))
@@ -46,10 +48,11 @@ def login_user():
     if request.method == "POST":
         #retrieve parameters here
         form_details = request.form.to_dict()
+        print(form_details)
         login_details =f'''
             USER IS LOGGING IN WITH DETAILS...\n
-            user-email:          {form_details['user-email'] if form_details["user-email"] else None}\n
-            user-pass (attempted) {form_details['user-pass'] if  form_details["user-pass"] else None}\n
+            email:          {form_details['email'] if form_details['email'] else None}\n
+            password_hash (attempted) {form_details['password_hash'] if form_details['password_hash'] else None}\n
             '''
     return Response(login_details, mimetype='text/plain')
 
@@ -63,19 +66,23 @@ def create_event():
 def handle_new_event():
     #retrieve parameters here
     form_details = request.form.to_dict()
+    print(form_details)
+    #form into datetime
     event_details=f'''
         NEW EVENT REQUEST... \n
-        event-title:        {form_details['event-title']}\n
-        event-description:  {form_details['event-description']}\n
-        event-date:         {form_details['event-date']} \n
-        event-time:         {form_details['event-time']} \n
+        event_title:        {form_details['event_title']}\n
+        event_description:  {form_details['event_address']}\n
+        event_datetime:         {form_details['event_date']} \n 
+        event_time:         {form_details['event_time']} \n
         '''
     return Response(event_details, mimetype='text/plain')
 
 #TODO find a way to put the event id into here so that the correct link is generated for each event
 @routes.route('/share/{event-id}')
-def share_event():
-    return render_template('shareEvent.html')
+def share_event(event_id):
+    #first query the name, address, date of the event using passed event id
+    db.session.query()
+    return render_template('shareEvent.html', data=event_id)
 
 #TODO define skeleton for event page
 # @routes.route('/event/{event-id}', methods=['GET'])
@@ -87,12 +94,19 @@ def render_event_page():
     return render_template('event.html')
 
 #TODO route new messages to this method. Method will take the form data and push them to the page
+@routes.route('/testpostmessage')
+def post_message_form():
+    return render_template('testpost.html')
+
+#TODO fix query for posting message to database
+#this field will be used to populate the database with incoming messages from a specific event page
 @routes.route('/postMessage', methods=['POST'])
 def post_message():
     new_message_data = request.form.to_dict()
     print(new_message_data)
     
-    db.session.execute()
+    #query goes here:
+    # db.session.execute()
     return
 
 #routes that execute some simple database queries to fetch data
