@@ -83,6 +83,15 @@ def render_event_page(event_id):
     data = db.session.query(Message).filter(Message.event_id == {event_id})
     return render_template('event.html', data=data)
 
+#TODO route new messages to this method. Method will take the form data and push them to the page
+@routes.route('/postMessage', methods=['POST'])
+def post_message():
+    new_message_data = request.form.to_dict()
+    print(new_message_data)
+    
+    db.session.execute()
+    return
+
 #routes that execute some simple database queries to fetch data
 @routes.route('/allusers', methods=["GET"])
 def getallusers():
@@ -95,7 +104,9 @@ def getallguestbooks():
     guestbook_list = "\n".join(f"EVENT {gb.event_title} ({gb.event_date}) happening at: {gb.event_address}" for gb in guestbooks)
     return Response(guestbook_list, mimetype="text/plain")
 @routes.route('/allmessages', methods=["GET"])
-def getallmessages(event_id):
+def getallmessages():
+    #uses the model ORM to fetch all the messages from the database
+    #equivalent to SELECT * FROM messages
     messages = db.session.query(Message).all()
     message_list = "\n".join(f"{msg.display_name} says: {msg.message_content}" for msg in messages)
-    return render_template("eventpage.html", data=message_list)
+    return Response(message_list, mimetype="text/plain")

@@ -175,3 +175,4 @@ cython_debug/
 
 # service account credentials
 sqldevcredentials.json
+SPOILER_sqldevcredentials.json
