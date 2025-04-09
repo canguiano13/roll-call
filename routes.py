@@ -78,10 +78,13 @@ def share_event():
     return render_template('shareEvent.html')
 
 #TODO define skeleton for event page
-@routes.route('/event/{event-id}', methods=['GET'])
-def render_event_page(event_id):
-    data = db.session.query(Message).filter(Message.event_id == {event_id})
-    return render_template('event.html', data=data)
+# @routes.route('/event/{event-id}', methods=['GET'])
+# def render_event_page(event_id):
+#     data = db.session.query(Message).filter(Message.event_id == {event_id})
+#     return render_template('event.html', data=data)
+@routes.route('/event')
+def render_event_page():
+    return render_template('event.html')
 
 #TODO route new messages to this method. Method will take the form data and push them to the page
 @routes.route('/postMessage', methods=['POST'])

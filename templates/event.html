@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+  <!-- link the stylesheet here-->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+    <!--redirect to home page-->
+    <button type="button" id="homepage">Home</button>
+    <script>
+      document.getElementById("homepage").onclick = function() {
+        window.location.href = "/";
+      };
+    </script>
+  
+    <main>
+      <h1 id="title">Event</h1>
+      <div class="master-div-style">
+        <p id="description">Event Details</p>
+        <!--action defines where to send form data. can send to an animation/share page-->
+        <form id="survey-form" action="/postMessage" method="post" enctype="multipart/form-data">
+          
+          <!-- Event Title -->
+          <div class="form-rows">
+            <div class="labels">
+              <label for="name" id="name-label">Name:</label>
+            </div>
+            <div class="fields">
+              <input name="event-name" id="event-name" class="input-fields" placeholder="Name" type="text" required>
+            </div>
+          </div>
+  
+          <!-- Event Description -->
+          <div class="form-rows">
+            <div class="labels">
+              <label for="event-description">Message:</label>
+            </div>
+            <div class="fields">
+              <textarea name="event-message" id="event-message" class="input-fields"  placeholder="Message" cols="1" rows="3"></textarea>
+            </div>
+          </div>
+
+          <button class="button" id="submit" type="submit">Submit</button>
+  
+        </form>
+      </div>
+    </main>
+  </body>
+  
+  </html>
