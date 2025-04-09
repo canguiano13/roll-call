@@ -3,8 +3,6 @@ from flask import Blueprint, Response, render_template, request
 from models import User, Guestbook, Message
 from db import db
 
-
-
 #declare "routes" to be a blueprint holding all of the routes we define
 routes = Blueprint("routes", __name__, template_folder="templates")
 
@@ -32,7 +30,7 @@ def create_user():
             email:      {form_details['user-email']}\n
             password:   {form_details['user-pass']}\n
             '''
-        #call db.py function here? e.g.
+        #call db function here? e.g.
         #create_user_in_table(firstname=XX, lastname=XX, email=XX, pass=hash(XX))
         
         #then route to success page?
@@ -75,11 +73,17 @@ def handle_new_event():
     return Response(event_details, mimetype='text/plain')
 
 #TODO find a way to put the event id into here so that the correct link is generated for each event
-@routes.route('/share/event-id')
+@routes.route('/share/{event-id}')
 def share_event():
     return render_template('shareEvent.html')
 
-#some simple database queries   
+#TODO define skeleton for event page
+@routes.route('/event/{event-id}', methods=['GET'])
+def render_event_page(event_id):
+    data = db.session.query(Message).filter(Message.event_id == {event_id})
+    return render_template('event.html', data=data)
+
+#routes that execute some simple database queries to fetch data
 @routes.route('/allusers', methods=["GET"])
 def getallusers():
     users = db.session.query(User).all()
@@ -91,8 +95,7 @@ def getallguestbooks():
     guestbook_list = "\n".join(f"EVENT {gb.event_title} ({gb.event_date}) happening at: {gb.event_address}" for gb in guestbooks)
     return Response(guestbook_list, mimetype="text/plain")
 @routes.route('/allmessages', methods=["GET"])
-def getallmessages():
+def getallmessages(event_id):
     messages = db.session.query(Message).all()
     message_list = "\n".join(f"{msg.display_name} says: {msg.message_content}" for msg in messages)
-
-    return Response(message_list, mimetype="text/plain")
+    return render_template("eventpage.html", data=message_list)
