@@ -14,22 +14,40 @@
         <div id="share-card">
             <!--top part of the card has the event details-->
             <div class="share-event-details">
-                <h1>{{ data.event_title }}</h1>
-                <h3>{{ data.event_date }}</h3>
-                <h3>{{ data.event_address }}</h3>
+                <h1>Share your Event!</h1>
+                <h2>Title: {{ data.event_title }}</h3>
+                <h3>Date: {{ data.event_date }}</h3>
+                <h3>Location: {{ data.event_address }}</h3>
             </div>
             <!--smaller container for link and copy button-->
             <div class="share-event-link">
-                <p>Share Your Event!</p>
-                <div id="share-event-link-url">
+                <p>Share this link with your friends!</p>
+                <div class="share-event-link-url">
                     <!--TODO: Populate the event link dynamically-->
-                    <input type="text" class="event-link" value="https://example.com/event-link" readonly />
+                    <input id="custom-event-url" type="text" class="event-link" readonly />
                     <!--TODO: Create function to copy the link and append eventID-->
-                    <button onclick="copyLink()">Copy Link</button>
+                    <button id="copy-custom-url-button" onclick="copyCustomLink(this)">Copy</button>
                 </div>
             </div> 
         </div>  
     </div>
-   
+    <!-- js for custom url rendering-->
+    <script>
+        //create and render custom url
+        //replace "share" with "event" in the url
+        let eventPageUrl = window.location.href.replace("share", "event")
+        //put the url into the custom url tag
+        document.getElementById("custom-event-url").setAttribute("value", eventPageUrl)
+
+        //function to copy url to clipboard
+        function copyCustomLink(copyButton){
+            //copy the link to the clipboard
+            navigator.clipboard.writeText(eventPageUrl);
+            //replace button text with a checkmark
+            document.getElementById("copy-custom-url-button").textContent = "\u2714";
+            //wait a few seconds, then reset the button text
+            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 2000);
+        }
+    </script>
 </body>
 </html>
