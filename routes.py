@@ -1,5 +1,5 @@
 #defines the routes for the application
-from flask import Blueprint, Response, render_template, request
+from flask import Blueprint, Response, render_template, request, redirect, url_for
 from models import User, Guestbook, Message
 from db import db
 
@@ -77,7 +77,9 @@ def handle_new_event():
             event_datetime:         {form_details['event_date']} \n 
             event_time:         {form_details['event_time']} \n
             '''
-    return Response(event_details, mimetype='text/plain')
+    #TODO figure out whether we need to redirect to confirmation page or if we can redirect straight to share page
+    #TODO replace 1 with actual event id
+    return redirect('/share/1')
 
 
 #render a custom share page for the event
@@ -104,17 +106,24 @@ def render_event_page():
 #TODO route new messages to this method. Method will take the form data and push them to the page
 @routes.route('/testpostmessage')
 def post_message_form():
-    return render_template('testpost.html')
+    return render_template('testpost.html', data=dict(event_id="1"))
+#this route will be used to populate the database with incoming messages for a specific event page
 #TODO fix query for posting message to database
-#this field will be used to populate the database with incoming messages from a specific event page
-@routes.route('/postMessage', methods=['POST'])
-def post_message():
-    new_message_data = request.form.to_dict()
-    print(new_message_data)
-    
-    #query goes here:
-    # db.session.execute()
-    return
+#TODO will need to pass the event id when we try and post a message for now, see if we need to fix this?
+@routes.route('/postMessage/<event_id>', methods=['POST'])
+def post_message(event_id):
+    #TODO if for some reason, we can't get certain form data, redirect to a failure page or put an alert on screen or something
+    form_data = request.form.to_dict()
+    #using the form data, create a new message object. this is fine because we have the ORM mapping
+    new_message = Message(event_id=event_id,
+                           display_name=form_data["display_name"],
+                           message_content=form_data["message_content"])
+    #add the new message to our database
+    db.session.add(new_message)
+    #commit it to the database
+    db.session.commit()
+    #TODO fix to redirect to event page, redirect back to share page for now
+    return redirect(f'/share/{event_id}')
 
 #routes that execute some simple database queries to fetch data
 @routes.route('/allusers', methods=["GET"])
