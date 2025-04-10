@@ -1,13 +1,14 @@
 #defines the routes for the application
 from flask import Blueprint, Response, render_template, request, redirect, url_for
 from models import User, Guestbook, Message
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
 
 #declare "routes" to be a blueprint holding all of the routes we define
 routes = Blueprint("routes", __name__, template_folder="templates")
 
 #DEFINE APP ROUTES
+#TODO fix routes to be in all lowercase, probably better ux
 @routes.route('/')
 def index():
     return render_template('testhome.html')
@@ -25,9 +26,13 @@ def create_user():
         
         #hash the password so it is not stored in plaintext
         #werkzeug has a built-in hash password function! no external libs needed :)
-        form_data["password_hash"] = generate_password_hash()
+        #TODO research if we need to change method/salt_length
+        #TODO research if we can use flask user management library somewhere in here
+        form_data["password_hash"] = generate_password_hash(password=form_data['password_hash'],
+                                                            method='something',
+                                                            salt_length='some-number'
+                                                            )
 
-        #form_details['user-pass'] = hashpassword(form_details['user-pass'])
         event_details=f'''
             NEW USER REQUEST. CREATING USER...\n
             first_name: {form_data['first_name']}\n
@@ -52,6 +57,14 @@ def login_user():
     if request.method == "POST":
         #retrieve parameters here
         form_data = request.form.to_dict()
+        #query the database for the user with this email
+        #if login succeeds, redirect user back to home page
+
+        #TODO use werkzeug.security check_password_hash function
+        
+        #if check_password_hash(form_data['password_hash', db.session.query(..)]:
+            #password succeeds
+        #TODO if login fails, redirect back to sign-in page with failure message
         login_details =f'''
             USER IS LOGGING IN WITH DETAILS...\n
             email:          {form_data["email"]}\n
@@ -62,7 +75,7 @@ def login_user():
 
 #creating and handling new event
 @routes.route('/createEvent')
-def create_event():
+def create_event():#
     return render_template('createEvent.html')
 #For handling request form data we can get the form inputs value by using POST attribute.
 @routes.route('/handleCreateEvent', methods=["POST"]) 
