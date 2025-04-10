@@ -76,7 +76,7 @@ a {
   color: #dfdfe2;
 }
 
-/*Share event page styles */
+/*Share page styles */
 #share-container{
   display: flex;
   justify-content: center;
@@ -91,7 +91,7 @@ a {
   justify-content: space-between;
   width: 80%;
   max-width: 500px;
-  height: 250px;
+  height: 350px;
   border-radius: 10px;
   padding: 20px;
   background: #3b3b4f;  
@@ -105,17 +105,23 @@ a {
 }
 .share-event-details h1{
   padding-bottom: 10px;
-  font-size: 28px;
+  font-size: 48px;
+}
+.share-event-details h2{
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 24px;
 }
 .share-event-details h3{
   font-size: 16px;
+  padding-bottom: 5px;
 }
-#share-event-link-url{
+.share-event-link-url{
   display: flex;
   justify-content: center;
   margin-top: 0px;
 }
-#share-event-link-url input{
+.share-event-link-url input{
   padding-top: 0;
   padding-left: 5px;
   margin-top: 0;
@@ -125,7 +131,7 @@ a {
   border-radius: 2px;
   margin-right: 10px;
 }
-#share-event-link-url button{
+.share-event-link-url button{
   padding: 10px 15px;
   background-color: white;
   color: black;

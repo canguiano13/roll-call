@@ -64,25 +64,32 @@ def create_event():
 #For handling request form data we can get the form inputs value by using POST attribute.
 @routes.route('/handleCreateEvent', methods=["POST"]) 
 def handle_new_event():
-    #retrieve parameters here
-    form_details = request.form.to_dict()
-    print(form_details)
-    #form into datetime
-    event_details=f'''
-        NEW EVENT REQUEST... \n
-        event_title:        {form_details['event_title']}\n
-        event_description:  {form_details['event_address']}\n
-        event_datetime:         {form_details['event_date']} \n 
-        event_time:         {form_details['event_time']} \n
-        '''
-    return Response(event_details, mimetype='text/plain')
+    if request.method == "POST":
+        #retrieve parameters here
+        form_details = request.form.to_dict()
+        print(form_details)
+        #form into datetime
+        event_details=f'''
+            NEW EVENT REQUEST... \n
+            event_title:        {form_details['event_title']}\n
+            event_description:  {form_details['event_address']}\n
+            event_datetime:         {form_details['event_date']} \n 
+            event_time:         {form_details['event_time']} \n
+            '''
+        return Response(event_details, mimetype='text/plain')
 
 #TODO find a way to put the event id into here so that the correct link is generated for each event
-@routes.route('/share/{event-id}')
+@routes.route('/share/<event_id>')
 def share_event(event_id):
     #first query the name, address, date of the event using passed event id
-    db.session.query()
-    return render_template('shareEvent.html', data=event_id)
+    event_data = db.session.query(Guestbook).get(event_id)
+    #TODO define 404 template
+    #return a 404 if no such event is found
+    #if entry is None:
+        #return render_template("404.html"), 404
+    print(event_data)
+    #also insert the event id so that we can populate the field
+    return render_template('shareEvent.html', data=event_data)
 
 #TODO define skeleton for event page
 # @routes.route('/event/{event-id}', methods=['GET'])
