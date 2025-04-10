@@ -159,7 +159,7 @@ def post_message(event_id):
     #commit it to the database
     db.session.commit()
     #TODO fix to redirect to event page, redirect back to share page for now
-    return redirect(f'/share/{event_id}')
+    return redirect(f'/allmessages')
 
 #routes that execute some simple database queries to fetch data
 @routes.route('/allusers', methods=["GET"])

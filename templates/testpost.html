@@ -4,14 +4,7 @@
  
 <head>
     <title>HANDLING NEW MESSAGE</title>
-    <style>
-        div {
-            width: 800px;
-            border: 1px solid green;
-            padding: 10px;
-            margin-bottom: 5px;
-        }
-    </style>
+    <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
 </head>
  
 <body>
@@ -24,11 +17,9 @@
 
             <label for="display_name">Display Name:</label>
             <input name="display_name" required/>
-            <br><br><hr><br><br>
 
             <label for="display name" type="text">Message: </label>
             <textarea name="message_content" placeholder="type your message here..." cols="50" rows="2" required></textarea>
-            <br><br><hr><br><br>
 
             <button type="submit">submit</button>
         </form>
