@@ -1,0 +1,38 @@
+<!-- templates/login.html-->
+ 
+<html>
+ 
+<head>
+    <title>HANDLING NEW MESSAGE</title>
+    <style>
+        div {
+            width: 800px;
+            border: 1px solid green;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+ 
+<body>
+    <!--we will retrieve submitted values of inputs 
+    on the backend side using 'name' field of form.-->
+    <div>
+        <h1>Post New Message</h1>
+        <!--send form data to post message route-->
+        <form method="POST" action="{{ url_for('routes.post_message', event_id=data.event_id) }}" enctype="multipart/form-data">
+
+            <label for="display_name">Display Name:</label>
+            <input name="display_name" required/>
+            <br><br><hr><br><br>
+
+            <label for="display name" type="text">Message: </label>
+            <textarea name="message_content" placeholder="type your message here..." cols="50" rows="2" required></textarea>
+            <br><br><hr><br><br>
+
+            <button type="submit">submit</button>
+        </form>
+    </div>
+</body>
+ 
+</html>
