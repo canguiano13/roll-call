@@ -38,6 +38,7 @@ def create_user():
         #then route to success page?
     return Response(event_details, mimetype='text/plain')
 
+#TODO figure out if we can use flask login management library here
 #Handles user logins
 @routes.route('/signIn')
 def signin():
@@ -76,20 +77,20 @@ def handle_new_event():
             event_datetime:         {form_details['event_date']} \n 
             event_time:         {form_details['event_time']} \n
             '''
-        return Response(event_details, mimetype='text/plain')
+    return Response(event_details, mimetype='text/plain')
 
-#TODO find a way to put the event id into here so that the correct link is generated for each event
+
+#render a custom share page for the event
 @routes.route('/share/<event_id>')
 def share_event(event_id):
     #first query the name, address, date of the event using passed event id
     event_data = db.session.query(Guestbook).get(event_id)
-    #TODO define 404 template
-    #return a 404 if no such event is found
-    #if entry is None:
-        #return render_template("404.html"), 404
+    #if the event doesn't exist, throw a 404 error
+    if event_data is None:
+        return render_template("404.html"), 404
     print(event_data)
-    #also insert the event id so that we can populate the field
     return render_template('shareEvent.html', data=event_data)
+
 
 #TODO define skeleton for event page
 # @routes.route('/event/{event-id}', methods=['GET'])
@@ -104,7 +105,6 @@ def render_event_page():
 @routes.route('/testpostmessage')
 def post_message_form():
     return render_template('testpost.html')
-
 #TODO fix query for posting message to database
 #this field will be used to populate the database with incoming messages from a specific event page
 @routes.route('/postMessage', methods=['POST'])
