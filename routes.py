@@ -119,6 +119,27 @@ def share_event(event_id):
 def render_event_page():
     return render_template('event.html')
 
+#birthday template can route here
+#TODO create template and refine redirect logic
+@routes.route('/birthdayTemplate')
+def birthday_template():
+    return "happy birthday"
+#christmas template can route here
+#TODO create template and refine redirect logic
+@routes.route('/christmasTemplate')
+def christmas_template():
+    return "merry christmas"
+#halloween template can route here
+#TODO create template and outline logic
+@routes.route('/halloweenTemplate')
+def halloween_template():
+    return "happy halloween"
+#st. patrick's day template can route here
+#TODO create template and outline logic
+@routes.route('/stPaddyTemplate')
+def st_paddy_template():
+    return "happy st. paddy's day"
+
 #TODO route new messages to this method. Method will take the form data and push them to the page
 @routes.route('/testpostmessage')
 def post_message_form():
