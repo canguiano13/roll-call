@@ -30,11 +30,10 @@ def create_user():
         #werkzeug has a built-in hash password function! no external libs needed :)
         #TODO research if we need to change method/salt_length
         #TODO research if we can use flask user management library somewhere in here
-        form_data["password_hash"] = generate_password_hash(password=form_data['password_hash'],
-                                                            method='something',
-                                                            salt_length='some-number'
-                                                            )
-
+        hashed_password = generate_password_hash(password=form_data['password_hash'],
+                                                 method='something',
+                                                 salt_length='some-number')
+        
         event_details=f'''
             NEW USER REQUEST. CREATING USER...\n
             first_name: {form_data['first_name']}\n
@@ -42,12 +41,20 @@ def create_user():
             email:      {form_data['email']}\n
             password:   {form_data['password_hash']}\n
             '''
-        #call db function here? e.g.
-        #create_user_in_table(firstname=XX, lastname=XX, email=XX, pass=hash(XX))
-        
-        #then route to success page?
+        #TODO figure out how to handle profile pics. they are optional
+        #TODO figure out how to handle user trying to create an account with an email that already exists
+        #new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
+        #               email=form_data['email'], password_hash=hashed_password, profile_pic=TODO)
+
+        #add and commit the new user to our database
+        #db.session.add(new_user)
+        #db.session.commit()
+
+        #TODO route to success page? or figure out another way to handle new user creation
     return Response(event_details, mimetype='text/plain')
-#Handles user logins
+
+#handle user logins 
+#TODO figure out password resets?
 @routes.route('/signIn')
 def signin():
     return render_template('signin.html')
@@ -64,10 +71,11 @@ def login_user():
         
         #if check_password_hash(form_data['password_hash', db.session.query(..)]:
             #password succeeds
+            
         #TODO if login fails, redirect back to sign-in page with failure message
         login_details =f'''
             USER IS LOGGING IN WITH DETAILS...\n
-            email:          {form_data["email"]}\n
+            email:                    {form_data["email"]}\n
             password_hash (attempted) {form_data["password_hash"]}\n
             '''
     return Response(login_details, mimetype='text/plain')
