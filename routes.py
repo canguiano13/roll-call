@@ -6,23 +6,23 @@ from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #declare a blueprint hto hold all of our defined routes, expose templates folder
-routes = Blueprint("routes", __name__, template_folder="templates")
+routes = Blueprint('routes', __name__, template_folder='templates')
 
 #TODO fix routes to be in all lowercase, probably better ux
 @routes.route('/')
 def index():
-    return render_template('testhome.html')
+    return render_template('index.html')
 
 #--------------- USER/SESSION MANAGEMENT------------------------
 #TODO figure out if we can use flask login management library here
 #handles new user signups
 @routes.route('/signUp')
 def signup():
-    return render_template("signup.html")
-@routes.route('/handleSignUp', methods=["POST"])
+    return render_template('signup.html')
+@routes.route('/handleSignUp', methods=['POST'])
 def create_user():
     #only want to create user when accessed via POST request
-    if request.method == "POST":
+    if request.method == 'POST':
         #retrieve parameters here
         form_data = request.form.to_dict()
         
@@ -58,10 +58,10 @@ def create_user():
 @routes.route('/signIn')
 def signin():
     return render_template('signin.html')
-@routes.route('/handleSignIn', methods=["POST"])
+@routes.route('/handleSignIn', methods=['POST'])
 def login_user():
     #only want to create user when accessed via POST request
-    if request.method == "POST":
+    if request.method == 'POST':
         #retrieve parameters here
         form_data = request.form.to_dict()
         #query the database for the user with this email
@@ -75,8 +75,8 @@ def login_user():
         #TODO if login fails, redirect back to sign-in page with failure message
         login_details =f'''
             USER IS LOGGING IN WITH DETAILS...\n
-            email:                    {form_data["email"]}\n
-            password_hash (attempted) {form_data["password_hash"]}\n
+            email:                    {form_data['email']}\n
+            password_hash (attempted) {form_data['password_hash']}\n
             '''
     return Response(login_details, mimetype='text/plain')
 
@@ -88,9 +88,9 @@ def create_event():#
 
 #TODO fix method
 #For handling request form data we can get the form inputs value by using POST attribute.
-@routes.route('/handleCreateEvent', methods=["POST"]) 
+@routes.route('/handleCreateEvent', methods=['POST']) 
 def handle_new_event():
-    if request.method == "POST":
+    if request.method == 'POST':
         #retrieve parameters here
         form_data = request.form.to_dict()
         print(form_data)
@@ -140,7 +140,7 @@ def render_event_page(event_id):
         abort(404)
     #TODO define action when an event exists but there are no messages                     
     elif messages_data is None:
-        print("no messages.")
+        print('no messages.')
     return render_template('event.html', event_data=event_data, messages_data=messages_data)
 
 #this route will be used to populate the database with incoming messages for a specific event page
@@ -150,7 +150,7 @@ def post_message(event_id):
     #TODO if for some reason, we can't get certain form data, redirect to a failure page or put an alert on screen or something
     form_data = request.form.to_dict()
     #using the form data, create a new message object. this works because we have the ORM mapping
-    new_message = Message(event_id=event_id, display_name=form_data["display_name"], message_content=form_data["message_content"])
+    new_message = Message(event_id=event_id, display_name=form_data['display_name'], message_content=form_data['message_content'])
     #add the new message to our database
     db.session.add(new_message)
     #commit it to the database
@@ -163,22 +163,22 @@ def post_message(event_id):
 #TODO create template and refine redirect logic
 @routes.route('/birthdayTemplate')
 def birthday_template():
-    return "happy birthday"
+    return 'happy birthday'
 #christmas template can route here
 #TODO create template and refine redirect logic
 @routes.route('/christmasTemplate')
 def christmas_template():
-    return "merry christmas"
+    return 'merry christmas'
 #halloween template can route here
 #TODO create template and outline logic
 @routes.route('/halloweenTemplate')
 def halloween_template():
-    return "happy halloween"
+    return 'happy halloween'
 #st. patrick's day template can route here
 #TODO create template and outline logic
 @routes.route('/stPaddyTemplate')
 def st_paddy_template():
-    return "happy st. paddy's day"
+    return 'happy st. paddy\'s day'
 
 #--------------- ERROR HANDLING ------------------------
 #404: page not found
@@ -189,19 +189,19 @@ def page_not_found(error):
 #---------------#TODO can remove these later------------------------
 #routes that execute some simple database queries to fetch data
 #uses the model ORM to fetch all the messages from the database
-#equivalent to "SELECT * FROM" statements
-@routes.route('/allusers', methods=["GET"])
+#equivalent to 'SELECT * FROM' statements
+@routes.route('/allusers', methods=['GET'])
 def getallusers():
     users = db.session.query(User).all()
-    user_list = "\n".join(f"{user.first_name} {user.last_name}: {user.email}" for user in users)
-    return Response(user_list, mimetype="text/plain")
-@routes.route('/allguestbooks', methods=["GET"])
+    user_list = '\n'.join(f'{user.first_name} {user.last_name}: {user.email}' for user in users)
+    return Response(user_list, mimetype='text/plain')
+@routes.route('/allguestbooks', methods=['GET'])
 def getallguestbooks():
     guestbooks = db.session.query(Guestbook).all()
-    guestbook_list = "\n".join(f"EVENT {gb.event_title} ({gb.event_date}) happening at: {gb.event_address}" for gb in guestbooks)
-    return Response(guestbook_list, mimetype="text/plain")
-@routes.route('/allmessages', methods=["GET"])
+    guestbook_list = '\n'.join(f'EVENT {gb.event_title} ({gb.event_date}) happening at: {gb.event_address}' for gb in guestbooks)
+    return Response(guestbook_list, mimetype='text/plain')
+@routes.route('/allmessages', methods=['GET'])
 def getallmessages():
     messages = db.session.query(Message).all()
-    message_list = "\n".join(f"{msg.display_name} says: {msg.message_content}" for msg in messages)
-    return Response(message_list, mimetype="text/plain")
+    message_list = '\n'.join(f'{msg.display_name} says: {msg.message_content}' for msg in messages)
+    return Response(message_list, mimetype='text/plain')
