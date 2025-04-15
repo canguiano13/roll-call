@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from db import db
+from db import db, login_manager
 from routes import routes
 from google.cloud.sql.connector import Connector
 
@@ -41,8 +41,9 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     )
 }
 
-# initialize db with Flask app
+# initialize app with extensions
 db.init_app(app)  
+#login_manager.init_app(app)
 
 #defining a model does not create it in the database.
 #need to use create_all() to create the models and tables after defining them.

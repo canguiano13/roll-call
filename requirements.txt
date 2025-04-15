@@ -1,5 +1,6 @@
 Flask==3.0.3
 flask_sqlalchemy
+flask-login
 SQLAlchemy==2.0.39
 cloud-sql-python-connector[pymysql]
 gunicorn==23.0.0

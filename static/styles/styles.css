@@ -140,6 +140,56 @@ a {
   cursor: pointer;
 }
 
+/* Event page styles */
+
+.event-details-box{
+  background: #3b3b4f; 
+  padding: 10px;
+  margin: auto;
+  margin-bottom: 50px;
+  width: 50%;
+  height: fit-content;
+  border-radius: 10px;
+}
+.event-messages-box{
+  width: 50%;
+  margin: auto;
+  max-height: 350px; /* set a max height for the messages box */ 
+  overflow-y: auto;
+  padding-right: 0.5rem; /* prevent scrollbar from overlapping content */
+  scroll-behavior: smooth;
+  border: 1px solid #3b3b4f;
+  border-radius: 8px;
+  background-color: #2a2a45;
+}
+.event-messages-box-title{
+  text-align: center;
+  font-size: 32px;
+}
+.event-message{
+  background-color: rgb(155, 138, 158, 50%);
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-left: 50px;
+  margin: auto;
+  width: 75%;
+  height: fit-content;
+
+}
+.event-message-display-name{  
+  margin: auto;
+  color: ;
+  font-size: 60;
+}
+.event-message-body{
+  color: #1b1b32
+}
+#new-message-form{
+  margin: auto;
+  width: 50%;
+  background-color: 3b3b4f;
+}
+
 
 /* Slideshow Styles */
 * { box-sizing: border-box; }

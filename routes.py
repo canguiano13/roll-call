@@ -14,6 +14,8 @@ def index():
     return render_template('index.html')
 
 #--------------- USER/SESSION MANAGEMENT------------------------
+
+
 #TODO figure out if we can use flask login management library here
 #handles new user signups
 @routes.route('/signUp')
@@ -83,7 +85,7 @@ def login_user():
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
 #render template for new event
 @routes.route('/createEvent')
-def create_event():#
+def create_event():
     return render_template('createEvent.html')
 
 #TODO fix method
@@ -145,7 +147,7 @@ def render_event_page(event_id):
 
 #this route will be used to populate the database with incoming messages for a specific event page
 #TODO will need to pass the event id when we try and post a message for now, see if we need to fix this?
-@routes.route('/handlePostMessage/<event_id>', methods=['POST'])
+@routes.route('/postMessage/<event_id>', methods=['POST'])
 def post_message(event_id):
     #TODO if for some reason, we can't get certain form data, redirect to a failure page or put an alert on screen or something
     form_data = request.form.to_dict()
@@ -156,7 +158,7 @@ def post_message(event_id):
     #commit it to the database
     db.session.commit()
     #TODO fix to redirect to event page, redirect back to share page for now
-    return redirect(f'/allmessages')
+    return redirect(f'/event/{event_id}')
 
 #---------------PREDEFINED TEMPLATES------------------------
 #birthday template can route here
