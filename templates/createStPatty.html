@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>St. Patrick's Day Party!</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+  <!-- link the stylesheet here-->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+  <!--redirect to home page-->
+  <button type="button" id="homepage">Home</button>
+  <script>
+    document.getElementById("homepage").onclick = function() {
+      window.location.href = "/";
+    };
+  </script>
+
+  <main>
+    <h1 id="title">Create an Event for a St. Patrick's Day Party!!</h1>
+    <div class="master-div-style">
+      <p id="description">Start by telling us more about the St. Patrick's Day Party!</p>
+      <!--action defines where to send form data. can send to an animation/share page-->
+      <form id="survey-form" action="/handleCreateEvent" method="post" enctype="multipart/form-data">
+        
+        <!-- Event Title -->
+        <div class="form-rows">
+          <div class="labels">
+            <label for="event_title" id="name-label">Who's hosting the St. Patrick's Day Party:</label>
+          </div>
+          <div class="fields">
+            <input name="event_title" id="event-title" class="input-fields" placeholder="Host" type="text" required>
+          </div>
+        </div>
+
+        <!-- Event Address -->
+        <div class="form-rows">
+          <div class="labels">
+            <label for="event_address">St. Patrick's Day Party Location:</label>
+          </div>
+          <div class="fields">
+            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Event Date -->
+        <div class="form-rows">
+          <div class="labels">
+            <label for="event_date">St. Patrick's Day Party Date:</label>
+          </div>
+          <div class="fields">
+            <input name="event_date" id="event-date" class="input-fields" type="date" required>
+          </div>
+        </div>
+
+        <!-- Event Time -->
+        <div class="form-rows">
+          <div class="labels">
+            <label for="event_time">St. Patrick's Day Party Start Time:</label>
+          </div>
+          <div class="fields">
+            <input name="event_time" id="event-time" class="input-fields" type="time" required>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-rows">
+          <div class="labels">
+            <label for="event_img">Upload a flyer! (optional)</label>
+          </div>
+          <div class="fields">
+            <input name="event_img" id="event-image" type="file"  accept="image/*">
+          </div>
+        </div><br>
+
+        <!-- Submit Button -->
+        <button class="button" id="submit" type="submit">Submit</button>
+
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>

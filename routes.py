@@ -213,19 +213,19 @@ def createBirthday():
     return render_template('createBirthday.html')
 #christmas template can route here
 #TODO create template and refine redirect logic
-@routes.route('/christmasTemplate')
-def christmas_template():
-    return 'merry christmas'
+@routes.route('/createChristmas')
+def createChristmas():
+    return render_template('createChristmas.html')
 #halloween template can route here
 #TODO create template and outline logic
-@routes.route('/halloweenTemplate')
-def halloween_template():
-    return 'happy halloween'
+@routes.route('/createHalloween')
+def createHalloween():
+    return render_template('createHalloween.html')
 #st. patrick's day template can route here
 #TODO create template and outline logic
-@routes.route('/stPaddyTemplate')
-def st_paddy_template():
-    return 'happy st. paddy\'s day'
+@routes.route('/createStPatty')
+def createStPatty():
+    return render_template('createStPatty.html')
 
 #--------------- ERROR HANDLING ------------------------
 #404: page not found

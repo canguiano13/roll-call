@@ -11,7 +11,6 @@
 
   <button type="button" id="signin">Sign In / Sign Up</button>
   <button type="button" id="createEvent">Create Event</button>
-
   <script type="text/javascript">
     document.getElementById("signin").onclick = function() {
       window.location.href = "{{ url_for('routes.signin') }}";
@@ -19,46 +18,7 @@
     document.getElementById("createEvent").onclick = function() {
       window.location.href = "{{ url_for('routes.create_event') }}";
     };
-    document.getElementById("createBirthday").onclick = function() {
-      window.location.href = "{{ url_for('routes.createBirthday') }}";
-    };
-
   </script>
-
-<!-- <div id="slideshow-container">
-  <img class="mySlides" src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1" style="width:100%">
-  <img class="mySlides" src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2" style="width:100%">
-  <img class="mySlides" src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3" style="width:100%">
-  <img class="mySlides" src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4" style="width:100%">
-
-  <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-  <button class="next" onclick="plusSlides(1)">&#10095;</button>
-</div> -->
-
-<!-- <div id="slideshow-container">
-  <div class="slide">
-    <img class="mySlides" src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1" style="width:100%">
-    <button class="slide-button">View Birthday Event</button>
-  </div>
-  
-  <div class="slide">
-    <img class="mySlides" src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2" style="width:100%">
-    <button class="slide-button">View Christmas Event</button>
-  </div>
-  
-  <div class="slide">
-    <img class="mySlides" src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3" style="width:100%">
-    <button class="slide-button">View Halloween Event</button>
-  </div>
-  
-  <div class="slide">
-    <img class="mySlides" src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4" style="width:100%">
-    <button class="slide-button">View St. Patrick's Event</button>
-  </div>
-
-  <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-  <button class="next" onclick="plusSlides(1)">&#10095;</button>
-</div> -->
 
 <div id="slideshow-container">
   <div class="mySlides">
@@ -68,21 +28,37 @@
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2" style="width:100%">
-    <button class="slide-btn" onclick="window.location.href='/events/christmas'">Explore Christmas Fun</button>
+    <button class="slide-btn" id="createChristmas">Explore Christmas Fun</button>
   </div>
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3" style="width:100%">
-    <button class="slide-btn" onclick="window.location.href='/events/halloween'">Join Halloween Bash</button>
+    <button class="slide-btn" id="createHalloween">Join Halloween Bash</button>
   </div>
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4" style="width:100%">
-    <button class="slide-btn" onclick="window.location.href='/events/stpatrick'">Celebrate St. Patrick's Day</button>
+    <button class="slide-btn" id="createStPatty">Celebrate St. Patrick's Day</button>
   </div>
 
   <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
   <button class="next" onclick="plusSlides(1)">&#10095;</button>
+
+  <script type="text/javascript">
+    document.getElementById("createBirthday").onclick = function() {
+      window.location.href = "{{ url_for('routes.createBirthday') }}";
+    };
+    document.getElementById("createChristmas").onclick = function() {
+      window.location.href = "{{ url_for('routes.createChristmas') }}";
+    };
+    document.getElementById("createHalloween").onclick = function() {
+      window.location.href = "{{ url_for('routes.createHalloween') }}";
+    };
+    document.getElementById("createStPatty").onclick = function() {
+      window.location.href = "{{ url_for('routes.createStPatty') }}";
+    };
+  
+  </script>
 </div>
 
 
@@ -92,19 +68,6 @@
   <span class="dot" onclick="currentSlide(3)"></span>
   <span class="dot" onclick="currentSlide(4)"></span>
 </div>
-
-<script type="text/javascript">
-  document.getElementById("signin").onclick = function() {
-    window.location.href = "{{ url_for('routes.signin') }}";
-  };
-  document.getElementById("createEvent").onclick = function() {
-    window.location.href = "{{ url_for('routes.create_event') }}";
-  };
-  document.getElementById("createBirthday").onclick = function() {
-    window.location.href = "{{ url_for('routes.createBirthday') }}";
-  };
-
-</script>
   
 
 </body>
