@@ -6,7 +6,7 @@ body {
   background-color: #1b1b32;
   color: #f5f6f7;
   font-family: Tahoma, sans-serif;
-  font-size: 16px;
+  font-size: 24px;
 }
 
 h1, p {
@@ -16,7 +16,7 @@ h1, p {
 
 /* Form Styling */
 form {
-  width: 60vw;
+  width: 100vw;
   max-width: 500px;
   min-width: 300px;
   margin: 0 auto;
@@ -42,7 +42,7 @@ textarea,
 select {
   margin: 10px 0 0 0;
   width: 100%;
-  min-height: 2em;
+  min-height: 2.5em;
 }
 
 input, textarea {
@@ -141,53 +141,66 @@ a {
 }
 
 /* Event page styles */
-
+.event-page-section-header{
+  text-align: center;
+  font-size: 2rem;
+}
 .event-details-box{
-  background: #3b3b4f; 
-  padding: 10px;
+  background: #2a2a45; 
+  padding: 5px;
   margin: auto;
   margin-bottom: 50px;
-  width: 50%;
+  width: 60%;
   height: fit-content;
   border-radius: 10px;
 }
-.event-messages-box{
-  width: 50%;
-  margin: auto;
-  max-height: 350px; /* set a max height for the messages box */ 
-  overflow-y: auto;
-  padding-right: 0.5rem; /* prevent scrollbar from overlapping content */
-  scroll-behavior: smooth;
-  border: 1px solid #3b3b4f;
-  border-radius: 8px;
-  background-color: #2a2a45;
-}
-.event-messages-box-title{
-  text-align: center;
-  font-size: 32px;
-}
-.event-message{
-  background-color: rgb(155, 138, 158, 50%);
-  border-radius: 5px;
-  padding-top: 5px;
-  padding-left: 50px;
-  margin: auto;
-  width: 75%;
-  height: fit-content;
+#event-details-title{
+  font-size: 3rem;
+  text-shadow: 2px 2px #2a2a45;
 
 }
-.event-message-display-name{  
+#event-details-location, #event-details-date{
+  font-size: 1.5rem;
+  text-shadow: 2px 2px #2a2a45;
+}
+
+
+.event-page-messages-box{
+  background: #2a2a45;
+  padding-right: 0.5rem; /* prevent scrollbar from overlapping content */
   margin: auto;
-  color: ;
-  font-size: 60;
+  width: 55%;
+  max-height: 500px; /* set a max height for the messages box */ 
+  overflow-y: auto; /* hide overlapping messages */
+  scroll-behavior: smooth;
+  border-radius: 8px;
+}
+.event-message{
+  background: rgb(155, 138, 158, 50%);
+  padding: 5px 50px 5px 50px; /*add space on the left side of each message */
+  margin: auto;
+  margin-bottom: 10px;
+  width: 85%;
+  height: fit-content;
+  border-radius: 5px;
+}
+.event-message-display-name{  
+  color: #C8A2C8;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-shadow: 2px 2px rgb(42,	42,	69, 50%);
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 .event-message-body{
-  color: #1b1b32
+  padding-left: 5px;
+  font-size: 1.25rem;
+  color: white;  
 }
-#new-message-form{
-  margin: auto;
-  width: 50%;
-  background-color: 3b3b4f;
+.event-message-body p {
+  margin: 5px;
+  padding: 5px;
+  text-align: left;
 }
 
 

@@ -23,15 +23,15 @@
 
       <!-- Event Details -->
       <section class="event-details-box">
-        <h1 class="event-title">{{ event_data.event_title }}</h1>
-        <p class="event-location">{{ event_data.event_address }}</p>
-        <p class="event-date">{{ event_data.event_date.strftime('%B %d, %Y') }}</p>
+        <h1 id="event-details-title">{{ event_data.event_title }}</h1>
+        <p id="event-details-location">Address: {{ event_data.event_address }}</p>
+        <p id="event-details-date">Date: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
       </section>
 
-      <!-- Display Comments -->
+      <!-- Comments from guests -->
       <section class="event-comments">
-        <h2 class="event-messages-box-title">What others have said</h2>
-        <div class="event-messages-box">
+        <h2 class="event-page-section-header">What others have said</h2>
+        <div class="event-page-messages-box">
           {% if messages_data %}
             {% for message in messages_data %}
             <div class="event-message">
@@ -51,7 +51,7 @@
 
       <!-- Comment Form -->
       <section class="event-form-section">
-        <h3 class="event-messages-box-title">Add your own message</h3>
+        <h3 class="event-page-section-header">Add your own message</h3>
         <form id="new-message-form" action="/postMessage/{{event_data.event_id}}" method="post" enctype="multipart/form-data">
 
           <!-- Display Name -->
@@ -82,5 +82,6 @@
 
     </div>
   </main>
-</body>
-</html>
+  </body>
+  
+  </html>
