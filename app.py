@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from db import db, login_manager
+from db import db#, login_manager
 from routes import routes
 from google.cloud.sql.connector import Connector
 

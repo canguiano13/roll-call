@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Event</title>
+  <title>{{ event_data.event_title }}</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
@@ -10,27 +10,29 @@
 </head>
 
 <body>
-    <!--redirect to home page-->
-    <button type="button" id="homepage">Home</button>
-    <script>
-      document.getElementById("homepage").onclick = function() {
-        window.location.href = "/";
-      };
-    </script>
-  
-    <main>
-      <div class="master-div-style">
-          <!--top of page displays event data-->
-          <div class="event-details-box">
-            <h1 id="title">{{ event_data.event_title }}</h1>
-            <p id="description">{{ event_data.event_address }}</p>
-            <!--date is a datetime type, so we can customize printed format it-->
-            <p id="description">  {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
-          </div>
+  <!-- Home button -->
+  <button type="button" id="homepage">Home</button>
+  <script>
+    document.getElementById("homepage").onclick = function () {
+      window.location.href = "/";
+    };
+  </script>
 
-          <h2 class="event-messages-box-title">What others have said:</h2>
-          <!--print all of the exising messages, ordered by date-->
-          <div class="event-messages-box">
+  <main>
+    <div class="master-div-style">
+
+      <!-- Event Details -->
+      <section class="event-details-box">
+        <h1 class="event-title">{{ event_data.event_title }}</h1>
+        <p class="event-location">{{ event_data.event_address }}</p>
+        <p class="event-date">{{ event_data.event_date.strftime('%B %d, %Y') }}</p>
+      </section>
+
+      <!-- Display Comments -->
+      <section class="event-comments">
+        <h2 class="event-messages-box-title">What others have said</h2>
+        <div class="event-messages-box">
+          {% if messages_data %}
             {% for message in messages_data %}
             <div class="event-message">
               <div class="event-message-header">
@@ -38,16 +40,21 @@
               </div>
               <div class="event-message-body">
                 <p>{{ message.message_content }}</p>
-              </div> 
+              </div>
             </div>
             {% endfor %}
-          </div>
+          {% else %}
+            <p class="no-comments">No messages yet. Be the first to leave one!</p>
+          {% endif %}
+        </div>
+      </section>
 
-          <h3 class="event-messages-box-title">Add your own message!</h3>
-
-        <!--action defines where to send form data. can send to an animation/share page-->
+      <!-- Comment Form -->
+      <section class="event-form-section">
+        <h3 class="event-messages-box-title">Add your own message</h3>
         <form id="new-message-form" action="/postMessage/{{event_data.event_id}}" method="post" enctype="multipart/form-data">
-          <!-- Event Title -->
+
+          <!-- Display Name -->
           <div class="form-rows">
             <div class="labels">
               <label for="display_name" id="name-label">Name:</label>
@@ -56,22 +63,24 @@
               <input name="display_name" id="event-name" class="input-fields" placeholder="Display Name" type="text" required>
             </div>
           </div>
-  
-          <!-- Event Description -->
+
+          <!-- Message Content -->
           <div class="form-rows">
             <div class="labels">
               <label for="message_content">Message:</label>
             </div>
             <div class="fields">
-              <textarea name="message_content" id="event-message" class="input-fields"  placeholder="Message" cols="1" rows="3"></textarea>
+              <textarea name="message_content" id="event-message" class="input-fields" placeholder="Your thoughts..." cols="1" rows="3" required></textarea>
             </div>
           </div>
 
+          <!-- Submit Button -->
           <button class="button" id="submit" type="submit">Submit</button>
-  
+
         </form>
-      </div>
-    </main>
-  </body>
-  
-  </html>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>
