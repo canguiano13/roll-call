@@ -1,8 +1,9 @@
 #file defines the routes for the application
 from flask import Blueprint, Response, render_template, request, redirect, url_for, abort
+from sqlalchemy import desc
 from models import User, Guestbook, Message
 from db import db
-from sqlalchemy import desc
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #declare a blueprint hto hold all of our defined routes, expose templates folder
@@ -87,7 +88,6 @@ def login_user():
 @routes.route('/createEvent')
 def create_event():
     return render_template('createEvent.html')
-
 #TODO fix method
 #For handling request form data we can get the form inputs value by using POST attribute.
 @routes.route('/handleCreateEvent', methods=['POST']) 
@@ -120,9 +120,54 @@ def handle_new_event():
         #return redirect(f'/share/{new_guestbook.event_id}')
         return redirect('/share/1')
 
+#TODO allow owner to edit the event details
+# #allow users to edit existing event pages
+@routes.route('/edit/<event_id>')
+def edit_event(event_id):
+    #TODO add user auth here to prevent unwanted edits
+    #get all of the event details based on event id
+    return render_template('editEvent.html', event_info={'event_id':event_id})
+@routes.route('/handleEditEvent/<event_id>', methods=['POST'])
+def edit_event_details(event_id):
+    if request.method == 'POST':
+        #fetch form data
+        form_data = request.form.to_dict()
+        #fetch corresponding event from database
+        guestbook = db.session.query(Guestbook).get(event_id)
+        #if no guestbook is found, route to error page
+        if guestbook is None:
+            abort(404)
+
+        #get the keys for the data that was updated
+        updated_fields = form_data.keys()
+        #format datetime and add to dictionary if time was updated
+        if ('event_date' in updated_fields and form_data['event_date'] != '') and \
+        ('event_time' in updated_fields and form_data['event_time'] != ''):
+            datetime_format = '%Y-%m-%d %H:%M'
+            form_data['event_datetime'] = datetime.strptime(f'{form_data['event_date']} {form_data['event_time']}', datetime_format)
+        #remove the keys from the dictionary to prevent  errors when updating attributes
+        if 'event_date' in updated_fields:
+            form_data.pop('event_date')
+        if 'event_time' in updated_fields:
+            form_data.pop('event_time')
+
+        #update existing event details
+        changed = False
+        for key in updated_fields:
+            if form_data[key] != '' and form_data[key] is not None:
+                setattr(guestbook, key, form_data[key])
+                changed=True
+        
+        #commit to db only if object has been updated
+        if changed:
+            db.session().commit()
+
+    #redirect back to event page
+    return redirect(f'/event/{event_id}')
+
 #render a custom share page for the event
 @routes.route('/share/<event_id>')
-def share_event(event_id):
+def share_event(event_id):#
     #first query the event details
     event_data = db.session.query(Guestbook).get(event_id)
     #if the event doesn't exist, throw a 404 error
