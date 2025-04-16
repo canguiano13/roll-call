@@ -144,7 +144,7 @@ def edit_event_details(event_id):
         if ('event_date' in updated_fields and form_data['event_date'] != '') and \
         ('event_time' in updated_fields and form_data['event_time'] != ''):
             datetime_format = '%Y-%m-%d %H:%M'
-            form_data['event_datetime'] = datetime.strptime(f'{form_data['event_date']} {form_data['event_time']}', datetime_format)
+            form_data['event_datetime'] = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
         #remove the keys from the dictionary to prevent  errors when updating attributes
         if 'event_date' in updated_fields:
             form_data.pop('event_date')
@@ -208,9 +208,9 @@ def post_message(event_id):
 #---------------PREDEFINED TEMPLATES------------------------
 #birthday template can route here
 #TODO create template and refine redirect logic
-@routes.route('/birthdayTemplate')
-def birthday_template():
-    return 'happy birthday'
+@routes.route('/createBirthday')
+def createBirthday():
+    return render_template('createBirthday.html')
 #christmas template can route here
 #TODO create template and refine redirect logic
 @routes.route('/christmasTemplate')
