@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Page Title</title>
+  <title>Home</title>
   <!-- link the stylesheet here -->
   <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
   <script src="{{ url_for('static', filename='js/slideshow.js') }}"></script>
@@ -14,10 +14,10 @@
 
   <script type="text/javascript">
     document.getElementById("signin").onclick = function() {
-      window.location.href = "{{ url_for('signin') }}";
+      window.location.href = "{{ url_for('routes.signin') }}";
     };
     document.getElementById("createEvent").onclick = function() {
-      window.location.href = "{{ url_for('create_event') }}";
+      window.location.href = "{{ url_for('routes.create_event') }}";
     };
   </script>
 

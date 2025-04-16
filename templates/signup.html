@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- link the stylesheet here-->
+    <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
+  </head>
+
+  <body>
+    <!-- redirect to homepage-->
+    <button type="button" id="homepage">Home</button>
+    <script type="text/javascript">
+      document.getElementById("homepage").onclick = function() {
+        window.location.href = "/";
+      };
+    </script>
+
+    <!--main form-->
+    <h1>Create your Account</h1>
+    <p>Sign up to save your past events!</p>
+    <!--TODO fix action attribute to point to function that handles sign up-->
+    <form action='/handleSignUp' method="post" enctype="multipart/form-data">
+      <fieldset>
+        <label for="first-name">Enter Your First Name: <input name="first-name" type="text" required /></label>
+        <label for="last-name">Enter Your Last Name: <input name="last-name" type="text" required /></label>
+        <label for="user-email">Enter Your Email: <input name="user-email" type="email"  required /></label>
+        <label for="user-pass">Create a New Password: <input name="user-pass" type="password" required /></label>
+      </fieldset>
+      
+      <fieldset>
+        <label>
+          <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="/static/termsandconditions.txt">terms and conditions</a>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <label>Upload a profile picture: <input type="file" name="file" /></label>
+      </fieldset>
+      <input type="submit" value="Submit" />
+    </form>
+
+  </body>
+</html>
