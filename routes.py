@@ -5,6 +5,7 @@ from models import User, Guestbook, Message
 from db import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import NoResultFound
 
 #declare a blueprint hto hold all of our defined routes, expose templates folder
 routes = Blueprint('routes', __name__, template_folder='templates')
@@ -71,9 +72,8 @@ def login_user():
         form_details = request.form.to_dict()
 
         if form_details.get('email'):
-            user = db.session.execute(db.select(User).filter_by(email=form_details['email'])).scalar_one()
-            if user:
-                print(type(user))
+            try:
+                user = db.session.execute(db.select(User).filter_by(email=form_details['email'])).scalar_one()
                 if check_password_hash(password=form_details['password'], pwhash=user.password_hash):
                     login_details =f'''
                 SUCCESSFUL LOGIN WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
@@ -82,7 +82,7 @@ def login_user():
                     login_details =f'''
                 INCORRECT PASSWORD FOR EMAIL {form_details['email'] if form_details["email"] else None}\n
                 '''
-            else:
+            except NoResultFound:
                 login_details =f'''
                 NO USER WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
                 '''
