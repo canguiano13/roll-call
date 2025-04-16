@@ -22,10 +22,10 @@ def index():
 @routes.route('/signUp')
 def signup():
     return render_template('signup.html')
-@routes.route('/handleSignUp', methods=['POST'])
+@routes.route('/handleSignUp', methods=["POST"])
 def create_user():
     #only want to create user when accessed via POST request
-    if request.method == 'POST':
+    if request.method == "POST":
         #retrieve parameters here
         form_data = request.form.to_dict()
         
@@ -33,9 +33,7 @@ def create_user():
         #werkzeug has a built-in hash password function! no external libs needed :)
         #TODO research if we need to change method/salt_length
         #TODO research if we can use flask user management library somewhere in here
-        hashed_password = generate_password_hash(password=form_data['password_hash'],
-                                                 method='something',
-                                                 salt_length='some-number')
+        hashed_password = generate_password_hash(password=form_data['password_hash'])
         
         event_details=f'''
             NEW USER REQUEST. CREATING USER...\n
@@ -44,10 +42,14 @@ def create_user():
             email:      {form_data['email']}\n
             password:   {form_data['password_hash']}\n
             '''
+        
+        new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
+                     email=form_data['email'], password_hash=hashed_password, profile_pic=None)
+        db.session.add(new_user)
+        db.session.commit()
         #TODO figure out how to handle profile pics. they are optional
         #TODO figure out how to handle user trying to create an account with an email that already exists
-        #new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
-        #               email=form_data['email'], password_hash=hashed_password, profile_pic=TODO)
+
 
         #add and commit the new user to our database
         #db.session.add(new_user)
@@ -64,23 +66,31 @@ def signin():
 @routes.route('/handleSignIn', methods=['POST'])
 def login_user():
     #only want to create user when accessed via POST request
-    if request.method == 'POST':
+    if request.method == "POST":
         #retrieve parameters here
-        form_data = request.form.to_dict()
-        #query the database for the user with this email
-        #if login succeeds, redirect user back to home page
+        form_details = request.form.to_dict()
 
-        #TODO use werkzeug.security check_password_hash function
-        
-        #if check_password_hash(form_data['password_hash', db.session.query(..)]:
-            #password succeeds
-            
-        #TODO if login fails, redirect back to sign-in page with failure message
-        login_details =f'''
-            USER IS LOGGING IN WITH DETAILS...\n
-            email:                    {form_data['email']}\n
-            password_hash (attempted) {form_data['password_hash']}\n
+        if form_details.get('email'):
+            user = db.session.execute(db.select(User).filter_by(email=form_details['email'])).scalar_one()
+            if user:
+                print(type(user))
+                if check_password_hash(password=form_details['password'], pwhash=user.password_hash):
+                    login_details =f'''
+                SUCCESSFUL LOGIN WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
+                '''
+                else:
+                    login_details =f'''
+                INCORRECT PASSWORD FOR EMAIL {form_details['email'] if form_details["email"] else None}\n
+                '''
+            else:
+                login_details =f'''
+                NO USER WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
+                '''
+        else:
+            login_details =f'''
+            NO EMAIL PROVIDED\n
             '''
+
     return Response(login_details, mimetype='text/plain')
 
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
