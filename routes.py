@@ -1,6 +1,7 @@
 #file defines the routes for the application
 from flask import Blueprint, Response, render_template, request, redirect, url_for, abort
 from sqlalchemy import desc
+from flask_login import current_user
 from models import User, Guestbook, Message
 from db import db
 from datetime import datetime
@@ -98,28 +99,24 @@ def handle_new_event():
             event_time:         {form_data['event_time']} \n
             '''
     
-        #TODO Transform separate data/time entries into DATETIME data type
-        #event_datetime=...
+        #transform separate data/time entries into DATETIME data type
+        datetime_format = '%Y-%m-%d %H:%M'
+        event_datetime = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
 
-        #TODO need to figure out how we are sourcing the owner_id
-        #TODO figure out how to handle the images, they are optional so some guestbooks will have them and others will not
         #using the form details and user's account data, create a new guestbook associated with the user
-        #new_guestbook = Guestbook(owner_id=TODO, event_date=event_datetime, event_title=form_data['event_title'], 
-        #                          event_address=form_data['event_address'], event_img=TODO)
+        new_guestbook = Guestbook(owner_id=current_user.id, event_date=event_datetime, event_title=form_data['event_title'], event_address=form_data['event_address'])
 
         #add and commit the new guestbook to our database
-        #db.session.add(new_guestbook)
-        #db.session.commit()
+        db.session.add(new_guestbook)
+        db.session.commit()
 
-        #return redirect(f'/share/{new_guestbook.event_id}')
-        return redirect('/share/1')
+        #redirect to newly created event
+        return redirect(f'/share/{new_guestbook.event_id}')
 
-#TODO allow owner to edit the event details
-# #allow users to edit existing event pages
+#allow guestbook owner to edit existing event pages
 @routes.route('/edit/<event_id>')
 def edit_event(event_id):
-    #TODO add user auth here to prevent unwanted edits
-    #get all of the event details based on event id
+    #will need to get all of the event details based on event id
     return render_template('editEvent.html', event_info={'event_id':event_id})
 @routes.route('/handleEditEvent/<event_id>', methods=['POST'])
 def edit_event_details(event_id):
@@ -176,16 +173,17 @@ def render_event_page(event_id):
     event_data = db.session.query(Guestbook).get(event_id)
     #get the list of messages for the event, then put them in order from most to least recent
     messages_data= db.session.query(Message).filter(Message.event_id==event_id).order_by(desc(Message.msg_id)).all()
+    #notice to display if there are no messages yet
+    no_message_notice = dict()
     #if the event doesn't exist, redirect to a 404
     if event_data is None:
         abort(404)
-    #TODO define action when an event exists but there are no messages                     
+    #if the event exists but there are no messages, encourage user to share their event            
     elif messages_data is None:
-        print('no messages.')
-    return render_template('event.html', event_data=event_data, messages_data=messages_data)
+        no_message_notice['content'] = "Hmm...there aren't any messages."
+    return render_template('event.html', event_data=event_data, messages_data=messages_data, no_message_notice=no_message_notice)
 
-#this route will be used to populate the database with incoming messages for a specific event page
-#TODO will need to pass the event id when we try and post a message for now, see if we need to fix this?
+#populate the database with incoming messages for a specific event page
 @routes.route('/postMessage/<event_id>', methods=['POST'])
 def post_message(event_id):
     #TODO if for some reason, we can't get certain form data, redirect to a failure page or put an alert on screen or something
