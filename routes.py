@@ -242,23 +242,3 @@ def createStPatty():
 @routes.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
-
-#---------------#TODO can remove these later------------------------
-#routes that execute some simple database queries to fetch data
-#uses the model ORM to fetch all the messages from the database
-#equivalent to 'SELECT * FROM' statements
-@routes.route('/allusers', methods=['GET'])
-def getallusers():
-    users = db.session.query(User).all()
-    user_list = '\n'.join(f'{user.first_name} {user.last_name}: {user.email}' for user in users)
-    return Response(user_list, mimetype='text/plain')
-@routes.route('/allguestbooks', methods=['GET'])
-def getallguestbooks():
-    guestbooks = db.session.query(Guestbook).all()
-    guestbook_list = '\n'.join(f'EVENT {gb.event_title} ({gb.event_date}) happening at: {gb.event_address}' for gb in guestbooks)
-    return Response(guestbook_list, mimetype='text/plain')
-@routes.route('/allmessages', methods=['GET'])
-def getallmessages():
-    messages = db.session.query(Message).all()
-    message_list = '\n'.join(f'{msg.display_name} says: {msg.message_content}' for msg in messages)
-    return Response(message_list, mimetype='text/plain')
