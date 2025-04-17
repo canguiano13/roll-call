@@ -19,6 +19,14 @@
     <!--existing user form-->
     <h1>Sign Into Your Account:</h1>
     <p>Don't have an account? <a href="/signUp">Sign up here!</a></p>
+   
+    <!--display an alert for failed login-->
+    {% if alert_data %}
+    <p class="user-login-alert">{{ alert_data }}
+      <a class="user-login-alert" href="/signUp">Sign up?</a>
+    </p>
+    {% endif %}
+
     <!--TODO fix action to point to function that handles login-->
     <form action='/handleSignIn' method="post" enctype="multipart/form-data">
       <fieldset>

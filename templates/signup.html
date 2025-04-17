@@ -19,7 +19,15 @@
     <!--main form-->
     <h1>Create your Account</h1>
     <p>Sign up to save your past events!</p>
-    <!--TODO fix action attribute to point to function that handles sign up-->
+
+    <!--display an alert if the user already exists-->
+    {% if alert_data %}
+    <p class="user-login-alert">{{ alert_data }} 
+      <a class="user-login-alert" href="/signIn">Sign in?</a>
+    </p>
+    
+    {% endif %}
+
     <form action='/handleSignUp' method="post" enctype="multipart/form-data">
       <fieldset>
         <label for="first_name">Enter Your First Name: <input name="first_name" type="text" required /></label>

@@ -10,102 +10,86 @@ from sqlalchemy.exc import NoResultFound
 #declare a blueprint hto hold all of our defined routes, expose templates folder
 routes = Blueprint('routes', __name__, template_folder='templates')
 
+#declare user loader
+
+
 #TODO fix routes to be in all lowercase, probably better ux
 @routes.route('/')
 def index():
+    #TODO if user is logged in, create some divs to represent existing guestbooks
     return render_template('index.html')
 
 #--------------- USER/SESSION MANAGEMENT------------------------
-
-
-#TODO figure out if we can use flask login management library here
 #handles new user signups
 @routes.route('/signUp')
 def signup():
-    return render_template('signup.html')
+    #check if any alert data was passed due to failed signup attempt
+    return render_template('signup.html', alert_data=request.args.get('alert_data'))
 @routes.route('/handleSignUp', methods=["POST"])
-def create_user():
+def handle_signup():
     #only want to create user when accessed via POST request
     if request.method == "POST":
-        #retrieve parameters here
+        #retrieve form data
         form_data = request.form.to_dict()
         
+        #check if there is already a user in the database with that email. If so, reject signup attempt
+        duplicate_user = db.session.execute(db.select(User).filter_by(email=form_data['email'])).scalar_one_or_none()
+        if duplicate_user:
+            return redirect(url_for("routes.signup", alert_data='User already exists with provided email.'))
+
         #hash the password so it is not stored in plaintext
         #werkzeug has a built-in hash password function! no external libs needed :)
-        #TODO research if we need to change method/salt_length
         #TODO research if we can use flask user management library somewhere in here
         hashed_password = generate_password_hash(password=form_data['password_hash'])
         
-        event_details=f'''
-            NEW USER REQUEST. CREATING USER...\n
-            first_name: {form_data['first_name']}\n
-            last_name:  {form_data['last_name']}\n
-            email:      {form_data['email']}\n
-            password:   {form_data['password_hash']}\n
-            '''
-        
+        #instantiate new user using DB model
         new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
-                     email=form_data['email'], password_hash=hashed_password, profile_pic=None)
+                     email=form_data['email'], password_hash=hashed_password)
+        
+        #add and commit new user to database
         db.session.add(new_user)
         db.session.commit()
-        #TODO figure out how to handle profile pics. they are optional
-        #TODO figure out how to handle user trying to create an account with an email that already exists
-
-
-        #add and commit the new user to our database
-        #db.session.add(new_user)
-        #db.session.commit()
-
-        #TODO route to success page? or figure out another way to handle new user creation
-    return Response(event_details, mimetype='text/plain')
+        
+        #route user back to home page, this time will display any guestbooks
+        return redirect('/')
 
 #handle user logins 
-#TODO figure out password resets?
 @routes.route('/signIn')
 def signin():
-    return render_template('signin.html')
+    #check if any alert data was passed due to failed login attempt
+    return render_template('signin.html', alert_data=request.args.get('alert_data'))
 @routes.route('/handleSignIn', methods=['POST'])
 def login_user():
-    #only want to create user when accessed via POST request
     if request.method == "POST":
-        #retrieve parameters here
-        form_details = request.form.to_dict()
+        #retrieve login details from form
+        form_data = request.form.to_dict()
 
-        if form_details.get('email'):
-            try:
-                user = db.session.execute(db.select(User).filter_by(email=form_details['email'])).scalar_one()
-                if check_password_hash(password=form_details['password'], pwhash=user.password_hash):
-                    login_details =f'''
-                SUCCESSFUL LOGIN WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
-                '''
-                else:
-                    login_details =f'''
-                INCORRECT PASSWORD FOR EMAIL {form_details['email'] if form_details["email"] else None}\n
-                '''
-            except NoResultFound:
-                login_details =f'''
-                NO USER WITH EMAIL {form_details['email'] if form_details["email"] else None}\n
-                '''
+        #search the database for the account associated with that email
+        login_attempt_user = db.session.execute(db.select(User).filter_by(email=form_data['email'])).scalar_one_or_none()
+
+        #if no user exists for the email provided, reject login attempt
+        #need to use redirect with url_for to provide alert data
+        if login_attempt_user is None:
+            return redirect(url_for("routes.signin", alert_data='No user exists with provided email.'))
+
+        #if a user does exist, validate their password and send them to home page if successful
+        if check_password_hash(password=form_data['password'], pwhash=login_attempt_user.password_hash):
+            return redirect('/')
         else:
-            login_details =f'''
-            NO EMAIL PROVIDED\n
-            '''
+            return redirect(url_for("routes.signin", alert_data='Incorrect password. Try again.'))
 
-    return Response(login_details, mimetype='text/plain')
 
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
-#render template for new event
+#handle creation of new guestbooks
 @routes.route('/createEvent')
 def create_event():
     return render_template('createEvent.html')
-#TODO fix method
-#For handling request form data we can get the form inputs value by using POST attribute.
 @routes.route('/handleCreateEvent', methods=['POST']) 
 def handle_new_event():
     if request.method == 'POST':
-        #retrieve parameters here
+        #retrieve form data
         form_data = request.form.to_dict()
-        print(form_data)
+        
         event_details=f'''
             NEW EVENT REQUEST... \n
             event_title:        {form_data['event_title']}\n
