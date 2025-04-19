@@ -8,19 +8,19 @@
 </head>
 
 <body>
-
   <button type="button" id="signin">Sign In / Sign Up</button>
   <button type="button" id="createEvent">Create Event</button>
+
   <script type="text/javascript">
     document.getElementById("signin").onclick = function() {
-      window.location.href = "{{ url_for('routes.signin') }}";
+      window.location.href = "{{ url_for('routes.login') }}";
     };
     document.getElementById("createEvent").onclick = function() {
       window.location.href = "{{ url_for('routes.create_event') }}";
     };
   </script>
 
-<div id="slideshow-container">
+<div class="slideshow-container">
   <div class="mySlides">
     <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1" style="width:100%">
     <button class="slide-btn" id="createBirthday">View Birthday Event</button>
@@ -69,6 +69,12 @@
   <span class="dot" onclick="currentSlide(4)"></span>
 </div>
   
+  
+  <!-- TODO display all of the user's current guestbooks-->
+  {% if current_user.is_authenticated %}
+  <h1>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}!</h1>
+  <a href="logout">Logout</a>
+  {% endif %}
 
 </body>
 </html>

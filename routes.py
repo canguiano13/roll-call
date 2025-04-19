@@ -1,7 +1,8 @@
 #file defines the routes for the application
-from flask import Blueprint, Response, render_template, request, redirect, url_for, abort
+from flask import Blueprint, Response, render_template, request, redirect, url_for, abort, flash
 from sqlalchemy import desc
-from flask_login import current_user, login_required
+import flask_login
+from flask_login import *
 from models import User, Guestbook, Message
 from extensions import db, login_manager
 from datetime import datetime
@@ -10,49 +11,41 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #declare a blueprint hto hold all of our defined routes, expose templates folder
 routes = Blueprint('routes', __name__, template_folder='templates')
 
-#declare user loader for login manager
-@login_manager.user_loader
-def load_user(user_id):
-    #some things we can do with the login manager
-    #check if they are authenticated
-    print(f"***********\n\n")
-    print(f"AUTHENTICATED? {current_user}")
-    print(f"USER ID IS {user_id}\n***********")
-    print()
-    return User.get(user_id) #uses the database model to pull the id of a specified user
-
-#TODO fix routes to be in all lowercase, probably better ux
+#--------------- USER/SESSION MANAGEMENT------------------------ 
 @routes.route('/')
 def index():
-    #TODO if user is logged in, create some divs to represent existing guestbooks
-    return render_template('index.html')
+    #TODO if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
+    #if current_user.is_authenticated:
+        #user_guestbooks = db.session.query()
+    return render_template('index.html', guestbooks_data=None) #TODO fix this None to hold the user's guestbooks
 
-#--------------- USER/SESSION MANAGEMENT------------------------
-#handles new user signups
-@routes.route('/signUp')
+#handle new user signups
+@routes.route('/signup')
 def signup():
     #check if any alert data was passed due to failed signup attempt
+    #TODO change to flask flash messages
     return render_template('signup.html', alert_data=request.args.get('alert_data'))
-@routes.route('/handleSignUp', methods=["POST"])
+@routes.route('/signup', methods=["POST"])
 def handle_signup():
     #only want to create user when accessed via POST request
     if request.method == "POST":
         #retrieve form data
         form_data = request.form.to_dict()
         
-        #check if there is already a user in the database with that email. If so, reject signup attempt
-        duplicate_user = db.session.execute(db.select(User).filter_by(email=form_data['email'])).scalar_one_or_none()
+        #check if there is already a user in the database with that email. 
+        duplicate_user = User.query.filter(User.email==form_data['email']).first()
+
+        #if there's already a user with this email so, reject signup attempt
         if duplicate_user:
-            return redirect(url_for("routes.signup", alert_data='User already exists with provided email.'))
+            return redirect(url_for("routes.signup", alert_data='User already exists with provided email.')) #TODO use flash message
 
         #hash the password so it is not stored in plaintext
         #werkzeug has a built-in hash password function! no external libs needed :)
-        #TODO research if we can use flask user management library somewhere in here
         hashed_password = generate_password_hash(password=form_data['password_hash'])
         
         #instantiate new user using DB model
         new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
-                     email=form_data['email'], password_hash=hashed_password)
+                        email=form_data['email'], password_hash=hashed_password)
         
         #add and commit new user to database
         db.session.add(new_user)
@@ -62,35 +55,46 @@ def handle_signup():
         return redirect('/')
 
 #handle user logins 
-@routes.route('/signIn')
-def signin():
+@routes.route('/login')
+def login():
     #check if any alert data was passed due to failed login attempt
     return render_template('signin.html', alert_data=request.args.get('alert_data'))
-@routes.route('/handleSignIn', methods=['POST'])
+@routes.route('/login', methods=['POST'])
 def login_user():
     if request.method == "POST":
         #retrieve login details from form
         form_data = request.form.to_dict()
 
         #search the database for the account associated with that email
-        login_attempt_user = db.session.execute(db.select(User).filter_by(email=form_data['email'])).scalar_one_or_none()
+        login_attempt_user = User.query.filter(User.email==form_data['email']).first()
 
         #if no user exists for the email provided, reject login attempt
-        #need to use redirect with url_for to provide alert data
         if login_attempt_user is None:
-            return redirect(url_for("routes.signin", alert_data='No user exists with provided email.'))
+            return redirect(url_for("routes.login", alert_data='No user exists with provided email.')) #TODO use flash message
 
-        #if a user does exist, validate their password and send them to home page if successful
+        #if a user does exist, validate their password 
         if check_password_hash(password=form_data['password'], pwhash=login_attempt_user.password_hash):
+            # login and validate the user in the login manager.
+            flask_login.login_user(login_attempt_user)
             return redirect('/')
+        # display alert on failed password
         else:
-            return redirect(url_for("routes.signin", alert_data='Incorrect password. Try again.'))
+            return redirect(url_for("routes.login", alert_data='Incorrect password. Try again.')) #TODO use flash messagese
 
+#allow user to logout
+@routes.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    #redirect to home page on logout
+    return redirect('/') 
 
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
 #handle creation of new guestbooks
-@routes.route('/createEvent')
+@routes.route('/createEvent', methods=['GET'])
+@login_required
 def create_event():
+    #if the user tries to create an event while not signed in, reroute to sign-in page
     return render_template('createEvent.html')
 @routes.route('/handleCreateEvent', methods=['POST']) 
 def handle_new_event():
@@ -111,7 +115,7 @@ def handle_new_event():
         event_datetime = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
 
         #using the form details and user's account data, create a new guestbook associated with the user
-        new_guestbook = Guestbook(owner_id=current_user.id, event_date=event_datetime, event_title=form_data['event_title'], event_address=form_data['event_address'])
+        new_guestbook = Guestbook(owner_id=login_manager.user_loader, event_date=event_datetime, event_title=form_data['event_title'], event_address=form_data['event_address'])
 
         #add and commit the new guestbook to our database
         db.session.add(new_guestbook)
@@ -120,8 +124,10 @@ def handle_new_event():
         #redirect to newly created event
         return redirect(f'/share/{new_guestbook.event_id}')
 
-#allow guestbook owner to edit existing event pages
+#allow guestbook owner to edit existing event pages. must be logged in as the owner to view
+#TODO abort to unauthorization error if trying to edit as non-owner
 @routes.route('/edit/<event_id>')
+@login_required
 def edit_event(event_id):
     #will need to get all of the event details based on event id
     return render_template('editEvent.html', event_info={'event_id':event_id})
@@ -163,8 +169,10 @@ def edit_event_details(event_id):
     #redirect back to event page
     return redirect(f'/event/{event_id}')
 
-#render a custom share page for the event
+#render a custom share page for the event. restrict view to owner
+#TODO abort to unauthorization error if trying to share as non-owner
 @routes.route('/share/<event_id>')
+@login_required 
 def share_event(event_id):#
     #first query the event details
     event_data = db.session.query(Guestbook).get(event_id)
@@ -173,23 +181,23 @@ def share_event(event_id):#
         abort(404)
     return render_template('shareEvent.html', data=event_data)
 
-#TODO define html template for event page
+#anyone can view/post messages to a guestbook page
 @routes.route('/event/<event_id>', methods=['GET'])
 def render_event_page(event_id):
     #get all of the event details based on event id
     event_data = db.session.query(Guestbook).get(event_id)
     #get the list of messages for the event, then put them in order from most to least recent
-    messages_data= db.session.query(Message).filter(Message.event_id==event_id).order_by(desc(Message.msg_id)).all()
+    messages_data = db.session.query(Message).filter(Message.event_id==event_id).order_by(desc(Message.msg_id)).all()
+    #TODO define a no message notice and add it to the html template
     #notice to display if there are no messages yet
-    no_message_notice = dict()
+    no_message_notice = None
     #if the event doesn't exist, redirect to a 404
     if event_data is None:
         abort(404)
     #if the event exists but there are no messages, encourage user to share their event            
     elif messages_data is None:
-        no_message_notice['content'] = "Hmm...there aren't any messages."
+        no_message_notice = "Hmm...there aren't any messages."
     return render_template('event.html', event_data=event_data, messages_data=messages_data, no_message_notice=no_message_notice)
-
 #populate the database with incoming messages for a specific event page
 @routes.route('/postMessage/<event_id>', methods=['POST'])
 def post_message(event_id):
@@ -205,24 +213,27 @@ def post_message(event_id):
     return redirect(f'/event/{event_id}')
 
 #---------------PREDEFINED TEMPLATES------------------------
-#birthday template can route here
-#TODO create template and refine redirect logic
+#templates help guide users on the information to put in
+#login is required for any template as this is just another version of the create_event form
+#birthday template
 @routes.route('/createBirthday')
+@login_required
 def createBirthday():
     return render_template('createBirthday.html')
-#christmas template can route here
-#TODO create template and refine redirect logic
+#christmas template
 @routes.route('/createChristmas')
+@login_required
 def createChristmas():
     return render_template('createChristmas.html')
 #halloween template can route here
-#TODO create template and outline logic
 @routes.route('/createHalloween')
+@login_required
 def createHalloween():
     return render_template('createHalloween.html')
 #st. patrick's day template can route here
 #TODO create template and outline logic
 @routes.route('/createStPatty')
+@login_required
 def createStPatty():
     return render_template('createStPatty.html')
 
@@ -231,3 +242,9 @@ def createStPatty():
 @routes.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+#401: user is not authorized due to not logging in
+@login_manager.unauthorized_handler
+def unauthorized():
+    # return a failed response
+    return redirect(url_for("routes.signin", alert_data='You need to sign in before doing that.')) #TODO use flash message
