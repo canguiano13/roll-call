@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from db import db#, login_manager
+from extensions import db, login_manager
 from routes import routes
 from google.cloud.sql.connector import Connector
 
@@ -23,7 +23,7 @@ unix_socket_path = f'/cloudsql/{db_connection_name}'
 
 #instantiate a google cloud connector
 connector = Connector()
-
+'''
 #turn off extra warnings
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 #configure the sqlalchemy to to use mysql
@@ -43,12 +43,14 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 
 # initialize app with extensions
 db.init_app(app)  
-#login_manager.init_app(app)
 
 #defining a model does not create it in the database.
 #need to use create_all() to create the models and tables after defining them.
 with app.app_context():
     db.create_all()
+'''
+
+login_manager.init_app(app)
 
 # import and register blueprints (routes)
 app.register_blueprint(routes)

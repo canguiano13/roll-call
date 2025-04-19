@@ -1,18 +1,25 @@
 #file defines the routes for the application
 from flask import Blueprint, Response, render_template, request, redirect, url_for, abort
 from sqlalchemy import desc
-from flask_login import current_user
+from flask_login import current_user, login_required
 from models import User, Guestbook, Message
-from db import db
+from extensions import db, login_manager
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.exc import NoResultFound
 
 #declare a blueprint hto hold all of our defined routes, expose templates folder
 routes = Blueprint('routes', __name__, template_folder='templates')
 
-#declare user loader
-
+#declare user loader for login manager
+@login_manager.user_loader
+def load_user(user_id):
+    #some things we can do with the login manager
+    #check if they are authenticated
+    print(f"***********\n\n")
+    print(f"AUTHENTICATED? {current_user}")
+    print(f"USER ID IS {user_id}\n***********")
+    print()
+    return User.get(user_id) #uses the database model to pull the id of a specified user
 
 #TODO fix routes to be in all lowercase, probably better ux
 @routes.route('/')

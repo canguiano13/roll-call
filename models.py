@@ -1,5 +1,5 @@
 #import the SQLAlchemy db module
-from db import db
+from extensions import db
 
 ## DEFINE DB MODELS FOR ORM (Object-Relational Mapping) CAPABILITIES.
 #mirrors users database
