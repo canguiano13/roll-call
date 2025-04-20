@@ -101,36 +101,63 @@ def handle_create_event():
     if request.method == 'POST':
         #retrieve form data
         form_data = request.form.to_dict()
-        
-        event_details=f'''
-            NEW EVENT REQUEST... \n
-            event_title:        {form_data['event_title']}\n
-            event_description:  {form_data['event_address']}\n
-            event_datetime:     {form_data['event_date']} \n 
-            event_time:         {form_data['event_time']} \n
-            '''
     
         #transform separate data/time entries into DATETIME data type
         datetime_format = '%Y-%m-%d %H:%M'
         event_datetime = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
 
         #using the form details and user's account data, create a new guestbook associated with the user
-        new_guestbook = Guestbook(owner_id=login_manager.user_loader, event_date=event_datetime, event_title=form_data['event_title'], event_address=form_data['event_address'])
+        #get the id from user that is currently logged in.
+        new_guestbook = Guestbook(owner_id=User.get_id(current_user), event_date=event_datetime, 
+                                  event_title=form_data['event_title'], event_address=form_data['event_address'])
 
-        #add and commit the new guestbook to our database
+        #stage the new guestbook for committment into the database
         db.session.add(new_guestbook)
-        db.session.commit()
 
+        #try to commit the new guestbook to the database
+        try:
+            db.session.commit()
+        #if an error occurs while trying to commit the new guestbook, raise an error
+        except Exception as e:
+            db.session.rollback()
+            db.session.flush() 
+            abort(400)
+            
         #redirect to newly created event
         return redirect(f'/share/{new_guestbook.event_id}')
 
+#render a custom share page for the event. restrict view to owner
+#TODO abort to unauthorization error if trying to share as non-owner
+@routes.route('/share/<event_id>')
+@login_required 
+def share_event(event_id):
+    #first query the event details
+    event_data = db.session.query(Guestbook).get(event_id)
+    #if the event doesn't exist, throw a 404 error
+    if event_data is None:
+        abort(404)
+
+    #if the person is not the owner, do not let them share the event
+    if(User.get_id(current_user) != event_data.event_id):
+        return login_manager.unauthorized()
+    return render_template('shareEvent.html', data=event_data)
+
 #allow guestbook owner to edit existing event pages. must be logged in as the owner to view
 #TODO abort to unauthorization error if trying to edit as non-owner
-@routes.route('/edit/<event_id>', methods=["GET"])
+@routes.route('/edit/<event_id>', methods=['GET'])
 @login_required
 def edit_event(event_id):
-    #will need to get all of the event details based on event id
+    #first query to see if the event exists
+    event_data = db.session.query(Guestbook).get(event_id)
+    #if the event doesn't exist, throw a 404 error
+    if event_data is None:
+        abort(404)
+    #if the user id of the person doesn't match the person editing the event, throw an error
+    if(User.get_id(current_user) != event_data.owner_id):
+        return login_manager.unauthorized()
+
     return render_template('editEvent.html', event_info={'event_id':event_id})
+
 @routes.route('/edit/<event_id>', methods=['POST'])
 def edit_event_details(event_id):
     if request.method == 'POST':
@@ -255,5 +282,5 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     # add a flash message to the sign in page while redirecting
-    flash("Sorry,you're not authorized to do that. Sign in or switch accounts.")
+    flash("Sorry. you're not authorized to do that. Sign in or switch accounts.")
     return redirect('/login')

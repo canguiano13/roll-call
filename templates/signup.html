@@ -18,9 +18,7 @@
     <!--display an alert for failed signup-->
     {% with alerts = get_flashed_messages() %}
       {% if alerts %}
-        {% for alert in alerts %}
-          <p class="user-login-alert">{{ alert }} </p>
-        {% endfor %}
+          <p class="user-login-alert">{{ alerts[0] }} </p>
       {% endif %}
     {% endwith %}
 
