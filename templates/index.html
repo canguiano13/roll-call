@@ -8,11 +8,25 @@
 </head>
 
 <body>
+<<<<<<< HEAD
   <nav class="home-navbar">
     <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
     <button type="button" id="createEvent" onclick="window.location.href='/createEvent';">Create Event</button>
   </nav>
   
+=======
+  <button type="button" id="signin">Sign In / Sign Up</button>
+  <button type="button" id="createEvent">Create Event</button>
+
+  <script type="text/javascript">
+    document.getElementById("signin").onclick = function() {
+      window.location.href = "{{ url_for('routes.login') }}";
+    };
+    document.getElementById("createEvent").onclick = function() {
+      window.location.href = "{{ url_for('routes.create_event') }}";
+    };
+  </script>
+>>>>>>> 6a87691f9943ca116b910428a3169d4266f96b2f
 
 <div class="slideshow-container">
   <div class="mySlides">
@@ -45,7 +59,17 @@
   <span class="dot" onclick="currentSlide(3)"></span>
   <span class="dot" onclick="currentSlide(4)"></span>
 </div>
+<<<<<<< HEAD
 
+=======
+  
+  
+  <!-- TODO display all of the user's current guestbooks-->
+  {% if current_user.is_authenticated %}
+  <h1>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}!</h1>
+  <a href="logout">Logout</a>
+  {% endif %}
+>>>>>>> 6a87691f9943ca116b910428a3169d4266f96b2f
 
 </body>
 </html>
