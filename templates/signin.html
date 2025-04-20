@@ -9,42 +9,24 @@
 
   <body>
     <!--redirect to home page-->
-    <button type="button" id="homepage">Home</button>
-    <script>
-      document.getElementById("homepage").onclick = function() {
-        window.location.href = "/";
-      };
-    </script>
+    <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
 
     <!--existing user form-->
     <h1>Sign Into Your Account:</h1>
-    <p>Don't have an account? <a href="/signUp">Sign up here!</a></p>
+    <p>Don't have an account? <a href="/signup">Sign up here!</a></p>
    
     <!--display an alert for failed login-->
     {% if alert_data %}
     <p class="user-login-alert">{{ alert_data }}</p>
     {% endif %}
 
-    <!--TODO fix action to point to function that handles login-->
     <form action='/login' method="post" enctype="multipart/form-data">
+      <!--email and password field-->
       <fieldset>
-        <!--
-        <label>Enter Your First Name: <input type="text" name="first-name" required /></label>
-        <label>Enter Your Last Name: <input type="text" name="last-name" required /></label>
-        -->
         <label for="email">Enter Your Email: <input name="email" type="email" required /></label>
         <label for="password">Enter Your Password: <input name="password" type="password" required /></label>
       </fieldset>
-      <!--
-      <fieldset>
-        <label>
-          <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="https://www.freecodecamp.org/news/terms-of-service/">terms and conditions</a>
-        </label>
-      </fieldset>
-      <fieldset>
-        <label>Upload a profile picture: <input type="file" name="file" /></label>
-      </fieldset>
-      -->
+
       <input type="submit" value="Submit" />
     </form>
   </body>

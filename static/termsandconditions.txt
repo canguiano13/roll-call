@@ -1,10 +1,9 @@
-           ABSOLUTELY ZERO WARRANTY TERMS & CONDITIONS
-               Version 1, April 2025
+ABSOLUTELY ZERO WARRANTY TERMS & CONDITIONS
+         Version 1, April 2025
 
 Anyone is allowed to read, ignore, copy, modify, or print this file. 
 
-             ABSOLUTELY ZERO WARRANTY TERMS & CONDITIONS
-         RULES, OR LACK THEREOF, FOR USING THIS PROJECT
+RULES FOR USING THIS PROJECT
 
 0. Use this project for whatever unholy purpose you desire. 
    Be it good, evil, weird, or just to mess around.
@@ -20,4 +19,4 @@ Anyone is allowed to read, ignore, copy, modify, or print this file.
 
 5. Terms and conditions are subject to change at any time.
 
-Have fun!
+Have Fun!

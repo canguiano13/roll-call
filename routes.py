@@ -20,11 +20,11 @@ def index():
     return render_template('index.html', guestbooks_data=None) #TODO fix this None to hold the user's guestbooks
 
 #handle new user signups
-@routes.route('/signup')
+@routes.route('/signup', methods=["GET"])
 def signup():
     #check if any alert data was passed due to failed signup attempt
     #TODO change to flask flash messages
-    return render_template('signup.html', alert_data=request.args.get('alert_data'))
+    return render_template('signup.html')
 @routes.route('/signup', methods=["POST"])
 def handle_signup():
     #only want to create user when accessed via POST request

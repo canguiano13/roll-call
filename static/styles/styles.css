@@ -229,7 +229,6 @@ a {
   display: none;
   position: relative;
 }
-
 .mySlides img {
   height: 100%;
   width: auto;
@@ -238,6 +237,26 @@ a {
   display: block;
   margin: auto;
 }
+.slideshow-container img{
+  width: 100%;
+  height: auto;
+}
+
+
+/* HOME PAGE STYLES */
+/*
+#TODO put buttons/login info into nav bar
+.home-navbar{
+  overflow: hidden;
+  background-color: #3b3b4f;
+  position: fixed;
+  top: 0;
+  height: 50px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+*/
 
 /* Ensure first image is visible by default */
 .mySlides:first-child {

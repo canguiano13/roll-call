@@ -9,23 +9,18 @@
 
   <body>
     <!-- redirect to homepage-->
-    <button type="button" id="homepage">Home</button>
-    <script type="text/javascript">
-      document.getElementById("homepage").onclick = function() {
-        window.location.href = "/";
-      };
-    </script>
+    <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
 
     <!--main form-->
     <h1>Create your Account</h1>
-    <p>Sign up to save your past events!</p>
+    <p>Sign up to create and see your past events!</p>
 
     <!--display an alert if the user already exists-->
+    <!--TODO USE FLASH MESSAGES-->
     {% if alert_data %}
     <p class="user-login-alert">{{ alert_data }} 
       <a class="user-login-alert" href="/signIn">Sign in?</a>
     </p>
-    
     {% endif %}
 
     <form action='/handleSignUp' method="post" enctype="multipart/form-data">
@@ -42,9 +37,11 @@
         </label>
       </fieldset>
 
+      <!--
       <fieldset>
         <label>Upload a profile picture: <input type="file" name="file" /></label>
       </fieldset>
+      -->
       <input type="submit" value="Submit" />
     </form>
 
