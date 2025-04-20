@@ -37,7 +37,8 @@ def handle_signup():
 
         #if there's already a user with this email so, reject signup attempt
         if duplicate_user:
-            return redirect(url_for("routes.signup", alert_data='User already exists with provided email.')) #TODO use flash message
+            flash('User already exists with current email.')
+            return redirect('/signup')
 
         #hash the password so it is not stored in plaintext
         #werkzeug has a built-in hash password function! no external libs needed :)
@@ -55,10 +56,11 @@ def handle_signup():
         return redirect('/')
 
 #handle user logins 
-@routes.route('/login')
+@routes.route('/login', methods=["GET"])
 def login():
     #check if any alert data was passed due to failed login attempt
-    return render_template('signin.html', alert_data=request.args.get('alert_data'))
+    #TODO replace with flash message
+    return render_template('signin.html')
 @routes.route('/login', methods=['POST'])
 def login_user():
     if request.method == "POST":
@@ -70,7 +72,8 @@ def login_user():
 
         #if no user exists for the email provided, reject login attempt
         if login_attempt_user is None:
-            return redirect(url_for("routes.login", alert_data='No user exists with provided email.')) #TODO use flash message
+            flash('No user exists with provided email.')
+            return redirect('/login')
 
         #if a user does exist, validate their password 
         if check_password_hash(password=form_data['password'], pwhash=login_attempt_user.password_hash):
@@ -79,7 +82,8 @@ def login_user():
             return redirect('/')
         # display alert on failed password
         else:
-            return redirect(url_for("routes.login", alert_data='Incorrect password. Try again.')) #TODO use flash messagese
+            flash('Incorrect password. Try again')
+            return redirect('/login')
 
 #allow user to logout
 @routes.route("/logout")
@@ -91,13 +95,13 @@ def logout():
 
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
 #handle creation of new guestbooks
-@routes.route('/createEvent', methods=['GET'])
+@routes.route('/createevent', methods=['GET'])
 @login_required
 def create_event():
     #if the user tries to create an event while not signed in, reroute to sign-in page
     return render_template('createEvent.html')
-@routes.route('/handleCreateEvent', methods=['POST']) 
-def handle_new_event():
+@routes.route('/createevent', methods=['POST']) 
+def handle_create_event():
     if request.method == 'POST':
         #retrieve form data
         form_data = request.form.to_dict()
@@ -126,12 +130,12 @@ def handle_new_event():
 
 #allow guestbook owner to edit existing event pages. must be logged in as the owner to view
 #TODO abort to unauthorization error if trying to edit as non-owner
-@routes.route('/edit/<event_id>')
+@routes.route('/edit/<event_id>', methods=["GET"])
 @login_required
 def edit_event(event_id):
     #will need to get all of the event details based on event id
     return render_template('editEvent.html', event_info={'event_id':event_id})
-@routes.route('/handleEditEvent/<event_id>', methods=['POST'])
+@routes.route('/edit/<event_id>', methods=['POST'])
 def edit_event_details(event_id):
     if request.method == 'POST':
         #fetch form data
@@ -173,7 +177,7 @@ def edit_event_details(event_id):
 #TODO abort to unauthorization error if trying to share as non-owner
 @routes.route('/share/<event_id>')
 @login_required 
-def share_event(event_id):#
+def share_event(event_id):
     #first query the event details
     event_data = db.session.query(Guestbook).get(event_id)
     #if the event doesn't exist, throw a 404 error
@@ -247,4 +251,5 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     # return a failed response
-    return redirect(url_for("routes.signin", alert_data='You need to sign in before doing that.')) #TODO use flash message
+    flash("You need to sign in before you can do that.")
+    return redirect(url_for("routes.signin"))

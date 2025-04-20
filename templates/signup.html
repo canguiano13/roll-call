@@ -13,17 +13,18 @@
 
     <!--main form-->
     <h1>Create your Account</h1>
-    <p>Sign up to create and see your past events!</p>
+    <p>Sign up to create your account or  <a href="/signin">sign in</a> to see your past events!</p>
+    
+    <!--display an alert for failed signup-->
+    {% with alerts = get_flashed_messages() %}
+      {% if alerts %}
+        {% for alert in alerts %}
+          <p class="user-login-alert">{{ alert }} </p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-    <!--display an alert if the user already exists-->
-    <!--TODO USE FLASH MESSAGES-->
-    {% if alert_data %}
-    <p class="user-login-alert">{{ alert_data }} 
-      <a class="user-login-alert" href="/signIn">Sign in?</a>
-    </p>
-    {% endif %}
-
-    <form action='/handleSignUp' method="post" enctype="multipart/form-data">
+    <form action='/signup' method="post" enctype="multipart/form-data">
       <fieldset>
         <label for="first_name">Enter Your First Name: <input name="first_name" type="text" required /></label>
         <label for="last_name">Enter Your Last Name: <input name="last_name" type="text" required /></label>

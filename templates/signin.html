@@ -16,17 +16,16 @@
     <p>Don't have an account? <a href="/signup">Sign up here!</a></p>
    
     <!--display an alert for failed login-->
-    {% if alert_data %}
-    <p class="user-login-alert">{{ alert_data }}</p>
-    {% endif %}
+    {% with alerts = get_flashed_messages() %}
+      {% if alerts %}
+        {% for alert in alerts %}
+          <p class="user-login-alert">{{ alert }} </p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-<<<<<<< HEAD
     <form action='/login' method="post" enctype="multipart/form-data">
       <!--email and password field-->
-=======
-    <!--TODO fix action to point to function that handles login-->
-    <form action='/login' method="post" enctype="multipart/form-data">
->>>>>>> 6a87691f9943ca116b910428a3169d4266f96b2f
       <fieldset>
         <label for="email">Enter Your Email: <input name="email" type="email" required /></label>
         <label for="password">Enter Your Password: <input name="password" type="password" required /></label>
