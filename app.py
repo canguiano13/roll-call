@@ -19,7 +19,7 @@ app = Flask(__name__)
 # initialize login management module with app
 # login manager instance must come first due to db module initialization with app context
 login_manager.init_app(app)
-login_manager.login_view = 'routes.login'
+login_manager.login_view = 'routes.login' #defines login route
 
 # define user loader mechanism for login manager
 @login_manager.user_loader

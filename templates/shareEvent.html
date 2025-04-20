@@ -15,9 +15,9 @@
             <!--top part of the card has the event details-->
             <div class="share-event-details">
                 <h1>Share your Event!</h1>
-                <h2>Title: {{ data.event_title }}</h3>
-                <h3>Date: {{ data.event_date }}</h3>
+                <h3>Title: {{ data.event_title }}</h3>
                 <h3>Location: {{ data.event_address }}</h3>
+                <h3>Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
             </div>
             <!--smaller container for link and copy button-->
             <div class="share-event-link">

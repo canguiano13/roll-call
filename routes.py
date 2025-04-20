@@ -1,7 +1,7 @@
 #file defines the routes for the application
+import flask_login
 from flask import Blueprint, Response, render_template, request, redirect, url_for, abort, flash
 from sqlalchemy import desc
-import flask_login
 from flask_login import *
 from models import User, Guestbook, Message
 from extensions import db, login_manager
@@ -20,12 +20,10 @@ def index():
     return render_template('index.html', guestbooks_data=None) #TODO fix this None to hold the user's guestbooks
 
 #handle new user signups
-@routes.route('/signup', methods=["GET"])
+@routes.route('/signup', methods=['GET'])
 def signup():
-    #check if any alert data was passed due to failed signup attempt
-    #TODO change to flask flash messages
     return render_template('signup.html')
-@routes.route('/signup', methods=["POST"])
+@routes.route('/signup', methods=['POST'])
 def handle_signup():
     #only want to create user when accessed via POST request
     if request.method == "POST":
@@ -56,10 +54,8 @@ def handle_signup():
         return redirect('/')
 
 #handle user logins 
-@routes.route('/login', methods=["GET"])
+@routes.route('/login', methods=['GET'])
 def login():
-    #check if any alert data was passed due to failed login attempt
-    #TODO replace with flash message
     return render_template('signin.html')
 @routes.route('/login', methods=['POST'])
 def login_user():
@@ -168,22 +164,16 @@ def edit_event_details(event_id):
         
         #commit to db only if object has been updated
         if changed:
-            db.session().commit()
+            try:
+                db.session.commit()
+            #if an error occurs while trying to commit the updated guestbook, raise an error
+            except Exception as e:
+                db.session.rollback()
+                db.session.flush() 
+                abort(400)
 
     #redirect back to event page
     return redirect(f'/event/{event_id}')
-
-#render a custom share page for the event. restrict view to owner
-#TODO abort to unauthorization error if trying to share as non-owner
-@routes.route('/share/<event_id>')
-@login_required 
-def share_event(event_id):
-    #first query the event details
-    event_data = db.session.query(Guestbook).get(event_id)
-    #if the event doesn't exist, throw a 404 error
-    if event_data is None:
-        abort(404)
-    return render_template('shareEvent.html', data=event_data)
 
 #anyone can view/post messages to a guestbook page
 @routes.route('/event/<event_id>', methods=['GET'])
@@ -192,28 +182,37 @@ def render_event_page(event_id):
     event_data = db.session.query(Guestbook).get(event_id)
     #get the list of messages for the event, then put them in order from most to least recent
     messages_data = db.session.query(Message).filter(Message.event_id==event_id).order_by(desc(Message.msg_id)).all()
-    #TODO define a no message notice and add it to the html template
-    #notice to display if there are no messages yet
-    no_message_notice = None
     #if the event doesn't exist, redirect to a 404
     if event_data is None:
         abort(404)
     #if the event exists but there are no messages, encourage user to share their event            
-    elif messages_data is None:
-        no_message_notice = "Hmm...there aren't any messages."
-    return render_template('event.html', event_data=event_data, messages_data=messages_data, no_message_notice=no_message_notice)
+    return render_template('event.html', event_data=event_data, messages_data=messages_data)
+
 #populate the database with incoming messages for a specific event page
 @routes.route('/postMessage/<event_id>', methods=['POST'])
 def post_message(event_id):
-    #TODO if for some reason, we can't get certain form data, redirect to a failure page or put an alert on screen or something
+    #fetch form data
     form_data = request.form.to_dict()
+
+    #ensure that the guestbook that the message is being posted to exists
+    guestbook = db.session.query(Guestbook).get(event_id)
+    #if no guestbook is found, route to error page
+    if guestbook is None:
+        abort(404)
+
     #using the form data, create a new message object. this works because we have the ORM mapping
     new_message = Message(event_id=event_id, display_name=form_data['display_name'], message_content=form_data['message_content'])
     #add the new message to our database
     db.session.add(new_message)
-    #commit it to the database
-    db.session.commit()
-    #TODO fix to redirect to event page, redirect back to share page for now
+    
+    try:
+        db.session.commit()
+    #if an error occurs while trying to commit the updated guestbook, raise an error
+    except Exception as e:
+        db.session.rollback()
+        db.session.flush() 
+        abort(400)
+    #redirect back to event page which will display new message
     return redirect(f'/event/{event_id}')
 
 #---------------PREDEFINED TEMPLATES------------------------
@@ -247,9 +246,14 @@ def createStPatty():
 def page_not_found(error):
     return render_template('404.html'), 404
 
+#400: bad request
+@routes.errorhandler(400)
+def page_not_found(error):
+    return render_template('400.html'), 400
+
 #401: user is not authorized due to not logging in
 @login_manager.unauthorized_handler
 def unauthorized():
-    # return a failed response
-    flash("You need to sign in before you can do that.")
-    return redirect(url_for("routes.signin"))
+    # add a flash message to the sign in page while redirecting
+    flash("Sorry,you're not authorized to do that. Sign in or switch accounts.")
+    return redirect('/login')

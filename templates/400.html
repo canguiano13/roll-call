@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bad request.</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+    <!-- link the stylesheet here-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+    <!--can just use the same card layout as the share cards-->
+    <div id="share-container">
+        <div id="share-card">
+            <!--top part of the card has the event details-->
+            <div class="share-event-details">
+                <h1>ERROR: 400</h1>
+                <h2>Sorry, something went wrong with your request.</h2>
+                <h3>Try again?</h3>
+                <p>Or, go back to our home page <a style="font-weight: bold; color: white;" href="/">here</a>!</p>
+            </div>
+        </div>  
+    </div>
+</body>
+</html>

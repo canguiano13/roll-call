@@ -13,7 +13,7 @@
 
     <!--main form-->
     <h1>Create your Account</h1>
-    <p>Sign up to create your account or  <a href="/signin">sign in</a> to see your past events!</p>
+    <p>Sign up to create your account or  <a href="/login">sign in</a> to see your past events!</p>
     
     <!--display an alert for failed signup-->
     {% with alerts = get_flashed_messages() %}
@@ -43,6 +43,7 @@
         <label>Upload a profile picture: <input type="file" name="file" /></label>
       </fieldset>
       -->
+
       <input type="submit" value="Submit" />
     </form>
 
