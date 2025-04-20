@@ -9,29 +9,37 @@
 
 <body>
   <nav class="home-navbar">
-    <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
+    {% if current_user.is_authenticated %}
+    <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
     <button type="button" id="createEvent" onclick="window.location.href='/createevent';">Create Event</button>
+    <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    {% else %}
+    <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
+    {% endif %}
   </nav>
-  
 
 <div class="slideshow-container">
   <div class="mySlides">
     <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1">
+    <br>
     <button class="slide-btn" id="createBirthday"onclick="window.location.href='/createBirthday';">View Birthday Event</button>
   </div>
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2">
+    <br>
     <button class="slide-btn" id="createChristmas"onclick="window.location.href='/createChristmas';">Explore Christmas Fun</button>
   </div>
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3">
+    <br>
     <button class="slide-btn" id="createHalloween" onclick="window.location.href='/createHalloween';">Join Halloween Bash</button>
   </div>
 
   <div class="mySlides" style="display: none;">
     <img src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4">
+    <br>
     <button class="slide-btn" id="createStPatty" onclick="window.location.href='/createStPatty';">Celebrate St. Patrick's Day</button>
   </div>
 
@@ -45,12 +53,6 @@
   <span class="dot" onclick="currentSlide(3)"></span>
   <span class="dot" onclick="currentSlide(4)"></span>
 </div>
-  
-  <!-- TODO display all of the user's current guestbooks-->
-  {% if current_user.is_authenticated %}
-  <h1>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}!</h1>
-  <a href="logout">Logout</a>
-  {% endif %}
 
 </body>
 </html>

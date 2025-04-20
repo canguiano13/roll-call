@@ -257,6 +257,43 @@ a {
   padding-bottom: 20px;
 }
 */
+.home-navbar {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.home-navbar p {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  color: #ecf0f1;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+button {
+  background-color: #124f79;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #23648f;
+  transform: scale(1.03);
+}
+
+button:active {
+  transform: scale(0.97);
+}
 
 /* Ensure first image is visible by default */
 .mySlides:first-child {
@@ -268,7 +305,6 @@ a {
   cursor: pointer;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   width: auto;
   margin-top: -22px;
   padding: 16px;
@@ -279,6 +315,10 @@ a {
   border-radius: 0 3px 3px 0;
   user-select: none;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.prev {
+  left: 0;
 }
 
 .next {
