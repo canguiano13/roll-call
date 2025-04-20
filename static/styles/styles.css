@@ -8,7 +8,6 @@ body {
   font-family: Tahoma, sans-serif;
   font-size: 24px;
 }
-
 h1, p {
   margin: 1em auto;
   text-align: center;
@@ -217,9 +216,10 @@ a {
 
 .slideshow-container {
   max-width: 800px;
-  height: 800px;
+  height: fit-content;
   position: relative;
   margin: auto;
+  margin-bottom: 50px;
   overflow: hidden;
   text-align: center;
 }
@@ -244,27 +244,14 @@ a {
 
 
 /* HOME PAGE STYLES */
-/*
-#TODO put buttons/login info into nav bar
-.home-navbar{
-  overflow: hidden;
-  background-color: #3b3b4f;
-  position: fixed;
-  top: 0;
-  height: 50px;
-  width: 100%;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-*/
 .home-navbar {
-  padding: 1rem 2rem;
   display: flex;
+  gap: 1rem;
+  margin-bottom: 40px;
   justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
+  padding: 1rem 2rem;
 }
-
 .home-navbar p {
   position: absolute;
   left: 50%;
@@ -354,9 +341,8 @@ button:active {
 /* Dots */
 .dots {
   text-align: center;
-  padding-top: 10px;
+  padding: 0;
 }
-
 .dot {
   cursor: pointer;
   height: 15px;
@@ -381,4 +367,33 @@ button:active {
 @keyframes fade {
   from { opacity: 0.4; }
   to { opacity: 1; }
+}
+
+/* upcoming events */
+.guestbook-preview-container{
+  margin: auto;
+  padding: 10px;
+  width: 85%;
+  text-align: left justify;
+}
+.guestbook-preview-header{
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: fit-content;
+}
+.guestbook-preview{
+  align-items: center;
+  margin: 3px;
+  margin-bottom: 5px;
+  display:inline-block;
+  overflow-x: hidden;
+  background: #2a2a45;
+  border-radius: 5px;
+  width: 400px;
+}
+.preview-button-container{
+  margin: auto;
+  width: fit-content;
+  padding-bottom: 10px;
 }

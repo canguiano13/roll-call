@@ -1,8 +1,8 @@
 #file defines the routes for the application
 import flask_login
-from flask import Blueprint, Response, render_template, request, redirect, url_for, abort, flash
-from sqlalchemy import desc
+from flask import Blueprint, render_template, request, redirect, url_for, abort, flash
 from flask_login import *
+from sqlalchemy import desc
 from models import User, Guestbook, Message
 from extensions import db, login_manager
 from datetime import datetime
@@ -14,10 +14,12 @@ routes = Blueprint('routes', __name__, template_folder='templates')
 #--------------- USER/SESSION MANAGEMENT------------------------ 
 @routes.route('/')
 def index():
-    #TODO if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
-    #if current_user.is_authenticated:
-        #user_guestbooks = db.session.query()
-    return render_template('index.html', guestbooks_data=None) #TODO fix this None to hold the user's guestbooks
+    user_guestbooks = None
+    #if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
+    if  current_user.is_authenticated:
+        current_user_id = User.get_id(current_user)
+        user_guestbooks = Guestbook.query.filter(Guestbook.owner_id==current_user_id).order_by(Guestbook.event_date).all()
+    return render_template('index.html', guestbook_data=user_guestbooks)
 
 #handle new user signups
 @routes.route('/signup', methods=['GET'])
@@ -175,10 +177,8 @@ def edit_event_details(event_id):
         if ('event_date' in updated_fields and form_data['event_date'] != '') and \
         ('event_time' in updated_fields and form_data['event_time'] != ''):
             datetime_format = '%Y-%m-%d %H:%M'
-            form_data['event_datetime'] = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
+            form_data['event_date'] = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
         #remove the keys from the dictionary to prevent  errors when updating attributes
-        if 'event_date' in updated_fields:
-            form_data.pop('event_date')
         if 'event_time' in updated_fields:
             form_data.pop('event_time')
 
@@ -186,19 +186,12 @@ def edit_event_details(event_id):
         changed = False
         for key in updated_fields:
             if form_data[key] != '' and form_data[key] is not None:
+                print(f"updated {form_data[key]}")
                 setattr(guestbook, key, form_data[key])
                 changed=True
         
         #commit to db only if object has been updated
-        if changed:
-            try:
-                db.session.commit()
-            #if an error occurs while trying to commit the updated guestbook, raise an error
-            except Exception as e:
-                db.session.rollback()
-                db.session.flush() 
-                abort(400)
-
+        db.session.commit()
     #redirect back to event page
     return redirect(f'/event/{event_id}')
 
@@ -268,7 +261,7 @@ def createStPatty():
     return render_template('createStPatty.html')
 
 #--------------- ERROR HANDLING ------------------------
-#404: page not found
+#404: page not founde
 @routes.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404

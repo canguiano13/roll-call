@@ -18,6 +18,7 @@
     {% endif %}
   </nav>
 
+<h2 class="slideshow-header">Want to make something quickly? Use a template!</h2>
 <div class="slideshow-container">
   <div class="mySlides">
     <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1">
@@ -45,14 +46,34 @@
 
   <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
   <button class="next" onclick="plusSlides(1)">&#10095;</button>
+  <div class="dots">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+    <span class="dot" onclick="currentSlide(4)"></span>
+  </div>
+  
 </div>
 
-<div class="dots">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-  <span class="dot" onclick="currentSlide(4)"></span>
-</div>
+<!--list of active guestbooks for logged in user-->
+{% if current_user.is_authenticated %}
+  <div class="guestbook-preview-container">
+    <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
+    {% for guestbook in guestbook_data %}
+    <div class="guestbook-preview">
+      <p>{{ guestbook.event_title }}</p>
+      <p>{{ guestbook.event_address}}</p>
+      <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
+      <div class="preview-button-container">
+        <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
+        <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
+        <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
+        <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
 </body>
 </html>
