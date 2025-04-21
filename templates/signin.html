@@ -11,9 +11,13 @@
     <!--redirect to home page-->
     <nav class="home-navbar">
     <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
+    <!--login button only for authenticated users, just in case of unauthorized alerts-->
+    {% if current_user.is_authenticated %}
+    <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
+    {% endif %}
     </nav>
 
-    <!--existing user form-->
+    <!--sign in form-->
     <h1>Sign Into Your Account:</h1>
     <p>Don't have an account? <a href="/signup">Sign up here!</a></p>
    
@@ -24,8 +28,8 @@
       {% endif %}
     {% endwith %}
 
+    <!--email and password form-->
     <form action='/login' method="post" enctype="multipart/form-data">
-      <!--email and password field-->
       <fieldset>
         <label for="email">Enter Your Email: <input name="email" type="email" required /></label>
         <label for="password">Enter Your Password: <input name="password" type="password" required /></label>
@@ -33,5 +37,6 @@
 
       <input type="submit" value="Submit" />
     </form>
+    
   </body>
 </html>

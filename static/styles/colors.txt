@@ -4,5 +4,4 @@
 #2a2a45 (space cadet purple) - not even sure
 #124f79 (indigo dye)         - buttons
 #23648f (lapis lazuli)       - button: hover
-
 #FFFFFF (white)             - text on darker background, forms

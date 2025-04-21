@@ -9,28 +9,23 @@
 </head>
 
 <body>
-    <!--container for entire "share" item-->
-    <div id="share-container">
-        <div id="share-card">
-            <!--top part of the card has the event details-->
-            <div class="share-event-details">
-                <h1>Share your Event!</h1>
-                <h3>Title: {{ data.event_title }}</h3>
-                <h3>Location: {{ data.event_address }}</h3>
-                <h3>Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
-            </div>
-            <!--smaller container for link and copy button-->
-            <div class="share-event-link">
-                <p>Share this link with your friends!</p>
-                <div class="share-event-link-url">
-                    <!--custom url will be populated dynamically based on event id-->
-                    <input id="custom-event-url" type="text" class="event-link" readonly />
-                    <!--when button is clicked, copy link to clipboard and perform simple animation-->
-                    <button id="copy-custom-url-button" onclick="copyCustomLink(this)">Copy</button>
-                </div>
-            </div> 
-        </div>  
-    </div>
+    <!--center card with contrasting background-->
+    <div class="share-card">
+        <!--event details-->
+        <h2 class="share-card-header">Share your Event!</h2>
+        <h3 class="share-card-details">Event: {{ data.event_title }}</h3>
+        <h3 class="share-card-details">Location: {{ data.event_address }}</h3>
+        <h3 class="share-card-details">Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
+        <!--custom url and copy button-->
+        <h4 class="share-card-subheader" style="font-style: italic;">Use this link to share with your friends!</h4>
+        <div class="share-card-url-container">
+            <!--custom url will be populated dynamically based on event id-->
+            <input class="share-card-url" id="custom-event-url" type="text" readonly />
+            <!--when button is clicked, copy link to clipboard and perform simple animation-->
+            <button onclick="copyCustomLink(this)">Copy</button>
+        </div>
+    </div>  
+
     <!-- script for custom url rendering-->
     <script>
         //create and render custom url
@@ -46,7 +41,7 @@
             //replace button text with a checkmark
             document.getElementById("copy-custom-url-button").textContent = "\u2714";
             //wait a few seconds, then reset the button text
-            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 2000);
+            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 500);
         }
     </script>
 </body>
