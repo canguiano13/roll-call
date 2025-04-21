@@ -13,8 +13,10 @@
   <!--navbar with buttons to route to relevant pages-->
   <nav class="home-navbar">
     <button type="button" onclick="window.location.href='/';">Home</button>
-    <button type="button" onclick="window.location.href='/logout';">Logout</button>
-    <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    {% if current_user.is_authenticated %}
+      <button type="button" onclick="window.location.href='/logout';">Logout</button>
+      <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    {% endif %}
   </nav>
 
   <main>

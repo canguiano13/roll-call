@@ -14,12 +14,13 @@ routes = Blueprint('routes', __name__, template_folder='templates')
 #--------------- USER/SESSION MANAGEMENT------------------------ 
 @routes.route('/')
 def index():
-    user_guestbooks = None
     #if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
-    if  current_user.is_authenticated:
+    if current_user.is_authenticated:
         current_user_id = User.get_id(current_user)
         user_guestbooks = Guestbook.query.filter(Guestbook.owner_id==current_user_id).order_by(Guestbook.event_date).all()
-    return render_template('index.html', guestbook_data=user_guestbooks)
+        return render_template('index.html', guestbook_data=user_guestbooks)
+    flash('Welcome! Please create your account to get started!')
+    return redirect('/signup')
 
 #handle new user signups
 @routes.route('/signup', methods=['GET'])
@@ -53,7 +54,7 @@ def handle_signup():
         db.session.commit()
         
         #route user back to home page, this time will display any guestbooks
-        return redirect('/')
+        return redirect('/signin')
 
 #handle user logins 
 @routes.route('/login', methods=['GET'])
@@ -154,7 +155,6 @@ def edit_event(event_id):
     #if the user id of the person doesn't match the person editing the event, throw an error
     if(User.get_id(current_user) != event_data.owner_id):
         return login_manager.unauthorized()
-
     return render_template('editEvent.html', event_info={'event_id':event_id})
 
 @routes.route('/edit/<event_id>', methods=['POST'])
@@ -204,6 +204,30 @@ def render_event_page(event_id):
         abort(404)
     #if the event exists but there are no messages, encourage user to share their event            
     return render_template('event.html', event_data=event_data, messages_data=messages_data)
+
+
+@routes.route('/delete/<event_id>', methods=['GET'])
+@login_required
+def delete_event(event_id):
+    #get all of the event details based on event id
+    event_data = db.session.query(Guestbook).get(event_id)
+    #check to make sure that the event exists
+    if event_data is None:
+        abort(400)
+    #make sure that the current user is the owner of the guestbook
+    if(User.get_id(current_user) != event_data.owner_id):
+        return login_manager.unauthorized()
+    return render_template('deleteEvent.html', event_id=event_id)
+@routes.route('/delete/<event_id>', methods=['POST'])
+def handle_delete_event(event_id):
+    #delete the event using the event id
+    event_to_delete = Guestbook.query.filter(Guestbook.event_id==event_id).one()
+    #commit changes to database instance
+    db.session.delete(event_to_delete)
+    db.session.commit()
+
+    #TODO redirect to success page
+    return redirect("/")
 
 #populate the database with incoming messages for a specific event page
 @routes.route('/postMessage/<event_id>', methods=['POST'])
@@ -272,5 +296,5 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     # add a flash message to the sign in page while redirecting
-    flash('sorry. you\'re not authorized to do that. Sign in or switch accounts.')
+    flash('Sorry. you\'re not authorized to do that. Sign in or switch accounts.')
     return redirect('/login')

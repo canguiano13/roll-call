@@ -91,7 +91,26 @@ input[type="submit"] {
 input[type="file"] {
   padding: 1px 2px;
 }
+/* caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
+/* number */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
 /* navbar */
 .home-navbar {
   display: flex;
@@ -143,8 +162,6 @@ input[type="file"] {
   width: 100%;
   height: auto;
 }
-
-/* Ensure first image is visible by default */
 .slideshow:first-child {
   display: block;
 }
@@ -182,27 +199,6 @@ input[type="file"] {
   margin-bottom: 0;
   font-size: 1.25rem;
 }
-/* caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* number */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
 /* dots */
 .dots {
   text-align: center;
@@ -249,6 +245,7 @@ input[type="file"] {
   width: fit-content;
   padding-bottom: 10px;
 }
+
 
 /****SIGN IN/SIGN UP PAGES***/
 .user-login-alert{
@@ -304,7 +301,24 @@ input[type="file"] {
   font-size: 14px;
   color: white;
 }
-
+/****DELETE PAGE STYLES***/
+.delete-card-header{
+  margin: 20px auto;
+  padding-top: 10px;
+  font-size: 1.5rem;
+  width: fit-content;
+}
+.delete-card-subheader{
+  margin: auto;
+  width: fit-content;
+  font-size: 1.25rem;
+}
+.confirm-delete-button{
+  margin-top: 40px;
+  border-radius: 5px;
+  width: 100%;
+  height: 80px;
+}
 /***EVENT PAGE STYLES***/
 .event-details-container{
   background: #2a2a45; 
