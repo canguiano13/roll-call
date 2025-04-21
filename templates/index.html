@@ -8,6 +8,7 @@
 </head>
 
 <body>
+  <!--navbar with buttons to route to relevant pages-->
   <nav class="home-navbar">
     {% if current_user.is_authenticated %}
     <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
@@ -18,62 +19,56 @@
     {% endif %}
   </nav>
 
-<h2 class="slideshow-header">Want to make something quickly? Use a template!</h2>
-<div class="slideshow-container">
-  <div class="mySlides">
-    <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Slide 1">
-    <br>
-    <button class="slide-btn" id="createBirthday"onclick="window.location.href='/createBirthday';">View Birthday Event</button>
+  <!-- slideshow with available templates -->
+  <h2 class="slideshow-header">Want to make something quickly? Use a template!</h2>
+  <div class="slideshow-container">
+    <div class="slideshow">
+      <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Flyer for birthday event">
+      <button class="create-template-button" id="createBirthday"   onclick="window.location.href='/createBirthday';">Start Birthday Event!</button>
+    </div>
+    <div class="slideshow">
+      <img src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Flyer for christmas event">
+      <button class="create-template-button" id="createChristmas"  onclick="window.location.href='/createChristmas';">Explore Christmas Fun!</button>
+    </div>
+    <div class="slideshow">
+      <img src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Flyer for halloween event">
+      <button class="create-template-button" id="createHalloween"  onclick="window.location.href='/createHalloween';">Join Halloween Bash!</button>
+    </div>
+    <div class="slideshow">
+      <img src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Flyer for saint patrick's day event">
+      <button class="create-template-button" id="createStPatty"    onclick="window.location.href='/createStPatty';">Celebrate St. Patrick's Day!</button>
+    </div>
+    <button class="prev-slide-button" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next-slide-button" onclick="plusSlides(1)">&#10095;</button>  
   </div>
-
-  <div class="mySlides" style="display: none;">
-    <img src="{{ url_for('static', filename='images/christmas-event.jpg') }}" alt="Slide 2">
-    <br>
-    <button class="slide-btn" id="createChristmas"onclick="window.location.href='/createChristmas';">Explore Christmas Fun</button>
-  </div>
-
-  <div class="mySlides" style="display: none;">
-    <img src="{{ url_for('static', filename='images/halloween-event.jpg') }}" alt="Slide 3">
-    <br>
-    <button class="slide-btn" id="createHalloween" onclick="window.location.href='/createHalloween';">Join Halloween Bash</button>
-  </div>
-
-  <div class="mySlides" style="display: none;">
-    <img src="{{ url_for('static', filename='images/stpatrick-event.jpg') }}" alt="Slide 4">
-    <br>
-    <button class="slide-btn" id="createStPatty" onclick="window.location.href='/createStPatty';">Celebrate St. Patrick's Day</button>
-  </div>
-
-  <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-  <button class="next" onclick="plusSlides(1)">&#10095;</button>
+  <!--TODO fix dots styling
   <div class="dots">
     <span class="dot" onclick="currentSlide(1)"></span>
     <span class="dot" onclick="currentSlide(2)"></span>
     <span class="dot" onclick="currentSlide(3)"></span>
     <span class="dot" onclick="currentSlide(4)"></span>
-  </div>
-  
-</div>
+  </div>  
+  -->
 
-<!--list of active guestbooks for logged in user-->
-{% if current_user.is_authenticated %}
-  <div class="guestbook-preview-container">
-    <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
-    {% for guestbook in guestbook_data %}
-    <div class="guestbook-preview">
-      <p>{{ guestbook.event_title }}</p>
-      <p>{{ guestbook.event_address}}</p>
-      <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
-      <div class="preview-button-container">
-        <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
-        <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
-        <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
-        <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
+  <!--list of active guestbooks for logged in user-->
+  {% if current_user.is_authenticated %}
+    <div class="guestbook-preview-container">
+      <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
+      {% for guestbook in guestbook_data %}
+      <div class="guestbook-preview">
+        <p>{{ guestbook.event_title }}</p>
+        <p>{{ guestbook.event_address}}</p>
+        <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
+        <div class="preview-button-container">
+          <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
+          <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
+          <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
+          <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
+        </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-{% endif %}
+  {% endif %}
 
 </body>
 </html>

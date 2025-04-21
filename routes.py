@@ -129,7 +129,6 @@ def handle_create_event():
         return redirect(f'/share/{new_guestbook.event_id}')
 
 #render a custom share page for the event. restrict view to owner
-#TODO abort to unauthorization error if trying to share as non-owner
 @routes.route('/share/<event_id>')
 @login_required 
 def share_event(event_id):
@@ -138,14 +137,12 @@ def share_event(event_id):
     #if the event doesn't exist, throw a 404 error
     if event_data is None:
         abort(404)
-
     #if the person is not the owner, do not let them share the event
-    if(User.get_id(current_user) != event_data.event_id):
+    if(User.get_id(current_user) != event_data.owner_id):
         return login_manager.unauthorized()
     return render_template('shareEvent.html', data=event_data)
 
 #allow guestbook owner to edit existing event pages. must be logged in as the owner to view
-#TODO abort to unauthorization error if trying to edit as non-owner
 @routes.route('/edit/<event_id>', methods=['GET'])
 @login_required
 def edit_event(event_id):

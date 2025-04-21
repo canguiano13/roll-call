@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <!--redirect to home page-->
+  <!--navbar with relevant links-->
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
   {% if current_user.is_authenticated %}
@@ -19,69 +19,35 @@
   </nav>
   
   <main>
-    <h1 id="title">Create an Event</h1>
-    <div class="master-div-style">
-      <p id="description">Start by telling us more about your event!</p>
-      <!--action defines where to send form data. can send to an animation/share page-->
-      <form id="survey-form" action="/createevent" method="post" enctype="multipart/form-data">
-        
-        <!-- Event Title -->
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_title" id="name-label">Title of your Event:</label>
-          </div>
-          <div class="fields">
-            <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required>
-          </div>
-        </div>
+    <h1 class="share-card-header">Create an Event</h1>
+    <h3 class="share-card-subheader" style="margin-bottom: 40px;">Start by telling us more about your event!</h3>
+    <!--action defines where to send form data. can send to an animation/share page-->
+    <form id="survey-form" action="/createevent" method="post" enctype="multipart/form-data">
+      
+      <!--title-->
+      <div class="form-rows">
+        <label for="event_title" id="name-label">Title of your Event:</label>
+        <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required>
+      </div>
+      <!-- address -->
+      <div class="form-rows">
+          <label for="event_address">Event Location:</label>
+          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+      </div>
+      <!-- date -->
+      <div class="form-rows">
+          <label for="event_date">Event Date:</label>
+          <input name="event_date" id="event-date" class="input-fields" type="date" required>
+      </div>
+      <!-- time -->
+      <div class="form-rows">
+          <label for="event_time">Event Start Time:</label>
+          <input name="event_time" id="event-time" class="input-fields" type="time" required>
+      </div>
 
-        <!-- Event Address -->
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_address">Event Location:</label>
-          </div>
-          <div class="fields">
-            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
-          </div>
-        </div>
-
-        <!-- Event Date -->
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_date">Event Date:</label>
-          </div>
-          <div class="fields">
-            <input name="event_date" id="event-date" class="input-fields" type="date" required>
-          </div>
-        </div>
-
-        <!-- Event Time -->
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_time">Event Start Time:</label>
-          </div>
-          <div class="fields">
-            <input name="event_time" id="event-time" class="input-fields" type="time" required>
-          </div>
-        </div>
-        
-        <!-- Image Upload -->
-        <!--
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_img">Upload a flyer! (optional)</label>
-          </div>
-          <div class="fields">
-            <input name="event_img" id="event-image" type="file"  accept="image/*">
-          </div>
-        </div><br>
-         -->
-        <!-- Submit Button -->
-        <br>
-        <button class="button" id="submit" type="submit">Submit</button>
-
-      </form>
-    </div>
+      <!-- Submit Button -->
+      <br><button class="button" id="submit" type="submit">Submit</button>
+    </form>
   </main>
 </body>
 
