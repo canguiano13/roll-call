@@ -20,7 +20,7 @@
   </nav>
 
   <!-- slideshow with available templates -->
-  <h2 class="slideshow-header">Want to make something quickly? Use a template!</h2>
+  <h2 class="slideshow-header">In a rush to get your event started? Use a template!</h2>
   <div class="slideshow-container">
     <div class="slideshow">
       <img src="{{ url_for('static', filename='images/birthday-event.jpg') }}" alt="Flyer for birthday event">
@@ -40,15 +40,16 @@
     </div>
     <button class="prev-slide-button" onclick="plusSlides(-1)">&#10094;</button>
     <button class="next-slide-button" onclick="plusSlides(1)">&#10095;</button>  
+    <!--TODO fix dots styling
+    <div class="dots">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+    </div>  
+    -->
   </div>
-  <!--TODO fix dots styling
-  <div class="dots">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
-    <span class="dot" onclick="currentSlide(4)"></span>
-  </div>  
-  -->
+
 
   <!--list of active guestbooks for logged in user-->
   {% if current_user.is_authenticated %}

@@ -28,7 +28,7 @@ def signup():
 @routes.route('/signup', methods=['POST'])
 def handle_signup():
     #only want to create user when accessed via POST request
-    if request.method == "POST":
+    if request.method == 'POST':
         #retrieve form data
         form_data = request.form.to_dict()
         
@@ -61,7 +61,7 @@ def login():
     return render_template('signin.html')
 @routes.route('/login', methods=['POST'])
 def login_user():
-    if request.method == "POST":
+    if request.method == 'POST':
         #retrieve login details from form
         form_data = request.form.to_dict()
 
@@ -84,7 +84,7 @@ def login_user():
             return redirect('/login')
 
 #allow user to logout
-@routes.route("/logout")
+@routes.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -272,5 +272,5 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     # add a flash message to the sign in page while redirecting
-    flash("Sorry. you're not authorized to do that. Sign in or switch accounts.")
+    flash('sorry. you\'re not authorized to do that. Sign in or switch accounts.')
     return redirect('/login')
