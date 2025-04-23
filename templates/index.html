@@ -23,19 +23,27 @@
   <h2 class="slideshow-header">In a rush to get your event started? Use a template!</h2>
   <div class="slideshow-container">
     <div class="slideshow">
-      <img src="{{ url_for('static', filename='images/birthday-event.png') }}" alt="Flyer for birthday event">
-      <button class="create-template-button" id="createBirthday"   onclick="window.location.href='/createBirthday';">Start Birthday Event!</button>
+      <a href="/createBirthday">
+        <img src="{{ url_for('static', filename='images/birthday-event.png') }}" alt="Flyer for birthday event" class="clickable-image">
+      </a>
+      <button class="create-template-button" id="createBirthday" onclick="window.location.href='/createBirthday';">Start Birthday Event!</button>
     </div>
     <div class="slideshow">
-      <img src="{{ url_for('static', filename='images/christmas-event.png') }}" alt="Flyer for christmas event">
+      <a href="/createChristmas"></a>
+        <img src="{{ url_for('static', filename='images/christmas-event.png') }}" alt="Flyer for christmas event" class="clickable-image">
+      </a>
       <button class="create-template-button" id="createChristmas"  onclick="window.location.href='/createChristmas';">Explore Christmas Fun!</button>
     </div>
     <div class="slideshow">
-      <img src="{{ url_for('static', filename='images/halloween-event.png') }}" alt="Flyer for halloween event">
+      <a href="/createHalloween">
+        <img src="{{ url_for('static', filename='images/halloween-event.png') }}" alt="Flyer for halloween event" class="clickable-image">
+      </a>
       <button class="create-template-button" id="createHalloween"  onclick="window.location.href='/createHalloween';">Join Halloween Bash!</button>
     </div>
     <div class="slideshow">
-      <img src="{{ url_for('static', filename='images/stpatrick-event.png') }}" alt="Flyer for saint patrick's day event">
+      <a href="/createStPatty">
+        <img src="{{ url_for('static', filename='images/stpatrick-event.png') }}" alt="Flyer for saint patrick's day event" class="clickable-image">
+      </a>
       <button class="create-template-button" id="createStPatty"    onclick="window.location.href='/createStPatty';">Celebrate St. Patrick's Day!</button>
     </div>
     <button class="prev-slide-button" onclick="plusSlides(-1)">&#10094;</button>
