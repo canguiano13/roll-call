@@ -10,9 +10,8 @@
   <body>
     <!--redirect to home page-->
     <nav class="home-navbar">
-    <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
-    <!--login button only for authenticated users, just in case of unauthorized alerts-->
     {% if current_user.is_authenticated %}
+    <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
     <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
     <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
     {% endif %}

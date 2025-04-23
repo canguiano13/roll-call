@@ -10,7 +10,10 @@
   <body>
     <!-- redirect to homepage-->
     <nav class="home-navbar">
+    {% if current_user.is_authenticated %}
     <button type="button" id="homepage" onclick="window.location.href='/';">Home</button>
+    <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    {% endif %}
     </nav>
     <!--main form-->
     <h1>Create your Account</h1>
