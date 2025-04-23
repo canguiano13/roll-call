@@ -12,14 +12,15 @@
   <nav class="home-navbar">
     {% if current_user.is_authenticated %}
     <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
-    <button type="button" id="createEvent" onclick="window.location.href='/createevent';">Create Event</button>
     <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
     {% else %}
     <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
     {% endif %}
   </nav>
 
-  <!-- slideshow with available templates -->
+  
+  
+    <!-- slideshow with available templates -->
   <h2 class="slideshow-header">In a rush to get your event started? Use a template!</h2>
   <div class="slideshow-container">
     <div class="slideshow">
@@ -58,6 +59,10 @@
     
   </div>
 
+  <!-- Create Custom Event-->
+  <h2 class="create-template-header">Create a Custom Event!</h2>
+  <div class = "create-template-button-container">
+    <p><button type="button" id="createEvent" onclick="window.location.href='/createevent';">Create Event</button></p>
 
   <!--list of active guestbooks for logged in user-->
   <div class="guestbook-preview-container">
