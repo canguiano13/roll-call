@@ -9,6 +9,12 @@
 </head>
 
 <body>
+    <nav class="home-navbar">
+        <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
+        {% if current_user.is_authenticated %}
+        <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+        {% endif %}
+    </nav>
     <!--center card with contrasting background-->
     <div class="share-card">
         <!--event details-->
