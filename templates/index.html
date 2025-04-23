@@ -52,24 +52,27 @@
 
 
   <!--list of active guestbooks for logged in user-->
-  {% if current_user.is_authenticated %}
-    <div class="guestbook-preview-container">
-      <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
+  <div class="guestbook-preview-container">
+    <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
+    {% if guestbook_data %}
       {% for guestbook in guestbook_data %}
       <div class="guestbook-preview">
-        <p>{{ guestbook.event_title }}</p>
-        <p>{{ guestbook.event_address}}</p>
-        <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
-        <div class="preview-button-container">
-          <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
-          <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
-          <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
-          <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
-        </div>
+          <p>{{ guestbook.event_title }}</p>
+          <p>{{ guestbook.event_address}}</p>
+          <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
+          <div class="preview-button-container">
+            <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
+            <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
+            <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
+            <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
+          </div>
       </div>
       {% endfor %}
-    </div>
-  {% endif %}
+      {% else %}
+      <h2 class="empty-container-notice">No guestbooks yet. Create your first event and share with friends!</h2>
+    {% endif %}
+  </div>
+
 
 </body>
 </html>

@@ -133,6 +133,11 @@ input[type="file"] {
   font-size: 1.75rem;
   font-weight: bold;
 }
+.empty-container-notice{
+  font-weight: bold;
+  text-shadow: 2px 2px rgb(0, 0, 0, 0.75);
+  color: #C8A2C8
+}
 
 /***HOME PAGE STYLES***/
 /* template slideshow */
@@ -221,6 +226,8 @@ input[type="file"] {
 /* upcoming events */
 .guestbook-preview-container{
   margin: auto;
+  margin-top: 40px;
+  border: 1px solid red;
   padding: 15px;
   width: 60%;
 }
@@ -363,11 +370,7 @@ input[type="file"] {
   font-size: 1.25rem;
   color: white;  
 }
-#empty-event-messages-notice{
-  font-weight: bold;
-  text-shadow: 2px 2px rgb(0, 0, 0, 0.75);
-  color: #C8A2C8
-}
+
 .message-form-container{
   margin: auto;
   overflow: hidden;

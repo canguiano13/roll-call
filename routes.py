@@ -14,6 +14,7 @@ routes = Blueprint('routes', __name__, template_folder='templates')
 #--------------- USER/SESSION MANAGEMENT------------------------ 
 @routes.route('/')
 def index():
+    user_guestbooks = None
     #if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
     if current_user.is_authenticated:
         current_user_id = User.get_id(current_user)
@@ -38,7 +39,7 @@ def handle_signup():
 
         #if there's already a user with this email so, reject signup attempt
         if duplicate_user:
-            flash('User already exists with current email.')
+            flash('User already exists with current email.', category='error')
             return redirect('/signup')
 
         #hash the password so it is not stored in plaintext
@@ -48,10 +49,12 @@ def handle_signup():
         #instantiate new user using DB model
         new_user = User(first_name=form_data['first_name'], last_name=form_data['last_name'], 
                         email=form_data['email'], password_hash=hashed_password)
-        
         #add and commit new user to database
         db.session.add(new_user)
         db.session.commit()
+
+        #if the user was successfully logged in, display a success message
+        flash("Success! Sign in to start creating events!", category='success')
         
         #route user back to home page, this time will display any guestbooks
         return redirect('/signin')
@@ -71,7 +74,7 @@ def login_user():
 
         #if no user exists for the email provided, reject login attempt
         if login_attempt_user is None:
-            flash('No user exists with provided email.')
+            flash('No user exists with provided email.', category='error')
             return redirect('/login')
 
         #if a user does exist, validate their password 
@@ -81,7 +84,7 @@ def login_user():
             return redirect('/')
         # display alert on failed password
         else:
-            flash('Incorrect password. Try again')
+            flash('Incorrect password. Try again', category='error')
             return redirect('/login')
 
 #allow user to logout
@@ -205,7 +208,6 @@ def render_event_page(event_id):
     #if the event exists but there are no messages, encourage user to share their event            
     return render_template('event.html', event_data=event_data, messages_data=messages_data)
 
-
 @routes.route('/delete/<event_id>', methods=['GET'])
 @login_required
 def delete_event(event_id):
@@ -257,7 +259,7 @@ def post_message(event_id):
     return redirect(f'/event/{event_id}')
 
 #---------------PREDEFINED TEMPLATES------------------------
-#templates help guide users on the information to put in
+#templates help guide users on the information to put in by providing "fill in the blank"-style forms
 #login is required for any template as this is just another version of the create_event form
 #birthday template
 @routes.route('/createBirthday')
@@ -275,7 +277,6 @@ def createChristmas():
 def createHalloween():
     return render_template('createHalloween.html')
 #st. patrick's day template can route here
-#TODO create template and outline logic
 @routes.route('/createStPatty')
 @login_required
 def createStPatty():
@@ -296,5 +297,5 @@ def page_not_found(error):
 @login_manager.unauthorized_handler
 def unauthorized():
     # add a flash message to the sign in page while redirecting
-    flash('Sorry. you\'re not authorized to do that. Sign in or switch accounts.')
+    flash('Sorry. you\'re not authorized to do that. Sign in or switch accounts.', category='error')
     return redirect('/login')
