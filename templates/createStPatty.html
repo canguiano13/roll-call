@@ -31,7 +31,7 @@
             <label for="event_title" id="name-label">Who's hosting the St. Patrick's Day Party:</label>
           </div>
           <div class="fields">
-            <input name="event_title" id="event-title" class="input-fields" placeholder="Host" type="text" required>
+            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s St. Patty's Party" type="text" required>
           </div>
         </div>
 
