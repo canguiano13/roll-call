@@ -57,7 +57,7 @@ def handle_signup():
         flash("Success! Sign in to start creating events!", category='success')
         
         #route user back to home page, this time will display any guestbooks
-        return redirect('/signin')
+        return redirect('/login')
 
 #handle user logins 
 @routes.route('/login', methods=['GET'])
