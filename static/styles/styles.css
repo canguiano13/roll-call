@@ -215,8 +215,9 @@ input[type="file"] {
 }
 /* dots */
 .dots {
-  text-align: center;
+  margin-top: 20px;
   padding: 0;
+  text-align: center;
 }
 .dot {
   cursor: pointer;
@@ -236,9 +237,15 @@ input[type="file"] {
 .guestbook-preview-container{
   margin: auto;
   margin-top: 40px;
-  border: 1px solid red;
+  background: #2a2a45;
+  border-radius: 10px;
   padding: 15px;
   width: 60%;
+}
+.guestbook-preview-container:after {
+  display:inline-block;
+  width:100%;
+  content:'';
 }
 .guestbook-preview-header{
   margin: auto;
