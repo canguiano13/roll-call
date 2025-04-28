@@ -28,10 +28,10 @@
         <!-- Event Title -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_title" id="name-label">Who's hosting the Christmas Party:</label>
+            <label for="event_title" id="name-label">Who's hosting the Christmas Party (60 char. max):</label>
           </div>
           <div class="fields">
-            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s Christmas Party" type="text" required>
+            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s Christmas Party" type="text" required minlength = "1" maxlength = "60">
           </div>
         </div>
 
