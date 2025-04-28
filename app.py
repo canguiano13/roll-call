@@ -15,6 +15,7 @@ load_dotenv()
 # initialize the app
 app = Flask(__name__)
 
+
 # initialize app with extensions
 # initialize login management module with app
 # login manager instance must come first due to db module initialization with app context
@@ -27,6 +28,7 @@ def load_user(user_id):
     # use the database model to get the id for users
     # since the user_id is just the primary key of our user table, use it in the query for the user
     return User.query.get(int(user_id))
+
 
 # set the secret key for the sessions
 # secret key is a series of random bytes, store in an env file for confidentiality.

@@ -13,6 +13,7 @@ routes = Blueprint('routes', __name__, template_folder='templates')
 
 #--------------- USER/SESSION MANAGEMENT------------------------ 
 @routes.route('/')
+@login_required
 def index():
     user_guestbooks = None
     #if user is logged in, create some containers at the bottom of the page to represent existing guestbooks
