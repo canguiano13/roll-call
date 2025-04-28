@@ -28,7 +28,7 @@
         <!-- Event Title -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_title" id="name-label">Whose Birthday will be celebrated (60 char. max):</label>
+            <label for="event_title" id="name-label">Who's Birthday will be celebrated?<span class="hint">(max 60 char.)</span></label>
           </div>
           <div class="fields">
             <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s Birthday" type="text" required minlength = "1" maxlength = "60">
@@ -38,17 +38,17 @@
         <!-- Event Address -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_address">Birthday Party Location:</label>
+            <label for="event_address">Birthday Party Location<span class="hint">(max 255 char.)</span></label>
           </div>
           <div class="fields">
-            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
           </div>
         </div>
 
         <!-- Event Date -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_date">Birthday Party Date:</label>
+            <label for="event_date">Birthday Party Date</label>
           </div>
           <div class="fields">
             <input name="event_date" id="event-date" class="input-fields" type="date" required>
@@ -58,7 +58,7 @@
         <!-- Event Time -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_time">Birthday Party Start Time:</label>
+            <label for="event_time">Birthday Party Start Time</label>
           </div>
           <div class="fields">
             <input name="event_time" id="event-time" class="input-fields" type="time" required>

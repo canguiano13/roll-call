@@ -420,3 +420,8 @@ input[type="file"] {
 .clickable-image {
   cursor: pointer;
 }
+
+.hint {
+  font-size: 0.85rem;
+  margin-left: 6px;   /* inline variant */
+}

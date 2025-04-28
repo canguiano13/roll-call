@@ -25,22 +25,23 @@
     <form id="survey-form" action="/edit/{{ event_info.event_id }}" method="post" enctype="multipart/form-data">
       <!-- title -->
       <div class="form-rows">
-          <label for="event_title" id="name-label">New Event Title (optional, 60 char. max):</label>
+          <label for="event_title" id="name-label">New Event Title<span class="hint">(optional, max 60 char.)</span>
+          </label>
           <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" minlength = "1" maxlength = "60">
       </div>
       <!-- address -->
       <div class="form-rows">
-          <label for="event_address">New Event Location (optional):</label>
-        <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+          <label for="event_address">New Event Location<span class="hint">(optional, max 255 char.)</span></label>
+        <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
       </div>
       <!-- date -->
       <div class="form-rows">
-          <label for="event_date">New Event Date (optional):</label>
+          <label for="event_date">New Event Date<span class="hint">(optional)</span></label>
           <input name="event_date" id="event-date" class="input-fields" type="date">
       </div>
       <!-- time -->
       <div class="form-rows">
-      <label for="event_time">New Event Start Time (optional):</label>
+      <label for="event_time">New Event Start Time<span class="hint">(optional)</span></label>
       <input name="event_time" id="event-time" class="input-fields" type="time">
       </div>
 

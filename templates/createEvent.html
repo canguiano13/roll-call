@@ -26,22 +26,23 @@
       
       <!--title-->
       <div class="form-rows">
-        <label for="event_title" id="name-label">Title of your Event:</label>
+        <label for="event_title" id="name-label">Title of your Event<span class="hint">(max 60 char.)</span>
+        </label>
         <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required minlength = "1" maxlength = "60">
       </div>
       <!-- address -->
       <div class="form-rows">
-          <label for="event_address">Event Location:</label>
-          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+          <label for="event_address">Event Location<span class="hint">(max 255 char.)</span></label>
+          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
       </div>
       <!-- date -->
       <div class="form-rows">
-          <label for="event_date">Event Date:</label>
+          <label for="event_date">Event Date</label>
           <input name="event_date" id="event-date" class="input-fields" type="date" required>
       </div>
       <!-- time -->
       <div class="form-rows">
-          <label for="event_time">Event Start Time:</label>
+          <label for="event_time">Event Start Time</label>
           <input name="event_time" id="event-time" class="input-fields" type="time" required>
       </div>
 
