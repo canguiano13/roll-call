@@ -148,6 +148,10 @@ input[type="file"] {
   color: #C8A2C8
 }
 
+input, textarea {
+  font-family: inherit;   /* <- add this line */
+}
+
 /***HOME PAGE STYLES***/
 /* template slideshow */
 .slideshow-container {
