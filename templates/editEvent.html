@@ -50,6 +50,28 @@
 
     </form>
   </main>
+  <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
+  <script>
+    document.getElementById('survey-form').addEventListener('submit', e => {
+      const form = e.target;
+
+      /* 1. Let built-in HTML5 rules fire first */
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+
+      /* 2. Combine date + time and ensure it’s later than now */
+      const chosen = new Date(`${form.event_date.value}T${form.event_time.value}`);
+      const now    = new Date();
+
+      if (chosen <= now) {                       // same instant or earlier
+        e.preventDefault();
+        alert('Please pick a date & time later than right now.');
+      }
+    });
+  </script>
 </body>
 
 </html>
