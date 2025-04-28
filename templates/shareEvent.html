@@ -12,16 +12,16 @@
     <nav class="home-navbar">
         <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
         {% if current_user.is_authenticated %}
-        <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+        <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
         {% endif %}
     </nav>
     <!--center card with contrasting background-->
     <div class="share-card">
         <!--event details-->
         <h2 class="share-card-header">Share your Event!</h2>
-        <h3 class="share-card-details">Event: {{ data.event_title }}</h3>
-        <h3 class="share-card-details">Location: {{ data.event_address }}</h3>
-        <h3 class="share-card-details">Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
+        <h3 class="share-card-details ellipsis-1">Event: {{ data.event_title }}</h3>
+        <h3 class="share-card-details ellipsis-2">Location: {{ data.event_address }}</h3>
+        <h3 class="share-card-details ellipsis-2">Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
         <!--custom url and copy button-->
         <h4 class="share-card-subheader" style="font-style: italic;">Use this link to share with your friends!</h4>
         <div class="share-card-url-container">

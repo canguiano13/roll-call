@@ -14,7 +14,7 @@
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
   {% if current_user.is_authenticated %}
-  <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+  <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
   {% endif %}
   </nav>
   
@@ -26,22 +26,23 @@
       
       <!--title-->
       <div class="form-rows">
-        <label for="event_title" id="name-label">Title of your Event:</label>
-        <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required>
+        <label for="event_title" id="name-label">Title of your Event<span class="hint">(max 60 char.)</span>
+        </label>
+        <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required minlength = "1" maxlength = "60">
       </div>
       <!-- address -->
       <div class="form-rows">
-          <label for="event_address">Event Location:</label>
-          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+          <label for="event_address">Event Location<span class="hint">(max 255 char.)</span></label>
+          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
       </div>
       <!-- date -->
       <div class="form-rows">
-          <label for="event_date">Event Date:</label>
+          <label for="event_date">Event Date</label>
           <input name="event_date" id="event-date" class="input-fields" type="date" required>
       </div>
       <!-- time -->
       <div class="form-rows">
-          <label for="event_time">Event Start Time:</label>
+          <label for="event_time">Event Start Time</label>
           <input name="event_time" id="event-time" class="input-fields" type="time" required>
       </div>
 
@@ -49,6 +50,28 @@
       <br><button class="button" id="submit" type="submit">Submit</button>
     </form>
   </main>
+  <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
+  <script>
+    document.getElementById('survey-form').addEventListener('submit', e => {
+      const form = e.target;
+
+      /* 1. Let built-in HTML5 rules fire first */
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+
+      /* 2. Combine date + time and ensure it’s later than now */
+      const chosen = new Date(`${form.event_date.value}T${form.event_time.value}`);
+      const now    = new Date();
+
+      if (chosen <= now) {                       // same instant or earlier
+        e.preventDefault();
+        alert('Please pick a date & time later than right now.');
+      }
+    });
+  </script>
 </body>
 
 </html>

@@ -12,7 +12,7 @@
   <nav class="home-navbar">
     {% if current_user.is_authenticated %}
     <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
-    <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
     {% else %}
     <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
     {% endif %}
@@ -70,8 +70,8 @@
     {% if guestbook_data %}
       {% for guestbook in guestbook_data %}
       <div class="guestbook-preview">
-          <p>{{ guestbook.event_title }}</p>
-          <p>{{ guestbook.event_address}}</p>
+          <p class="ellipsis-1">{{ guestbook.event_title }}</p>
+          <p class="ellipsis-2">{{ guestbook.event_address}}</p>
           <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
           <div class="preview-button-container">
             <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>

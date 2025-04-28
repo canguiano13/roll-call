@@ -14,7 +14,7 @@
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href = '/'">Home</button>
   {% if current_user.is_authenticated %}
-  <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+  <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
   {% endif %}
   </nav>
 
@@ -28,27 +28,28 @@
         <!-- Event Title -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_title" id="name-label">Who's hosting the Halloween Party:</label>
+            <label for="event_title" id="name-label">Who's hosting the Halloween Party?<span class="hint">(max 60 char.)</span></label>
           </div>
           <div class="fields">
-            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s Halloween Party" type="text" required>
+            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s Halloween Party" type="text" required minlength = "1" maxlength = "60">
           </div>
+          <small class="hint"> Up to 60 characters</small>
         </div>
 
         <!-- Event Address -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_address">Halloween Party Location:</label>
+            <label for="event_address">Halloween Party Location<span class="hint">(max 255 char.)</span></label>
           </div>
           <div class="fields">
-            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
           </div>
         </div>
 
         <!-- Event Date -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_date">Halloween Party Date:</label>
+            <label for="event_date">Halloween Party Date</label>
           </div>
           <div class="fields">
             <input name="event_date" id="event-date" class="input-fields" type="date" required>
@@ -58,7 +59,7 @@
         <!-- Event Time -->
         <div class="form-rows">
           <div class="labels">
-            <label for="event_time">Halloween Party Start Time:</label>
+            <label for="event_time">Halloween Party Start Time</label>
           </div>
           <div class="fields">
             <input name="event_time" id="event-time" class="input-fields" type="time" required>
@@ -84,6 +85,28 @@
       </form>
     </div>
   </main>
+  <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
+  <script>
+    document.getElementById('survey-form').addEventListener('submit', e => {
+      const form = e.target;
+
+      /* 1. Let built-in HTML5 rules fire first */
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+
+      /* 2. Combine date + time and ensure it’s later than now */
+      const chosen = new Date(`${form.event_date.value}T${form.event_time.value}`);
+      const now    = new Date();
+
+      if (chosen <= now) {                       // same instant or earlier
+        e.preventDefault();
+        alert('Please pick a date & time later than right now.');
+      }
+    });
+  </script>
 </body>
 
 </html>
