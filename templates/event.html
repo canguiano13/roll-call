@@ -43,7 +43,7 @@
       </section>
 
       <!-- form to add new messages -->
-      <h2 style="margin-bottom: 10px; padding:0;">Add your own message!</h2>
+      <h2 style="margin-bottom: 10px; padding:0;">Add your own message to RSVP!</h2>
       <section class="message-form-container">
         <form class="new-message-form" action="/postMessage/{{event_data.event_id}}" method="post" enctype="multipart/form-data">
           <!-- display name-->
@@ -52,7 +52,7 @@
 
           <!-- message content -->
           <label class="new-message-input-label"   for="message_content">Message</label>
-          <textarea class="new-message-input-field" name="message_content" placeholder="your message..." cols="1" rows="5" required></textarea>
+          <textarea class="new-message-input-field" name="message_content" placeholder="Your message..." cols="1" rows="5" required></textarea>
           
           <!-- Submit Button -->
           <button class="form-button" id="submit" type="submit">Submit</button>
