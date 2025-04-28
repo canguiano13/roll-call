@@ -1,0 +1,11 @@
+#1B1B32 (space cadet purple) - general background
+#2a2a45 (space cadet purple) - contrasting background, page sections
+#9b8a9e (light purple)       - secondary contrasting color
+#C8A2C8
+#0a0a23 (dark purple)        - text input fields
+#124f79 (indigo dye)         - buttons
+#23648f (lapis lazuli)       - button: hover
+#000000 (black)              - text on lighter background
+#FFFFFF (white)             - text on darker background, forms
+
+  

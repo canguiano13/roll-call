@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Create your Event!</title>
+  <title>Edit Event</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
@@ -10,43 +10,44 @@
 </head>
 
 <body>
-  <!--navbar with relevant links-->
+  <!--redirect to home page-->
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
   {% if current_user.is_authenticated %}
   <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
   {% endif %}
   </nav>
-  
+
   <main>
-    <h1 class="share-card-header">Create an Event</h1>
-    <h3 class="share-card-subheader" style="margin-bottom: 40px;">Start by telling us more about your event!</h3>
+    <h1>Edit your event</h1>
+    <p>Change of plans? Use this form!</p>
     <!--action defines where to send form data. can send to an animation/share page-->
-    <form id="survey-form" action="/createevent" method="post" enctype="multipart/form-data">
-      
-      <!--title-->
+    <form id="survey-form" action="/edit/{{ event_info.event_id }}" method="post" enctype="multipart/form-data">
+      <!-- title -->
       <div class="form-rows">
-        <label for="event_title" id="name-label">Title of your Event:</label>
-        <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text" required>
+          <label for="event_title" id="name-label">Title of your Event:</label>
+          <input name="event_title" id="event-title" class="input-fields" placeholder="Event Title" type="text">
       </div>
       <!-- address -->
       <div class="form-rows">
           <label for="event_address">Event Location:</label>
-          <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
+        <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3"></textarea>
       </div>
       <!-- date -->
       <div class="form-rows">
           <label for="event_date">Event Date:</label>
-          <input name="event_date" id="event-date" class="input-fields" type="date" required>
+          <input name="event_date" id="event-date" class="input-fields" type="date">
       </div>
       <!-- time -->
       <div class="form-rows">
-          <label for="event_time">Event Start Time:</label>
-          <input name="event_time" id="event-time" class="input-fields" type="time" required>
+      <label for="event_time">Event Start Time:</label>
+      <input name="event_time" id="event-time" class="input-fields" type="time">
       </div>
 
       <!-- Submit Button -->
-      <br><button class="button" id="submit" type="submit">Submit</button>
+      <br>
+      <button class="button" id="submit" type="submit">Submit</button>
+
     </form>
   </main>
 </body>

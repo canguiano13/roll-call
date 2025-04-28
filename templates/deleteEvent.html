@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete your event?</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+    <!-- link the stylesheet here-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+    <main>
+        
+    </main>
+    <!--can just use the same card layout as the share cards-->
+    <div class="share-card">
+        <h4 class="delete-card-header">Are you sure you want to delete this event?</h4>
+        <h6 class="delete-card-subheader" style="text-decoration: underline;">THIS ACTION CANNOT BE UNDONE.</h6>
+        <form class="confirm-delete-button" action="/delete/{{ event_id }}"  method="POST">
+            <input class="confirm-delete-button" type="submit" value="Yes, delete my event."></input>
+        </form>
+        <p class="delete-card-subheader">Or, go back to the <a href="/" style="font-style: italic;">home page.</a></p>
+    </div>  
+
+</body>
+</html>

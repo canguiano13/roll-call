@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ERROR: Page not found.</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed" rel="stylesheet" type="text/css">
+    <!-- link the stylesheet here-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+</head>
+
+<body>
+    <!--can just use the same card layout as the share cards-->
+    <div class="share-card">
+        <h2 class="share-card-header">ERROR: 404</h2>
+        <p class="share-card-subheader">Sorry, we couldn't find that page.</p>
+        <p class="share-card-subheader">Maybe try a different link?</p>
+        <p class="share-card-subheader">
+            Or, go back to the <a href="/" style="font-style: italic;">home page.</a>
+        </p>
+    </div>  
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+  <!-- link the stylesheet here -->
+  <link rel= "stylesheet" type="text/css" href= "{{url_for('static',filename='styles/styles.css')}}">
+  <script src="{{ url_for('static', filename='js/slideshow.js') }}"></script>
+</head>
+
+<body>
+  <!--navbar with buttons to route to relevant pages-->
+  <nav class="home-navbar">
+    {% if current_user.is_authenticated %}
+    <button type="button" id="logout" onclick="window.location.href='/logout';">Logout</button>
+    <p>Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+    {% else %}
+    <button type="button" id="signin" onclick="window.location.href='/login';">Sign In / Sign Up</button>
+    {% endif %}
+  </nav>
+
+  
+  
+    <!-- slideshow with available templates -->
+  <h2 class="slideshow-header">In a rush to get your event started? Use a template!</h2>
+  <div class="slideshow-container">
+    <div class="slideshow">
+      <a href="/createBirthday">
+        <img src="{{ url_for('static', filename='images/birthday-event.png') }}" alt="Flyer for birthday event" class="clickable-image">
+      </a>
+      <button class="create-template-button" id="createBirthday" onclick="window.location.href='/createBirthday';">Start Birthday Event!</button>
+    </div>
+    <div class="slideshow">
+      <a href="/createChristmas"></a>
+        <img src="{{ url_for('static', filename='images/christmas-event.png') }}" alt="Flyer for christmas event" class="clickable-image">
+      </a>
+      <button class="create-template-button" id="createChristmas"  onclick="window.location.href='/createChristmas';">Explore Christmas Fun!</button>
+    </div>
+    <div class="slideshow">
+      <a href="/createHalloween">
+        <img src="{{ url_for('static', filename='images/halloween-event.png') }}" alt="Flyer for halloween event" class="clickable-image">
+      </a>
+      <button class="create-template-button" id="createHalloween"  onclick="window.location.href='/createHalloween';">Join Halloween Bash!</button>
+    </div>
+    <div class="slideshow">
+      <a href="/createStPatty">
+        <img src="{{ url_for('static', filename='images/stpatrick-event.png') }}" alt="Flyer for saint patrick's day event" class="clickable-image">
+      </a>
+      <button class="create-template-button" id="createStPatty"    onclick="window.location.href='/createStPatty';">Celebrate St. Patrick's Day!</button>
+    </div>
+    <button class="prev-slide-button" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next-slide-button" onclick="plusSlides(1)">&#10095;</button>  
+    
+    <div class="dots">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+    </div>  
+    
+  </div>
+
+  <!-- Create Custom Event-->
+  <h2 class="create-template-header">Create a Custom Event!</h2>
+  <div class = "create-template-button-container">
+    <p><button type="button" id="createEvent" onclick="window.location.href='/createevent';">Create Event</button></p>
+
+  <!--list of active guestbooks for logged in user-->
+  <div class="guestbook-preview-container">
+    <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
+    {% if guestbook_data %}
+      {% for guestbook in guestbook_data %}
+      <div class="guestbook-preview">
+          <p>{{ guestbook.event_title }}</p>
+          <p>{{ guestbook.event_address}}</p>
+          <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
+          <div class="preview-button-container">
+            <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
+            <a href="/share/{{ guestbook.event_id }}"><button>Share</button></a>
+            <a href="/edit/{{ guestbook.event_id }}"><button>Edit</button></a>
+            <a href="/delete/{{ guestbook.event_id }}"><button>Delete</button></a>
+          </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <h2 class="empty-container-notice">No guestbooks yet. Create your first event and share with friends!</h2>
+    {% endif %}
+  </div>
+  <br>
+
+
+</body>
+</html>
