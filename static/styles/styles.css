@@ -299,6 +299,7 @@ input[type="file"] {
   text-align: center;
 }
 
+/* Share card header override (for truncation) */
 .share-card-header.ellipsis-1,
 .share-card-header.ellipsis-2,
 .share-card-header.ellipsis-3 {
@@ -311,6 +312,7 @@ input[type="file"] {
   text-align: center;
 }
 
+/* Share card subheader override (for truncation) */
 .share-card-subheader.ellipsis-1,
 .share-card-subheader.ellipsis-2,
 .share-card-subheader.ellipsis-3 {
@@ -323,6 +325,7 @@ input[type="file"] {
   width: fit-content;
 }
 
+/* Share Card Details override (for truncation) */
 .share-card-details.ellipsis-1,
 .share-card-details.ellipsis-2,
 .share-card-details.ellipsis-3 {
@@ -401,6 +404,13 @@ input[type="file"] {
   font-weight: bold;
   color: #C8A2C8;
 }
+
+/* Event message display name override (for truncation) */
+.event-message-display-name.ellipsis-1 {
+  display: inline-block;   
+  max-width: 100%;         
+}
+
 .event-message-body{
   margin: 5px;
   padding-left: 20px;

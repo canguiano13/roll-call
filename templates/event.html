@@ -22,9 +22,9 @@
   <main>
       <!-- event details at top of page -->
       <section class="event-details-container">
-        <h1 class="share-card-header">{{ event_data.event_title }}</h1>
-        <p class="share-card-subheader">Where: {{ event_data.event_address }}</p>
-        <p class="share-card-subheader">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
+        <h1 class="share-card-header ellipsis-1">{{ event_data.event_title }}</h1>
+        <p class="share-card-subheader ellipsis-2">Where: {{ event_data.event_address }}</p>
+        <p class="share-card-subheader ellipsis-2">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
       </section>
 
       <!-- existing comments from guests -->
@@ -33,7 +33,7 @@
         {% if messages_data %}
           {% for message in messages_data %}
           <div class="event-message">
-            <span class="event-message-display-name">{{ message.display_name }}</span>
+            <span class="event-message-display-name ellipsis-1">{{ message.display_name }}</span>
             <p class="event-message-body">{{ message.message_content }}</p>
           </div>
           {% endfor %}
@@ -47,11 +47,11 @@
       <section class="message-form-container">
         <form class="new-message-form" action="/postMessage/{{event_data.event_id}}" method="post" enctype="multipart/form-data">
           <!-- display name-->
-          <label class="new-message-input-label" for="display_name" id="name-label">Display Name:</label>
-          <input class="new-message-input-field" name="display_name" placeholder="Your name" type="text" required>
+          <label class="new-message-input-label" for="display_name" id="name-label">Display Name<span class="hint">(max 30 char.)</span></label>
+          <input class="new-message-input-field" name="display_name" placeholder="Your name" type="text" required maxlength="30">
 
           <!-- message content -->
-          <label class="new-message-input-label"   for="message_content">Message:</label>
+          <label class="new-message-input-label"   for="message_content">Message</label>
           <textarea class="new-message-input-field" name="message_content" placeholder="your message..." cols="1" rows="5" required></textarea>
           
           <!-- Submit Button -->
