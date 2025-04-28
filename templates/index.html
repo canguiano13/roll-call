@@ -70,8 +70,8 @@
     {% if guestbook_data %}
       {% for guestbook in guestbook_data %}
       <div class="guestbook-preview">
-          <p>{{ guestbook.event_title }}</p>
-          <p>{{ guestbook.event_address}}</p>
+          <p class="ellipsis-1">{{ guestbook.event_title }}</p>
+          <p class="ellipsis-2">{{ guestbook.event_address}}</p>
           <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
           <div class="preview-button-container">
             <a href="/event/{{guestbook.event_id}}"><button>Visit</button></a>
