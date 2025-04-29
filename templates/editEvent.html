@@ -21,6 +21,12 @@
   <main>
     <h1>Edit your event</h1>
     <p>Change of plans? Use this form to replace any current event details!</p>
+    <!--display an alert if they are missing either the time or date field when trying to update the time-->
+    {% with alerts = get_flashed_messages(category_filter=["error"]) %}
+      {% if alerts %}
+          <p class="alert-message">{{ alerts[0] }} </p>
+      {% endif %}
+    {% endwith %}
     <!--action defines where to send form data. can send to an animation/share page-->
     <form id="survey-form" action="/edit/{{ event_info.event_id }}" method="post" enctype="multipart/form-data">
       <!-- title -->

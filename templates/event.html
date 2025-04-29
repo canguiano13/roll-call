@@ -20,6 +20,13 @@
   </nav>
 
   <main>
+      <!--display a success message for successful message deletion -->
+      {% with alerts = get_flashed_messages(category_filter=["success"]) %}
+        {% if alerts %}
+            <p style="margin-bottom: 10px" class="success-message">{{ alerts[0] }}</p>
+        {% endif %}
+      {% endwith %}
+      
       <!-- event details at top of page -->
       <section class="event-details-container">
         <h1 class="share-card-header ellipsis-1">{{ event_data.event_title }}</h1>

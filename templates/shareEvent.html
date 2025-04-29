@@ -28,7 +28,7 @@
             <!--custom url will be populated dynamically based on event id-->
             <input class="share-card-url" id="custom-event-url" type="text" readonly />
             <!--when button is clicked, copy link to clipboard and perform simple animation-->
-            <button onclick="copyCustomLink(this)">Copy</button>
+            <button id="copy-custom-url-button" onclick="copyCustomLink(this)">Copy</button>
         </div>
     </div>  
 
@@ -47,7 +47,7 @@
             //replace button text with a checkmark
             document.getElementById("copy-custom-url-button").textContent = "\u2714";
             //wait a few seconds, then reset the button text
-            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 500);
+            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 1000);
         }
     </script>
 </body>

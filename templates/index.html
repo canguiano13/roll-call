@@ -18,9 +18,14 @@
     {% endif %}
   </nav>
 
-  
-  
-    <!-- slideshow with available templates -->
+  <!--display a success message for successful logins and event deletions -->
+  {% with alerts = get_flashed_messages(category_filter=["success"]) %}
+    {% if alerts %}
+      <p class="success-message">{{ alerts[0] }}</p>
+    {% endif %}
+  {% endwith %}
+
+  <!-- slideshow with available templates -->
   <h2 class="slideshow-header">In a rush to get your event started? Use a template!</h2>
   <div class="slideshow-container">
     <div class="slideshow">
@@ -30,7 +35,7 @@
       <button class="create-template-button" id="createBirthday" onclick="window.location.href='/createBirthday';">Start Birthday Event!</button>
     </div>
     <div class="slideshow">
-      <a href="/createChristmas"></a>
+      <a href="/createChristmas">
         <img src="{{ url_for('static', filename='images/christmas-event.png') }}" alt="Flyer for christmas event" class="clickable-image">
       </a>
       <button class="create-template-button" id="createChristmas"  onclick="window.location.href='/createChristmas';">Explore Christmas Fun!</button>
@@ -60,10 +65,10 @@
   </div>
 
   <!-- Create Custom Event-->
-  <h2 class="create-template-header">Create a Custom Event!</h2>
+  <h2 class="create-template-header">Want to create a custom event? Click here!</h2>
   <div class = "create-template-button-container">
     <p><button type="button" id="createEvent" onclick="window.location.href='/createevent';">Create Event</button></p>
-
+  </div>
   <!--list of active guestbooks for logged in user-->
   <div class="guestbook-preview-container">
     <h2 class="guestbook-preview-header">Your Upcoming Events</h2>
@@ -86,7 +91,6 @@
     {% endif %}
   </div>
   <br>
-
 
 </body>
 </html>

@@ -53,9 +53,6 @@ def handle_signup():
         #add and commit new user to database
         db.session.add(new_user)
         db.session.commit()
-
-        #if the user was successfully logged in, display a success message
-        flash("Success! Sign in to start creating events!", category='success')
         
         #route user back to home page, this time will display any guestbooks
         return redirect('/login')
@@ -82,6 +79,8 @@ def login_user():
         if check_password_hash(password=form_data['password'], pwhash=login_attempt_user.password_hash):
             # login and validate the user in the login manager
             flask_login.login_user(login_attempt_user)
+            #if the user was successfully logged in, display a success message
+            flash("Successfully logged in!", category='success')
             return redirect('/')
         # display alert on failed password
         else:
@@ -240,7 +239,7 @@ def handle_delete_event(event_id):
     db.session.delete(event_to_delete)
     db.session.commit()
 
-    #TODO redirect to success page
+    flash("Event was deleted successfully.", category='success')
     return redirect("/")
 
 #populate the database with incoming messages for a specific event page
@@ -285,7 +284,6 @@ def delete_message(msg_id):
     if current_user.user_id != event_owner_id:
         return login_manager.unauthorized()
     return render_template('deleteMessage.html', msg_id=msg_id)
-
 @routes.route('/deleteMessage/<msg_id>', methods=['POST'])
 def handle_delete_message(msg_id):
     #delete the message using its ID
@@ -296,6 +294,7 @@ def handle_delete_message(msg_id):
     db.session.delete(message_to_delete)
     db.session.commit()
 
+    flash("Message was successfully deleted.", category="success")
     return redirect(f"/event/{event_id}")
 
 #---------------PREDEFINED TEMPLATES------------------------

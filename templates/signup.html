@@ -20,11 +20,18 @@
     <p>Sign up to create your account or  <a href="/login">sign in</a> to see your past events!</p>
     
     <!--display an alert for failed signup-->
-    {% with alerts = get_flashed_messages() %}
+    {% with alerts = get_flashed_messages(category_filter=["error"]) %}
       {% if alerts %}
-          <p class="user-login-alert">{{ alerts[0] }} </p>
+          <p class="alert-message">{{ alerts[0] }} </p>
       {% endif %}
     {% endwith %}
+    <!--display welcome message when users go to home page for the first time-->
+    {% with alerts = get_flashed_messages(category_filter=["success"]) %}
+      {% if alerts %}
+          <p class="success-message">{{ alerts[0] }}</p>
+      {% endif %}
+    {% endwith %}
+    
 
     <form action='/signup' method="post" enctype="multipart/form-data">
       <fieldset>
@@ -39,12 +46,6 @@
           <input type="checkbox" name="terms" class="inline" required /> I accept the <a href="/static/termsandconditions.txt">terms and conditions</a>
         </label>
       </fieldset>
-
-      <!--
-      <fieldset>
-        <label>Upload a profile picture: <input type="file" name="file" /></label>
-      </fieldset>
-      -->
 
       <input type="submit" value="Submit" />
     </form>

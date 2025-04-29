@@ -22,9 +22,15 @@
     <p>Don't have an account? <a href="/signup">Sign up here!</a></p>
    
     <!--display an alert for failed login-->
-    {% with alerts = get_flashed_messages() %}
+    {% with alerts = get_flashed_messages(category_filter=["error"]) %}
       {% if alerts %}
-        <p class="user-login-alert">{{ alerts[0] }} </p>
+        <p class="alert-message">{{ alerts[0] }} </p>
+      {% endif %}
+    {% endwith %}
+    <!--display a success message for successful signups -->
+    {% with alerts = get_flashed_messages(category_filter=["success"]) %}
+      {% if alerts %}
+          <p class="success-message">{{ alerts[0] }}</p>
       {% endif %}
     {% endwith %}
 
@@ -34,7 +40,6 @@
         <label for="email">Enter Your Email: <input name="email" type="email" required /></label>
         <label for="password">Enter Your Password: <input name="password" type="password" required /></label>
       </fieldset>
-
       <input type="submit" value="Submit" />
     </form>
     
