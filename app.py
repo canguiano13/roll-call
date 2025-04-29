@@ -15,7 +15,6 @@ load_dotenv()
 # initialize the app
 app = Flask(__name__)
 
-
 # initialize app with extensions
 # initialize login management module with app
 # login manager instance must come first due to db module initialization with app context
@@ -29,10 +28,10 @@ def load_user(user_id):
     # since the user_id is just the primary key of our user table, use it in the query for the user
     return User.query.get(int(user_id))
 
-
 # set the secret key for the sessions
 # secret key is a series of random bytes, store in an env file for confidentiality.
 app.secret_key = os.getenv('SESSION_MGMT_BYTES').encode('utf-8')
+
 
 db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASS')
@@ -67,6 +66,7 @@ db.init_app(app)
 # use create_all() to create the models and tables after defining them.
 with app.app_context():
     db.create_all()
+
 
 # import and register blueprints (routes)
 app.register_blueprint(routes)

@@ -21,7 +21,7 @@ def index():
         current_user_id = User.get_id(current_user)
         user_guestbooks = Guestbook.query.filter(Guestbook.owner_id==current_user_id).order_by(Guestbook.event_date).all()
         return render_template('index.html', guestbook_data=user_guestbooks)
-    flash('Welcome! Please create your account to get started!')
+    flash('Welcome! Please create your account to get started!', 'success')
     return redirect('/signup')
 
 #handle new user signups
@@ -80,7 +80,7 @@ def login_user():
 
         #if a user does exist, validate their password 
         if check_password_hash(password=form_data['password'], pwhash=login_attempt_user.password_hash):
-            # login and validate the user in the login manager.
+            # login and validate the user in the login manager
             flask_login.login_user(login_attempt_user)
             return redirect('/')
         # display alert on failed password
@@ -92,9 +92,11 @@ def login_user():
 @routes.route('/logout')
 @login_required
 def logout():
+    #logout using login manager
     logout_user()
+    flash("Successfully logged out.", category='success')
     #redirect to home page on logout
-    return redirect('/') 
+    return redirect('/login') 
 
 #----------------EVENT/MESSAGE MANAGEMENT------------------------
 #handle creation of new guestbooks
@@ -174,11 +176,19 @@ def edit_event_details(event_id):
 
         #get the keys for the data that was updated
         updated_fields = form_data.keys()
+
+        #check if they are missing the time or date when trying to edit the start time
+        if (('event_date' in updated_fields and form_data['event_date'] != '') and ('event_time' not in updated_fields or form_data['event_time'] == '')) \
+         or (('event_time' in updated_fields and form_data['event_time'] != '') and ('event_date' not in updated_fields or form_data['event_date'] == '')):
+            flash('You are missing either the time or date. Please try again', category='error')
+            return redirect(f"/edit/{event_id}")
+        
         #format datetime and add to dictionary if time was updated
         if ('event_date' in updated_fields and form_data['event_date'] != '') and \
         ('event_time' in updated_fields and form_data['event_time'] != ''):
             datetime_format = '%Y-%m-%d %H:%M'
             form_data['event_date'] = datetime.strptime(f"{form_data['event_date']} {form_data['event_time']}", datetime_format)
+        
         #remove the keys from the dictionary to prevent  errors when updating attributes
         if 'event_time' in updated_fields:
             form_data.pop('event_time')
@@ -206,6 +216,7 @@ def render_event_page(event_id):
     #if the event doesn't exist, redirect to a 404
     if event_data is None:
         abort(404)
+    print(current_user.user_id)
     #if the event exists but there are no messages, encourage user to share their event            
     return render_template('event.html', event_data=event_data, messages_data=messages_data)
 
@@ -258,6 +269,34 @@ def post_message(event_id):
         abort(400)
     #redirect back to event page which will display new message
     return redirect(f'/event/{event_id}')
+
+#handles message deletion for guestbook owners
+@routes.route('/deleteMessage/<msg_id>', methods=['GET'])
+@login_required
+def delete_message(msg_id):
+    #get the message data using its ID
+    message_to_delete = Message.query.filter(Message.msg_id==msg_id).first()
+    #check to make sure the message exists
+    if not message_to_delete:
+        abort(404)
+    # check to make sure the user deleting the message is the owner
+    event_owner_id = message_to_delete.event.owner_id
+    # Check permission before deleting
+    if current_user.user_id != event_owner_id:
+        return login_manager.unauthorized()
+    return render_template('deleteMessage.html', msg_id=msg_id)
+
+@routes.route('/deleteMessage/<msg_id>', methods=['POST'])
+def handle_delete_message(msg_id):
+    #delete the message using its ID
+    message_to_delete = Message.query.filter(Message.msg_id==msg_id).one()
+    #get the event id for rerouting
+    event_id = message_to_delete.event_id
+    #commit changes to database instance
+    db.session.delete(message_to_delete)
+    db.session.commit()
+
+    return redirect(f"/event/{event_id}")
 
 #---------------PREDEFINED TEMPLATES------------------------
 #templates help guide users on the information to put in by providing "fill in the blank"-style forms
