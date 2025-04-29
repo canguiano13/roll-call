@@ -55,6 +55,7 @@ def handle_signup():
         db.session.commit()
         
         #route user back to home page, this time will display any guestbooks
+        flash("Account was successfully created!", category="success")
         return redirect('/login')
 
 #handle user logins 
@@ -179,7 +180,7 @@ def edit_event_details(event_id):
         #check if they are missing the time or date when trying to edit the start time
         if (('event_date' in updated_fields and form_data['event_date'] != '') and ('event_time' not in updated_fields or form_data['event_time'] == '')) \
          or (('event_time' in updated_fields and form_data['event_time'] != '') and ('event_date' not in updated_fields or form_data['event_date'] == '')):
-            flash('You are missing either the time or date. Please try again', category='error')
+            flash('You are missing either the time or date. Please try again.', category='error')
             return redirect(f"/edit/{event_id}")
         
         #format datetime and add to dictionary if time was updated
@@ -203,6 +204,7 @@ def edit_event_details(event_id):
         #commit to db only if object has been updated
         db.session.commit()
     #redirect back to event page
+    flash("Event was successfully updated!", category='success')
     return redirect(f'/event/{event_id}')
 
 #anyone can view/post messages to a guestbook page
