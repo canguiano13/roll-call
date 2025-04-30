@@ -33,14 +33,8 @@
         <h1 class="share-card-header ellipsis-1">{{ event_data.event_title }}</h1>
         <p class="share-card-subheader ellipsis-2">Where: {{ event_data.event_address }}</p>
         <p class="share-card-subheader ellipsis-2">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
-      </section>
-      
-      <section class="event-details-container">
-        <h1 class="share-card-header ellipsis-1">{{ event_data.event_title }}</h1>
-        <p class="share-card-subheader ellipsis-2">Where: {{ event_data.event_address }}</p>
-        <p class="share-card-subheader ellipsis-2">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
 
-        <a class="btn" href="{{ url_for('routes.download_invite', event_id=event_data.event_id) }}">
+        <a class="btn" href="{{ url_for('events.download_invite', event_id=event_data.event_id) }}">
             📅 Add&nbsp;to&nbsp;calendar
         </a>
       </section>
