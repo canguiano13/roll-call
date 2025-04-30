@@ -23,7 +23,17 @@ def index():
     if current_user.is_authenticated:
         current_user_id = User.get_id(current_user)
         user_guestbooks = Guestbook.query.filter(Guestbook.owner_id==current_user_id).order_by(Guestbook.event_date).all()
-        return render_template('index.html', guestbook_data=user_guestbooks)
+        now = datetime.now()
+
+        upcoming_events = [g for g in user_guestbooks if g.event_date >= now]
+        past_events = [g for g in user_guestbooks if g.event_date < now]
+
+        return render_template(
+            'index.html',
+            upcoming_events=upcoming_events,
+            past_events=past_events,
+            now=now
+        )
     flash('Welcome! Please create your account to get started!', 'success')
     return redirect('/signup')
 
