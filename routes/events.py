@@ -85,7 +85,7 @@ def edit_event(event_id):
         #do not allow the owner to edit only the date or time
         if (('event_date' in updated_fields and form_data['event_date']) and ('event_time' not in updated_fields or not form_data['event_time'])) or \
         (('event_time' in updated_fields and form_data['event_time']) and ('event_date' not in updated_fields or not form_data['event_date'])):
-            flash('Must edit either both or neither the date/time. Please try again.', 'error')
+            flash('Date and time must be entered together. Please try again.', 'error')
             return redirect(f"/edit/{event_id}")
         
         #combine separate date/time fields if both are provided
