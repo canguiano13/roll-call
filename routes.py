@@ -1,12 +1,15 @@
 #file defines the routes for the application
 import flask_login
-from flask import Blueprint, render_template, request, redirect, url_for, abort, flash
+from flask import send_file, abort, current_app, Blueprint, render_template, request, redirect, url_for, abort, flash
 from flask_login import *
 from sqlalchemy import desc
 from models import User, Guestbook, Message
 from extensions import db, login_manager
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from icalendar import Calendar, Event
+from datetime import datetime, timedelta, timezone
+from io import BytesIO
 
 #declare a blueprint hto hold all of our defined routes, expose templates folder
 routes = Blueprint('routes', __name__, template_folder='templates')
@@ -270,6 +273,42 @@ def post_message(event_id):
         abort(400)
     #redirect back to event page which will display new message
     return redirect(f'/event/{event_id}')
+
+# ADD TO CALENDAR
+@routes.route("/event/<event_id>/invite.ics", methods=["GET"])
+def download_invite(event_id):
+    # Using a universal .ics file so that the calendar invite can be opened on any device
+    event = db.session.query(Guestbook).get(event_id)
+    if event is None:
+        abort(404)
+
+    # iCalendar object is now instantiated
+    cal = Calendar()
+    cal.add("prodid", "-//Guestbook//EN")
+    cal.add("version", "2.0")
+
+    cal_event = Event()
+    cal_event.add("uid", f"guestbook-{event.event_id}@example.com")
+    cal_event.add("summary", event.event_title)
+
+    # Will utilize the stored datetime; as a fallback, 2-hour duration will be used
+    start = event.event_date
+    end = start + timedelta(hours=2)
+    cal_event.add("dtstart", start)
+    cal_event.add("dtend", end)
+    cal_event.add("dtstamp", datetime.now(timezone.utc))
+
+    if event.event_address:
+        cal_event.add("location", event.event_address)
+    cal_event.add("description", "Created with Guestbook!")
+
+    cal.add_component(cal_event)
+    ics_bytes = cal.to_ical()
+
+    buf = BytesIO(ics_bytes)
+    buf.seek(0)
+    filename = f"{event.event_title.replace(' ', '_')}-{start.date()}.ics"
+    return send_file(buf, as_attachment=True, download_name=filename, mimetype="text/calendar")
 
 #handles message deletion for guestbook owners
 @routes.route('/deleteMessage/<msg_id>', methods=['GET'])
