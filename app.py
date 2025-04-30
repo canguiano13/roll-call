@@ -5,15 +5,18 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db, login_manager
-from routes import routes
+from routes import register_blueprints
 from models import User
 from google.cloud.sql.connector import Connector
+
+# from routes import routes (commented since using a routes directory at the moment)
 
 #load relevant credentials from our env files
 load_dotenv()
 
 # initialize the app
 app = Flask(__name__)
+register_blueprints(app)
 
 # initialize app with extensions
 # initialize login management module with app
@@ -69,7 +72,7 @@ with app.app_context():
 
 
 # import and register blueprints (routes)
-app.register_blueprint(routes)
+# app.register_blueprint(routes) commented to see if im now able to run app with routes directory instead
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port="8080")

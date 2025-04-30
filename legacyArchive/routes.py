@@ -1,3 +1,5 @@
+# App currently uses routes directory instead ; these routes have been separated into distinct blueprints
+
 #file defines the routes for the application
 import flask_login
 from flask import send_file, abort, current_app, Blueprint, render_template, request, redirect, url_for, abort, flash
