@@ -1,4 +1,6 @@
+#!/bin/bash
 
+#script to enable debugging and run the project locally
 if [[ -z "${FLASK_DEBUG}" ]]; then
     echo "ENABLED FLASK DEBUGGING";
     export FLASK_DEBUG=1;
