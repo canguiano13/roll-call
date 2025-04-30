@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, flash, abort
 from flask_login import login_required, current_user
 
-from models import Message, Guestbook
-from extensions import db, login_manager
+from extensions import db
+from models import User, Guestbook, Message
 
 
 messages = Blueprint('messages', __name__)

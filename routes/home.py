@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, redirect, flash
 from flask_login import current_user
 from datetime import datetime
 
-from models import Guestbook, User
+from models import User, Guestbook, Message
+
 
 home = Blueprint("home", __name__)
 

@@ -1,13 +1,10 @@
 #import the SQLAlchemy db module
 from extensions import db
 from flask_login import UserMixin
-
-## DEFINE DB MODELS FOR ORM (Object-Relational Mapping) CAPABILITIES.
     
-#mirrors users database
-#uses UserMixin class to allow for login management capabilities
+#mirror users database
+#use UserMixin class to allow for login management capabilities
 class User(UserMixin, db.Model):
-    #Flask-SQLAlchemy’s model will automatically generate a table name if __tablename__ is not set
     __tablename__ = 'users'
 
     user_id         = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -26,11 +23,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<USER {self.first_name} {self.last_name} ({self.email})>'
     
-    #define implementation for get_id
+    #define implementation for login manager's get_id
     def get_id(self):
         return self.user_id
     
-#mirrors guestbooks database
+#mirror guestbooks database
 class Guestbook(db.Model):
     __tablename__ = 'guestbooks'
 
@@ -47,7 +44,7 @@ class Guestbook(db.Model):
     def __repr__(self):
         return f'<GUESTBOOK {self.event_id}: {self.event_title}@{self.event_address} STARTING {self.event_date}>'
     
-#mirrors messages database
+#mirror messages database
 class Message(db.Model):
     __tablename__ = 'messages'
 

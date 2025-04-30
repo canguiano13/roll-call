@@ -5,8 +5,8 @@ from datetime import datetime, timedelta, timezone
 from icalendar import Calendar, Event
 from io import BytesIO
 
-from models import Guestbook, User, Message
 from extensions import db, login_manager
+from models import User, Guestbook, Message
 
 
 events = Blueprint('events', __name__)
@@ -46,7 +46,7 @@ def handle_create_event():
         return redirect(f'/share/{new_guestbook.event_id}')
 
 #renders custom share page for each event
-@events.route('/share/<event_id>')
+@events.route('/share/<event_id>', methods=['GET'])
 @login_required
 def share_event(event_id):
     #get the event data using its ID
