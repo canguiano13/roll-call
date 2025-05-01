@@ -277,6 +277,7 @@ input, textarea {
 /****SIGN IN/SIGN UP PAGES***/
 .alert-message{
   margin: auto;
+  margin-bottom: 20px;
   padding: 5px;
   width: 50%;
   width: fit-content;
@@ -286,6 +287,8 @@ input, textarea {
 }
 .success-message{
   margin: auto;
+  margin-bottom: 20px;
+  padding: 5px;
   width: 50%;
   font-weight: bold;
   color: #008000;

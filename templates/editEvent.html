@@ -28,7 +28,7 @@
       {% endif %}
     {% endwith %}
     <!--action defines where to send form data. can send to an animation/share page-->
-    <form id="survey-form" action="/edit/{{ event_info.event_id }}" method="post" enctype="multipart/form-data">
+    <form id="survey-form" action="/edit/{{ event_id }}" method="post" enctype="multipart/form-data">
       <!-- title -->
       <div class="form-rows">
           <label for="event_title" id="name-label">New Event Title<span class="hint">(optional, max 60 char.)</span>
@@ -57,6 +57,7 @@
 
     </form>
   </main>
+
   <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
   <script>
     document.getElementById('survey-form').addEventListener('submit', e => {
@@ -79,6 +80,7 @@
       }
     });
   </script>
+  
 </body>
 
 </html>
