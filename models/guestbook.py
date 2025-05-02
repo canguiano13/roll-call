@@ -13,7 +13,7 @@ class Guestbook(db.Model):
     event_img       = db.Column(db.Text)
 
     #define a relationship with the messages table
-    messages = db.relationship('Message', backref='event', lazy=True)
+    messages = db.relationship('Message', backref='event', passive_deletes=True, lazy=True)
 
     def __repr__(self):
         return f'<GUESTBOOK {self.event_id}: {self.event_title}@{self.event_address} STARTING {self.event_date}>'

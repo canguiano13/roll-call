@@ -63,6 +63,7 @@ def share_event(event_id):
 
 #handles editing of existing event's details
 @events.route('/edit/<event_id>', methods=['GET', 'POST'])
+@login_required
 def edit_event(event_id):
     #get the event details using the ID
     guestbook = Guestbook.query.get(event_id)
@@ -127,7 +128,8 @@ def render_event(event_id):
 
 #handles deletion of existing events
 @events.route('/delete/<event_id>', methods=['GET', 'POST'])
-def handle_delete_event(event_id):
+@login_required
+def delete_event(event_id):
     #get event details using its ID
     event_to_delete = Guestbook.query.get(event_id)
     #validate existence of event
@@ -135,7 +137,7 @@ def handle_delete_event(event_id):
         abort(404)
     if User.get_id(current_user) != event_to_delete.owner_id:
         abort(403)
-
+    
     #render frontend confirmation page for GET request
     if request.method == 'GET':
         return render_template('deleteEvent.html', event_id=event_id)
@@ -143,12 +145,14 @@ def handle_delete_event(event_id):
     elif request.method == 'POST':
         #delete event
         db.session.delete(event_to_delete)
+        
         #propagate updates to database
         try:
             db.session.commit()
-        except Exception:
+        except Exception as e:
             db.session.rollback()
             db.session.flush()
+            print(e)
             abort(500)
         #display success message on next page
         flash("Event was deleted successfully.", 'success')
