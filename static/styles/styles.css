@@ -251,8 +251,10 @@ input, textarea {
   margin-top: 30px;
   background: #1B1B32;
   border-radius: 10px;
+  overflow-x: hidden;
   padding: 15px;
-  width: 850px;
+  width: 900px;
+  height: 800px;
 }
 .guestbook-preview-container:after {
   display:inline-block;
@@ -267,13 +269,16 @@ input, textarea {
 }
 .guestbook-preview{
   align-items: center;
+  vertical-align: top;
   margin: 3px;
   margin-bottom: 5px;
   display: inline-block;
-  overflow-x: hidden;
+  overflow: hidden;
+  padding: 15px;
   background: #2a2a45;
   border-radius: 5px;
   width: 400px;
+  height: 350px;
 }
 .preview-button-container{
   margin: auto;
