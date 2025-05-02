@@ -8,6 +8,9 @@ __pycache__/
 .venv
 .venv/
 
+#ignore local bash scripts
+scripts/*
+
 #ensure that the container has the env file for db credentials
 !.env
 !sqldevcredentials.json
