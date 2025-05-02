@@ -254,7 +254,9 @@ input, textarea {
   overflow-x: hidden;
   padding: 15px;
   width: 900px;
-  height: 800px;
+  height: fit-content;
+  min-height: 400px;
+  max-height: 800px;
 }
 .guestbook-preview-container:after {
   display:inline-block;
