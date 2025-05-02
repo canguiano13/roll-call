@@ -15,7 +15,11 @@
     <button type="button" onclick="window.location.href='/';">Home</button>
     {% if current_user.is_authenticated %}
       <button type="button" onclick="window.location.href='/logout';">Logout</button>
-      <button type="button" onclick="window.location.href='/edit/{{ event_data.event_id }}'">Edit</button>
+      <!--only display the edit and share buttons for the owner-->
+      {% if current_user.is_authenticated and current_user.user_id == event_data.owner_id %}
+        <button type="button" onclick="window.location.href='/edit/{{ event_data.event_id }}'">Edit</button>
+        <button type="button" onclick="window.location.href='/share/{{ event_data.event_id }}'">Share</button>
+      {% endif %}
       <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
     {% endif %}
   </nav>
@@ -34,7 +38,7 @@
         <p class="share-card-subheader ellipsis-2">Where: {{ event_data.event_address }}</p>
         <p class="share-card-subheader ellipsis-2">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
 
-        <a class="btn" href="{{ url_for('events.download_invite', event_id=event_data.event_id) }}">
+        <a class="calendar-download" href="{{ url_for('events.download_invite', event_id=event_data.event_id) }}">
             📅 Add&nbsp;to&nbsp;calendar
         </a>
       </section>

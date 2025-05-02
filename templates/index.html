@@ -92,24 +92,25 @@
     {% else %}
       <h2 class="empty-container-notice">No upcoming events.</h2>
     {% endif %}
-
-    <!-- Past Events -->
-    <h2 class="guestbook-preview-header">Your Past Events</h2>
-    {% if past_events %}
-      {% for guestbook in past_events %}
-      <div class="guestbook-preview past-event">
-          <p class="ellipsis-1">{{ guestbook.event_title }}</p>
-          <p class="ellipsis-2">{{ guestbook.event_address }}</p>
-          <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
-          <div class="preview-button-container">
-            <a href="/event/{{guestbook.event_id}}"><button>View</button></a>
-          </div>
-      </div>
-      {% endfor %}
-    {% else %}
-      <h2 class="empty-container-notice">No past events yet.</h2>
-    {% endif %}
-  </div>
+    </div>
+    <div class="guestbook-preview-container">
+      <!-- Past Events -->
+      <h2 class="guestbook-preview-header">Your Past Events</h2>
+      {% if past_events %}
+        {% for guestbook in past_events %}
+        <div class="guestbook-preview past-event">
+            <p class="ellipsis-1">{{ guestbook.event_title }}</p>
+            <p class="ellipsis-2">{{ guestbook.event_address }}</p>
+            <p>{{ guestbook.event_date.strftime('%B %d, %Y') }}</p>
+            <div class="preview-button-container">
+              <a href="/event/{{guestbook.event_id}}"><button>View</button></a>
+            </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <h2 class="empty-container-notice">No past events yet.</h2>
+      {% endif %}
+    </div>
   <br>
 
 </body>

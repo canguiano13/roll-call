@@ -11,6 +11,7 @@
 <body>
     <nav class="home-navbar">
         <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
+        <button type="button" onclick="window.location.href='/event/{{ data.event_id }}'">Go To Event</button>
         {% if current_user.is_authenticated %}
         <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
         {% endif %}
@@ -23,7 +24,7 @@
         <h3 class="share-card-details ellipsis-2">Location: {{ data.event_address }}</h3>
         <h3 class="share-card-details ellipsis-2">Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
         
-        <a class="btn" href="{{ url_for('events.download_invite', event_id=data.event_id) }}">
+        <a class="share-card-details calendar-download" href="{{ url_for('events.download_invite', event_id=data.event_id) }}">
             📅 Add&nbsp;to&nbsp;calendar
         </a>
         <!--custom url and copy button-->
