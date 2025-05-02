@@ -13,6 +13,7 @@
   <!--redirect to home page-->
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
+  <button type="button" onclick="window.location.href='/event/{{ event_id }}'">Go To Event</button>
   {% if current_user.is_authenticated %}
   <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
   {% endif %}
