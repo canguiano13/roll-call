@@ -31,7 +31,7 @@
             <label for="event_title" id="name-label">Who's hosting the St. Patrick's Day Party?<span class="hint">(max 60 char.)</span></label>
           </div>
           <div class="fields">
-            <input name="event_title" id="event-title" class="input-fields" placeholder="{{ current_user.first_name }} {{ current_user.last_name }}'s St. Patty's Party" type="text" required minlength = "1" maxlength = "60">
+            <input name="event_title" id="event-title" class="input-fields" value="{{ current_user.first_name }}'s St. Patty's Party" value="{{ current_user.first_name }}'s St. Patty's Party" type="text" required minlength = "1" maxlength = "60">
           </div>
         </div>
 
@@ -41,7 +41,7 @@
             <label for="event_address">St. Patrick's Day Party Location<span class="hint">(max 255 char.)</span></label>
           </div>
           <div class="fields">
-            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255"></textarea>
+            <textarea name="event_address" id="event-description" class="input-fields"  placeholder="Event Location" cols="1" rows="3" maxlength="255">My House!</textarea>
           </div>
         </div>
 
@@ -65,18 +65,6 @@
           </div>
         </div>
 
-        <!-- Image Upload -->
-        <!--
-        <div class="form-rows">
-          <div class="labels">
-            <label for="event_img">Upload a flyer! (optional)</label>
-          </div>
-          <div class="fields">
-            <input name="event_img" id="event-image" type="file"  accept="image/*">
-          </div>
-        </div><br>
-        -->
-
         <!-- Submit Button -->
         <br>
         <button class="button" id="submit" type="submit">Submit</button>
@@ -84,6 +72,10 @@
       </form>
     </div>
   </main>
+  
+  <!--js for autofilling form fields-->
+  <script src="{{ url_for('static', filename='js/autofill.js') }}"></script>
+
   <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
   <script>
     document.getElementById('survey-form').addEventListener('submit', e => {

@@ -41,19 +41,19 @@ function showSlides(n) {
     switch (slideIndex) {
       case 1:
         button.textContent = "View Birthday Event";
-        button.onclick = () => window.location.href = "/events/birthday";
+        button.onclick = () => window.location.href = "/createBirthday";
         break;
       case 2:
         button.textContent = "Explore Christmas Fun";
-        button.onclick = () => window.location.href = "/events/christmas";
+        button.onclick = () => window.location.href = "/createChristmas";
         break;
       case 3:
         button.textContent = "Join Halloween Bash";
-        button.onclick = () => window.location.href = "/events/halloween";
+        button.onclick = () => window.location.href = "/createHalloween";
         break;
       case 4:
         button.textContent = "Celebrate St. Patrick's Day";
-        button.onclick = () => window.location.href = "/events/stpatrick";
+        button.onclick = () => window.location.href = "/createStPatty";
         break;
       default:
         button.textContent = "Explore Event";

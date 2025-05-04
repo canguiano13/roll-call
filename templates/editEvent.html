@@ -13,6 +13,7 @@
   <!--redirect to home page-->
   <nav class="home-navbar">
   <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
+  <button type="button" onclick="window.location.href='/event/{{ event_id }}'">Go To Event</button>
   {% if current_user.is_authenticated %}
   <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
   {% endif %}
@@ -21,8 +22,14 @@
   <main>
     <h1>Edit your event</h1>
     <p>Change of plans? Use this form to replace any current event details!</p>
+    <!--display an alert if they are missing either the time or date field when trying to update the time-->
+    {% with alerts = get_flashed_messages(category_filter=["error"]) %}
+      {% if alerts %}
+          <p class="alert-message">{{ alerts[0] }} </p>
+      {% endif %}
+    {% endwith %}
     <!--action defines where to send form data. can send to an animation/share page-->
-    <form id="survey-form" action="/edit/{{ event_info.event_id }}" method="post" enctype="multipart/form-data">
+    <form id="survey-form" action="/edit/{{ event_id }}" method="post" enctype="multipart/form-data">
       <!-- title -->
       <div class="form-rows">
           <label for="event_title" id="name-label">New Event Title<span class="hint">(optional, max 60 char.)</span>
@@ -51,6 +58,7 @@
 
     </form>
   </main>
+
   <!-- ─── FUTURE-DATE VALIDATION SCRIPT ───────────────────────────── -->
   <script>
     document.getElementById('survey-form').addEventListener('submit', e => {
@@ -73,6 +81,7 @@
       }
     });
   </script>
+  
 </body>
 
 </html>

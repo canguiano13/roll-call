@@ -152,6 +152,14 @@ input, textarea {
   font-family: inherit;   /* <- add this line */
 }
 
+/* calendar downloads */
+.calendar-download{
+  margin: auto;
+  padding: 5px;
+  width: fit-content;
+  text-decoration: none;
+}
+
 /***HOME PAGE STYLES***/
 /* template slideshow */
 .slideshow-container {
@@ -240,11 +248,15 @@ input, textarea {
 /* upcoming events */
 .guestbook-preview-container{
   margin: auto;
-  margin-top: 40px;
-  background: #2a2a45;
+  margin-top: 30px;
+  background: #1B1B32;
   border-radius: 10px;
+  overflow-x: hidden;
   padding: 15px;
-  width: 60%;
+  width: 900px;
+  height: fit-content;
+  min-height: 400px;
+  max-height: 800px;
 }
 .guestbook-preview-container:after {
   display:inline-block;
@@ -253,19 +265,22 @@ input, textarea {
 }
 .guestbook-preview-header{
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 5px;
   width: fit-content;
 }
 .guestbook-preview{
   align-items: center;
+  vertical-align: top;
   margin: 3px;
   margin-bottom: 5px;
   display: inline-block;
-  overflow-x: hidden;
+  overflow: hidden;
+  padding: 15px;
   background: #2a2a45;
   border-radius: 5px;
   width: 400px;
+  height: 350px;
 }
 .preview-button-container{
   margin: auto;
@@ -275,11 +290,23 @@ input, textarea {
 
 
 /****SIGN IN/SIGN UP PAGES***/
-.user-login-alert{
+.alert-message{
   margin: auto;
+  margin-bottom: 20px;
+  padding: 5px;
   width: 50%;
-  font-size: 16px;
+  width: fit-content;
+  font-weight: bold;
   color: red;
+  text-shadow: 1px 1px black;
+}
+.success-message{
+  margin: auto;
+  margin-bottom: 20px;
+  padding: 5px;
+  width: 50%;
+  font-weight: bold;
+  color: #008000;
   text-shadow: 1px 1px black;
 }
 
@@ -392,21 +419,41 @@ input, textarea {
   width: 60%;
   max-height: 550px; /* set a max height for events with many messages */ 
 }
-.event-message{
-  margin: auto;
-  margin-bottom: 5px; /*add space between individual messages*/
-  background: #2a2a45;
-  border-radius: 5px;
-  text-align: left;
-  padding: 5px 5px 5px 15px;  /*add space on the left side of each message */
-  width: 90%;
-  height: fit-content;
-}
 .event-message-display-name{  
   width: 100%;
   font-size: 1.5rem;
   font-weight: bold;
   color: #C8A2C8;
+}
+.event-message {
+  position: relative;
+  margin: auto;
+  margin-bottom: 5px;
+  background: #2a2a45;
+  border-radius: 5px;
+  text-align: left;
+  padding: 5px 35px 5px 15px;
+  width: 90%;
+  height: fit-content;
+}
+.delete-message-button {
+  display: none;
+  margin-right: 0px;
+  margin-left: -20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  box-shadow: 1px 1px black;
+  border-radius: 2px;
+  background-color: red;
+  padding: 0;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.event-message:hover .delete-message-button {
+  display: inline; /* Show delete button when message is hovered */
 }
 
 /* Event message display name override (for truncation) */

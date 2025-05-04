@@ -1,20 +1,21 @@
-# app.py
-
+# intialize app with extensions
 import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db, login_manager
-from routes import routes
-from models import User
+from models import User, Guestbook, Message
+from routes import register_blueprints
 from google.cloud.sql.connector import Connector
 
 #load relevant credentials from our env files
 load_dotenv()
 
 # initialize the app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
+# import and register blueprints (app routes)
+register_blueprints(app)
 
 # initialize app with extensions
 # initialize login management module with app
@@ -29,11 +30,11 @@ def load_user(user_id):
     # since the user_id is just the primary key of our user table, use it in the query for the user
     return User.query.get(int(user_id))
 
-
 # set the secret key for the sessions
 # secret key is a series of random bytes, store in an env file for confidentiality.
 app.secret_key = os.getenv('SESSION_MGMT_BYTES').encode('utf-8')
 
+#pull database credentials from the .env file
 db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASS')
 db_name = os.getenv('DB_NAME')
@@ -44,9 +45,9 @@ unix_socket_path = f'/cloudsql/{db_connection_name}'
 #instantiate a google cloud connector
 connector = Connector()
 
-#turn off extra warnings
+#turn off extra sqlalchemy warnings
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-#configure the sqlalchemy to to use mysql
+#configure sqlalchemy to to use mysql
 app.config['SQLALCHEMY_DATABASE_URI']= 'mysql+pymysql://'
 #override the default sqlalchemy engine options to connect to the cloud SQL instance
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
@@ -68,8 +69,10 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-# import and register blueprints (routes)
-app.register_blueprint(routes)
+# tears down database connections when the app shuts down
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port="8080")

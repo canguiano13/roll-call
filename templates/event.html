@@ -15,16 +15,32 @@
     <button type="button" onclick="window.location.href='/';">Home</button>
     {% if current_user.is_authenticated %}
       <button type="button" onclick="window.location.href='/logout';">Logout</button>
+      <!--only display the edit and share buttons for the owner-->
+      {% if current_user.is_authenticated and current_user.user_id == event_data.owner_id %}
+        <button type="button" onclick="window.location.href='/edit/{{ event_data.event_id }}'">Edit</button>
+        <button type="button" onclick="window.location.href='/share/{{ event_data.event_id }}'">Share</button>
+      {% endif %}
       <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
     {% endif %}
   </nav>
 
   <main>
+      <!--display a success message for successful message deletion -->
+      {% with alerts = get_flashed_messages(category_filter=["success"]) %}
+        {% if alerts %}
+            <p style="margin-bottom: 10px" class="success-message">{{ alerts[0] }}</p>
+        {% endif %}
+      {% endwith %}
+      
       <!-- event details at top of page -->
       <section class="event-details-container">
         <h1 class="share-card-header ellipsis-1">{{ event_data.event_title }}</h1>
         <p class="share-card-subheader ellipsis-2">Where: {{ event_data.event_address }}</p>
         <p class="share-card-subheader ellipsis-2">When: {{ event_data.event_date.strftime('%B %d, %Y') }}</p>
+
+        <a class="calendar-download" href="{{ url_for('events.download_invite', event_id=event_data.event_id) }}">
+            📅 Add&nbsp;to&nbsp;calendar
+        </a>
       </section>
 
       <!-- existing comments from guests -->
@@ -32,9 +48,13 @@
       <section class="event-messages-container">
         {% if messages_data %}
           {% for message in messages_data %}
-          <div class="event-message">
+            <div class="event-message">
             <span class="event-message-display-name ellipsis-1">{{ message.display_name }}</span>
-            <p class="event-message-body">{{ message.message_content }}</p>
+            <!--give owners the option to delete messages-->
+            {% if current_user.is_authenticated and current_user.user_id == event_data.owner_id %}
+              <a class="delete-message-button" href="/deleteMessage/{{ message.msg_id }}">X</a>
+            {% endif %}
+            <p class="event-message-body">{{ message.message_content }}</p>    
           </div>
           {% endfor %}
         {% else %}
@@ -45,7 +65,7 @@
       <!-- form to add new messages -->
       <h2 style="margin-bottom: 10px; padding:0;">Add your own message to RSVP!</h2>
       <section class="message-form-container">
-        <form class="new-message-form" action="/postMessage/{{event_data.event_id}}" method="post" enctype="multipart/form-data">
+        <form class="new-message-form" action="/postMessage/{{ event_data.event_id }}" method="post" enctype="multipart/form-data">
           <!-- display name-->
           <label class="new-message-input-label" for="display_name" id="name-label">Display Name<span class="hint">(max 30 char.)</span></label>
           <input class="new-message-input-field" name="display_name" placeholder="Your name" type="text" required maxlength="30">

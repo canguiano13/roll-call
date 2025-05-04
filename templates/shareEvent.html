@@ -11,6 +11,7 @@
 <body>
     <nav class="home-navbar">
         <button type="button" id="homepage" onclick="window.location.href='/'">Home</button>
+        <button type="button" onclick="window.location.href='/event/{{ data.event_id }}'">Go To Event</button>
         {% if current_user.is_authenticated %}
         <p class="ellipsis-1">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
         {% endif %}
@@ -22,13 +23,17 @@
         <h3 class="share-card-details ellipsis-1">Event: {{ data.event_title }}</h3>
         <h3 class="share-card-details ellipsis-2">Location: {{ data.event_address }}</h3>
         <h3 class="share-card-details ellipsis-2">Date: {{ data.event_date.strftime('%B %d, %Y') }}</h3>
+        
+        <a class="share-card-details calendar-download" href="{{ url_for('events.download_invite', event_id=data.event_id) }}">
+            📅 Add&nbsp;to&nbsp;calendar
+        </a>
         <!--custom url and copy button-->
         <h4 class="share-card-subheader" style="font-style: italic;">Use this link to share with your friends!</h4>
         <div class="share-card-url-container">
             <!--custom url will be populated dynamically based on event id-->
             <input class="share-card-url" id="custom-event-url" type="text" readonly />
             <!--when button is clicked, copy link to clipboard and perform simple animation-->
-            <button onclick="copyCustomLink(this)">Copy</button>
+            <button id="copy-custom-url-button" onclick="copyCustomLink(this)">Copy</button>
         </div>
     </div>  
 
@@ -47,7 +52,7 @@
             //replace button text with a checkmark
             document.getElementById("copy-custom-url-button").textContent = "\u2714";
             //wait a few seconds, then reset the button text
-            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 500);
+            setTimeout(() =>  document.getElementById("copy-custom-url-button").textContent = "Copy", 1000);
         }
     </script>
 </body>
