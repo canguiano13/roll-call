@@ -11,7 +11,7 @@ The main features supported by this application include:
 - Message moderation capabilities
 - Templates for quick event creation
 
-This project was made as a part of CS496: Cloud Computing during the Spring 2025 session. 
+This project was made as a part of CS496: Cloud Computing at SDSU. 
 
 ## Authors:
 Carlos Anguiano, Vincent Huynh, Bobby Tomlinson, Jaelen Crite, Logan Wolff
