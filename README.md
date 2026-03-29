@@ -1,2 +1,27 @@
-# guestbook
+# RollCall
+A cloud-based virtual guestbook app that lets you plan and share events.
+
+## Overview
+The goal of this project was to create a virtual guestbook service that allows users to create, share, and comment on event pages. Users can create custom event pages or use on of several existing templates, and guests can leave messages on the event pages to build hype around the events. 
+
+The main features supported by this application include:
+- Custom guestbook creation with data validation
+- User authentication and session management
+- Support for CRUD operations on guestbooks and messages
+- Message moderation capabilities
+- Templates for quick event creation
+
+This project was made as a part of CS496: Cloud Computing during the Spring 2025 session. 
+
+## Authors:
+Carlos Anguiano, Vincent Huynh, Bobby Tomlinson, Jaelen Crite, Logan Wolff
+
+## Tech Stack
+Frontend: HTML/CSS/JavaScript + Jinja2 Templating
+Backend: Python (Flask), Flask-SQLAlchemy
+Database: SQL
+Cloud Deployment: Docker + Google Cloud Run
+Version Control: Git + GitHub
+
+*Note: This service is no longer active on Google Cloud. Local deployment for testing is possible using the `run.sh` script under `/scripts`.*
 Cloud-based virtual guestbook app
