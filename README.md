@@ -11,7 +11,7 @@ The main features supported by this application include:
 - Message moderation capabilities
 - Templates for quick event creation
 
-This project was made as a part of CS496: Cloud Computing at SDSU. 
+This project was made as a part of CS496: Cloud Computing at SDSU. *Note: This service is no longer active on Google Cloud. Local deployment for testing is possible using the `run.sh` script under `/scripts`.*
 
 ## Authors:
 Carlos Anguiano, Vincent Huynh, Bobby Tomlinson, Jaelen Crite, Logan Wolff
@@ -23,4 +23,3 @@ Carlos Anguiano, Vincent Huynh, Bobby Tomlinson, Jaelen Crite, Logan Wolff
 - Cloud Deployment: Docker + Google Cloud Run
 - Version Control: Git + GitHub
 
-*Note: This service is no longer active on Google Cloud. Local deployment for testing is possible using the `run.sh` script under `/scripts`.*
