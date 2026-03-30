@@ -13,7 +13,7 @@ The main features supported by this application include:
 
 This project was made as a part of CS496: Cloud Computing at SDSU. 
 
-*Note: This service is no longer active on Google Cloud. Local deployment for testing is possible using the `run.sh` script under `/scripts`.*
+*Note: This service is no longer active on Google Cloud. Local deployment for testing is possible using a local SQL instance and can be built using the `run.sh` script under `/scripts`.*
 
 ## Authors:
 Carlos Anguiano, Vincent Huynh, Bobby Tomlinson, Jaelen Crite, Logan Wolff
